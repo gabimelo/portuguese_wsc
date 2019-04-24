@@ -1,7 +1,7 @@
 portuguese_wsc
 ==============================
 
-Solver for Winograd SChema Challenge like
+Solver for Winograd Schema Challenge like questions in Portuguese.
 
 Project Organization
 ------------
