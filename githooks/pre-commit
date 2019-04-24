@@ -1,0 +1,5 @@
+ #!/bin/sh 
+echo "\nAppearances of TODO in code:\n"
+grep -nr '\(#\| \)TODO*' src
+echo "\nFlake8 errors:\n"
+python3 -m  flake8 .

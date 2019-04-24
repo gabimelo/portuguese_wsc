@@ -20,6 +20,13 @@ endif
 # COMMANDS                                                                      #
 #################################################################################
 
+dev_init:
+	git config core.hooksPath githooks
+	find githooks -type f -exec chmod +x {} \;
+	# sudo apt-get install python3-pip
+	python3 -m pip install flake8
+
+
 ## Install Python Dependencies
 requirements: test_environment
 	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
