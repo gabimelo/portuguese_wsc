@@ -35,7 +35,7 @@ def make_corpus(input_file, output_dir, split=True, size=10000):
                 output_file_name = next_output_file_name(output_dir, num)
                 output_file = open(output_file_name, 'w')
             else:
-                logger.info('Processed ' + str(count*num) + ' articles')
+                logger.info('Processed ' + str(count * num) + ' articles')
             count = 0
 
     output_file.close()
