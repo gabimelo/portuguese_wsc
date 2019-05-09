@@ -1,1 +1,0 @@
-tensor(6.6216) tensor(5.6389) tensor(4.0036) tensor(0.7478) tensor(3.7941) tensor(-0.2025) tensor(7.9920) tensor(1.9332) tensor(5.8670) tensor(5.2955) tensor(5.2799) tensor(5.8557) tensor(1.6206) tensor(2.7646) tensor(6.8913) 

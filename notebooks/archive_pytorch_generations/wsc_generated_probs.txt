@@ -1,0 +1,1 @@
+tensor(108.5029) tensor(39.9401) tensor(123.2744) tensor(154067.1250) tensor(10.3363) tensor(646.9136) tensor(17.0331) tensor(10045.5957) tensor(1246.4271) tensor(254.1517) tensor(420.2953) tensor(1213.2177) tensor(125.9129) tensor(1686347.7500) 
