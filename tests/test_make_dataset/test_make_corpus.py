@@ -1,8 +1,29 @@
-# from src.data.make_dataset import make_corpus
-# from src.consts import WIKI_PT_TXT_DIR_NAME, WIKI_PT_TXT_FILE_NAME
+import os
+import shutil
+
+from unittest import mock
+
+from src.data.make_dataset import make_corpus
+from src.consts import WIKI_PT_TXT_FILE_NAME
 
 
 class TestMakeCorpus(object):
     def test_make_corpus(self):
-        # assert make_corpus(
-        pass
+        test_data_dir = 'tests/test_make_dataset/mock_data'
+        if os.path.exists(test_data_dir):
+            shutil.rmtree(test_data_dir)
+        os.makedirs(test_data_dir)
+        assert len(os.listdir(test_data_dir)) == 0
+
+        mock_WikiCorpus = mock.Mock()
+        mock_WikiCorpus.return_value.get_texts.return_value = [['text1.1', 'text1.2'],
+                                                               ['text2.1', 'text2.2'],
+                                                               ['text3.1', 'text3.2'],
+                                                               ['text4.1', 'text4.2'],
+                                                               ['text5.1', 'text5.2']]
+        with mock.patch('src.data.make_dataset.WikiCorpus', mock_WikiCorpus):
+            make_corpus('', test_data_dir, size=2)
+
+        assert len(os.listdir(test_data_dir)) == 3
+        with open(test_data_dir +  '/' + WIKI_PT_TXT_FILE_NAME + '00.txt') as f:
+            assert f.read() == 'text1.1 text1.2\ntext2.1 text2.2\n'
