@@ -25,5 +25,5 @@ class TestMakeCorpus(object):
             make_corpus('', test_data_dir, size=2)
 
         assert len(os.listdir(test_data_dir)) == 3
-        with open(test_data_dir +  '/' + WIKI_PT_TXT_FILE_NAME + '00.txt') as f:
+        with open(test_data_dir + '/' + WIKI_PT_TXT_FILE_NAME + '00.txt') as f:
             assert f.read() == 'text1.1 text1.2\ntext2.1 text2.2\n'
