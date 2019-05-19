@@ -12,7 +12,7 @@ from src.consts import (
     LAYER_COUNT, DROPOUT_PROB, TIED, SEQUENCE_LENGTH, EVAL_BATCH_SIZE, INITIAL_LEARNING_RATE, EPOCHS, GRADIENT_CLIPPING,
     LOG_INTERVAL, MODEL_FILE_NAME
 )
-from src.data.text_manipulations import Corpus
+from src.data_manipulation.text_manipulations import Corpus
 from src.model import RNNModel
 from src.logger import Logger
 

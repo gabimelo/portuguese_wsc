@@ -3,6 +3,13 @@ portuguese_wsc
 
 Solver for Winograd Schema Challenge like questions in Portuguese.
 
+----
+
+To create the environment for running the project: `conda env create -f environment.yml`
+
+----
+
+
 Project Organization
 ------------
 
