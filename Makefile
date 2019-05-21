@@ -35,16 +35,16 @@ tests:
 
 ## Make Dataset
 corpus_dictionary:
-	python -m src.data_manipulation.make_corpus_dictionary_pickle
+	python -m src.scripts.make_corpus_dictionary_pickle
 
 processed_data:
-	python -m src.data_manipulation.make_processed_dataset
+	python -m src.scripts.make_processed_dataset
 
 interim_data:
-	python -m src.data_manipulation.make_interim_dataset
+	python -m src.scripts.make_interim_dataset
 
 interim_data_without_splits:
-	python -m src.data_manipulation.make_interim_dataset --split False
+	python -m src.scripts.make_interim_dataset --split False
 
 download_dev_data: wikidump
 
