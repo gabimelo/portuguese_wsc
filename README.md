@@ -5,7 +5,13 @@ Solver for Winograd Schema Challenge like questions in Portuguese.
 
 Code for Language Model based off of [Pytorch's Word-level language modeling RNN example](https://github.com/pytorch/examples/tree/master/word_language_model)
 
+Makefile contains some of the commands used to run the code.
+
+Currently under development and not yet running for solving the Winograd Challenge.
+
 ----
+
+### Project Setup
 
 - To create the environment for running the project: `conda env create -f environment.yml`
 
@@ -14,8 +20,7 @@ Code for Language Model based off of [Pytorch's Word-level language modeling RNN
 ----
 
 
-Project Organization
-------------
+### Project Organization
 
     ├── LICENSE
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
