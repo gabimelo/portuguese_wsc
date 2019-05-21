@@ -1,4 +1,4 @@
-from src.data_manipulation.make_interim_dataset import next_output_file_name
+from src.datasets_manipulation.make_interim_dataset import next_output_file_name
 from src.consts import WIKI_PT_TXT_DIR_NAME, WIKI_PT_TXT_FILE_NAME
 
 

@@ -3,7 +3,7 @@ import shutil
 
 from unittest import mock
 
-from src.data_manipulation.make_interim_dataset import make_corpus
+from src.datasets_manipulation.make_interim_dataset import make_corpus
 from src.consts import WIKI_PT_TXT_FILE_NAME
 
 

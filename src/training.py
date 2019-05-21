@@ -1,13 +1,14 @@
 import time
+import math
 
 import torch
 
 from src.consts import (
-    RANDOM_SEED, USE_CUDA, PROCESSED_DATA_DIR_NAME, BATCH_SIZE, MODEL_TYPE, EMBEDDINGS_SIZE, HIDDEN_UNIT_COUNT,
-    LAYER_COUNT, DROPOUT_PROB, TIED, SEQUENCE_LENGTH, EVAL_BATCH_SIZE, INITIAL_LEARNING_RATE, EPOCHS, GRADIENT_CLIPPING,
+    BATCH_SIZE, SEQUENCE_LENGTH, EVAL_BATCH_SIZE, INITIAL_LEARNING_RATE, EPOCHS, GRADIENT_CLIPPING,
     LOG_INTERVAL, MODEL_FILE_NAME
 )
 from src.logger import Logger
+from src.utils import batchify, get_batch, repackage_hidden
 
 logger = Logger()
 
@@ -28,8 +29,8 @@ def train(model, corpus, criterion, device):
             
             logger.info('-' * 89)
             logger.info('| end of epoch {:3d} | time: {:5.2f}s | valid loss {:5.2f} | '
-                    'valid ppl {:8.2f}'.format(epoch, (time.time() - epoch_start_time),
-                                               val_loss, math.exp(val_loss)))
+                        'valid ppl {:8.2f}'.format(epoch, (time.time() - epoch_start_time),
+                                                   val_loss, math.exp(val_loss)))
             logger.info('-' * 89)
             # Save the model if the validation loss is the best we've seen so far.
             if not best_val_loss or val_loss < best_val_loss:
@@ -45,27 +46,6 @@ def train(model, corpus, criterion, device):
         
     test_data = batchify(corpus.test, EVAL_BATCH_SIZE, device)
     get_training_results(test_data)
-
-        
-# Starting from sequential data, batchify arranges the dataset into columns.
-# For instance, with the alphabet as the sequence and batch size 4, we'd get
-# ┌ a g m s ┐
-# │ b h n t │
-# │ c i o u │
-# │ d j p v │
-# │ e k q w │
-# └ f l r x ┘.
-# These columns are treated as independent by the model, which means that the
-# dependence of e. g. 'g' on 'f' can not be learned, but allows more efficient
-# batch processing.
-def batchify(data, batch_size, device):
-    # Work out how cleanly we can divide the dataset into batch_size parts.
-    nbatch = data.size(0) // batch_size
-    # Trim off any extra elements that wouldn't cleanly fit (remainders).
-    data = data.narrow(0, 0, nbatch * batch_size)
-    # Evenly divide the data across the batch_size batches.
-    data = data.view(batch_size, -1).t().contiguous()
-    return data.to(device)
 
         
 def evaluate(model, corpus, criterion, device):
@@ -114,35 +94,11 @@ def train_one_epoch(model, corpus, criterion, lr, epoch, device):
             cur_loss = total_loss / LOG_INTERVAL
             elapsed = time.time() - start_time
             logger.info('| epoch {:3d} | {:5d}/{:5d} batches | lr {:02.2f} | ms/batch {:5.2f} | '
-                    'loss {:5.2f} | ppl {:8.2f}'.format(
-                epoch, batch, len(train_data) // SEQUENCE_LENGTH, lr,
-                elapsed * 1000 / LOG_INTERVAL, cur_loss, math.exp(cur_loss)))
+                        'loss {:5.2f} | ppl {:8.2f}'.format(
+                         epoch, batch, len(train_data) // SEQUENCE_LENGTH, lr,
+                         elapsed * 1000 / LOG_INTERVAL, cur_loss, math.exp(cur_loss)))
             total_loss = 0
             start_time = time.time()
-
-
-def repackage_hidden(h):
-    """Wraps hidden states in new Tensors, to detach them from their history."""
-    if isinstance(h, torch.Tensor):
-        return h.detach()
-    else:
-        return tuple(repackage_hidden(v) for v in h)
-
-
-# get_batch subdivides the source data into chunks of length SEQUENCE_LENGTH.
-# If source is equal to the example output of the batchify function, with
-# a SEQUENCE_LENGTH of 2, we'd get the following two Variables for i = 0:
-# ┌ a g m s ┐ ┌ b h n t ┐
-# └ b h n t ┘ └ c i o u ┘
-# Note that despite the name of the function, the subdivison of data is not
-# done along the batch dimension (i.e. dimension 1), since that was handled
-# by the batchify function. The chunks are along dimension 0, corresponding
-# to the seq_len dimension in the LSTM.
-def get_batch(source, i):
-    seq_len = min(SEQUENCE_LENGTH, len(source) - 1 - i)
-    data = source[i:i+seq_len]
-    target = source[i+1:i+1+seq_len].view(-1)
-    return data, target
 
 
 def get_training_results(test_data):

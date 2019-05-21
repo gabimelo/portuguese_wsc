@@ -17,6 +17,7 @@ RANDOM_SEED = 42
 USE_CUDA = True
 
 BATCH_SIZE = 20
+# TODO maybe should have TEST_BATCH_SIZE as well, and set it to 1
 EVAL_BATCH_SIZE = 10
 MODEL_TYPE = 'LSTM'  # other options: RNN_TANH, RNN_RELU, LSTM, GRU
 EMBEDDINGS_SIZE = 200

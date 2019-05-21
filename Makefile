@@ -42,8 +42,13 @@ clean:
 	find . -type d -name "__pycache__" -delete
 
 ## Lint using flake8
-lint:
+lint: lint_src lint_tests
+
+lint_src:
 	flake8 src
+
+lint_tests:
+	flake8 tests
 
 ## Upload Data to S3
 sync_data_to_s3:

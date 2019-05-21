@@ -1,17 +1,15 @@
 # coding: utf-8
 # import argparse
-import math
 # import os
 import torch
 import torch.nn as nn
 # import torch.onnx
 
 from src.consts import (
-    RANDOM_SEED, USE_CUDA, PROCESSED_DATA_DIR_NAME, BATCH_SIZE, MODEL_TYPE, EMBEDDINGS_SIZE, HIDDEN_UNIT_COUNT,
-    LAYER_COUNT, DROPOUT_PROB, TIED, SEQUENCE_LENGTH, EVAL_BATCH_SIZE, INITIAL_LEARNING_RATE, EPOCHS, GRADIENT_CLIPPING,
-    LOG_INTERVAL, MODEL_FILE_NAME
+    RANDOM_SEED, USE_CUDA, MODEL_TYPE, EMBEDDINGS_SIZE, HIDDEN_UNIT_COUNT,
+    LAYER_COUNT, DROPOUT_PROB, TIED
 )
-from src.data_manipulation.text_manipulations import Corpus
+from src.corpus import Corpus
 from src.model import RNNModel
 from src.logger import Logger
 from src.training import train

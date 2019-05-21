@@ -9,7 +9,7 @@
 #
 # import torch
 #
-# import data_manipulation
+# import datasets_manipulation
 #
 # parser = argparse.ArgumentParser(description='PyTorch Wikitext-2 Language Model')
 #
