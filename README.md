@@ -3,6 +3,8 @@ portuguese_wsc
 
 Solver for Winograd Schema Challenge like questions in Portuguese.
 
+Code for Language Model based off of [Pytorch's Word-level language modeling RNN example](https://github.com/pytorch/examples/tree/master/word_language_model)
+
 ----
 
 - To create the environment for running the project: `conda env create -f environment.yml`
