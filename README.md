@@ -5,7 +5,9 @@ Solver for Winograd Schema Challenge like questions in Portuguese.
 
 ----
 
-To create the environment for running the project: `conda env create -f environment.yml`
+- To create the environment for running the project: `conda env create -f environment.yml`
+
+- Run tests with `pytest --cov=src tests/`. Use `pytest --cov=src --cov-report=html tests/` for generation of HTML test report. Needs pytest and pytest-cov packages. If there are import errors, should run `pip install -e .` to locally install package from source code.
 
 ----
 

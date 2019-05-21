@@ -3,7 +3,7 @@ import shutil
 
 from unittest import mock
 
-from src.datasets_manipulation.make_interim_dataset import make_corpus
+from src.wikidump import make_corpus_files
 from src.consts import WIKI_PT_TXT_FILE_NAME
 
 
@@ -21,8 +21,8 @@ class TestMakeCorpus(object):
                                                                ['text3.1', 'text3.2'],
                                                                ['text4.1', 'text4.2'],
                                                                ['text5.1', 'text5.2']]
-        with mock.patch('src.data.make_dataset.WikiCorpus', mock_WikiCorpus):
-            make_corpus('', test_data_dir, size=2)
+        with mock.patch('src.wikidump.WikiCorpus', mock_WikiCorpus):
+            make_corpus_files('', test_data_dir, size=2)
 
         assert len(os.listdir(test_data_dir)) == 3
         with open(test_data_dir + '/' + WIKI_PT_TXT_FILE_NAME + '00.txt') as f:
@@ -41,8 +41,8 @@ class TestMakeCorpus(object):
                                                                ['text3.1', 'text3.2'],
                                                                ['text4.1', 'text4.2'],
                                                                ['text5.1', 'text5.2']]
-        with mock.patch('src.data.make_dataset.WikiCorpus', mock_WikiCorpus):
-            make_corpus('', test_data_dir, split=False, size=2)
+        with mock.patch('src.wikidump.WikiCorpus', mock_WikiCorpus):
+            make_corpus_files('', test_data_dir, split=False, size=2)
 
         assert len(os.listdir(test_data_dir)) == 1
         with open(test_data_dir + '/' + WIKI_PT_TXT_FILE_NAME + '00.txt') as f:

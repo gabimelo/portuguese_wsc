@@ -1,12 +1,8 @@
-# -*- coding: utf-8 -*-
-import os
-import click
-
 from gensim.corpora import WikiCorpus
 from nltk.tokenize import word_tokenize
 
 from src.logger import Logger
-from src.consts import WIKI_PT_TXT_FILE_NAME, WIKI_PT_TXT_DIR_NAME, WIKI_PT_XML_FILE_NAME
+from src.consts import WIKI_PT_TXT_FILE_NAME
 
 logger = Logger()
 
@@ -22,7 +18,7 @@ def tokenize(content, token_min_len=2, token_max_len=15, lower=True):
     return word_tokenize(content, language='portuguese')
 
 
-def make_corpus(input_file, output_dir, split=True, size=10000):
+def make_corpus_files(input_file, output_dir, split=True, size=10000):
     """Convert Wikipedia xml dump file to text corpus"""
     wiki = WikiCorpus(input_file, tokenizer_func=tokenize)
 
@@ -47,18 +43,3 @@ def make_corpus(input_file, output_dir, split=True, size=10000):
     output_file.close()
 
     logger.info('Completed.')
-
-
-@click.command()
-@click.option('--split', default=True)
-def main(split):
-    if not os.path.exists(WIKI_PT_TXT_DIR_NAME):
-        os.makedirs(WIKI_PT_TXT_DIR_NAME)
-
-    make_corpus(WIKI_PT_XML_FILE_NAME, WIKI_PT_TXT_DIR_NAME, split=split, size=10000)
-
-    logger.info('Finished generating interim dataset')
-
-
-if __name__ == '__main__':
-    main()
