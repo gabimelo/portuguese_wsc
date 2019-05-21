@@ -5,10 +5,7 @@ from io import open
 
 import torch
 
-from src.consts import (
-    WIKI_PT_TXT_DIR_NAME, FILE_TOKEN_COUNT_DICT_FILE_NAME, CORPUS_DICTIONARY_FILE_NAME,
-    PROCESSED_DATA_DIR_NAME
-)
+from src.consts import PROCESSED_DATA_DIR_NAME, FILE_TOKEN_COUNT_DICT_FILE_NAME, CORPUS_DICTIONARY_FILE_NAME
 from src.dictionary import Dictionary
 
 

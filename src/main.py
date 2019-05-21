@@ -38,7 +38,7 @@ def main():
                      TIED).to(device)
     criterion = nn.CrossEntropyLoss()
 
-    train(train_data, val_data, model, corpus, criterion)
+    train(model, corpus, criterion, device)
 
 
 if __name__ == '__main__':
