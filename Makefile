@@ -33,6 +33,10 @@ dev_init: download_dev_data config_githooks install_flake8
 tests:
 	pytest --cov=src tests/
 
+## Run Code
+train:
+	python -m src.main
+
 ## Make Dataset
 corpus_dictionary:
 	python -m src.scripts.make_corpus_dictionary_pickle
