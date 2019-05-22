@@ -16,7 +16,7 @@ logger = Logger()
 
 def train(model, corpus, criterion, device):
     timestamp = datetime.datetime.now()
-    
+
     # Loop over epochs.
     lr = INITIAL_LEARNING_RATE
     best_val_loss = None
@@ -47,7 +47,6 @@ def train(model, corpus, criterion, device):
         logger.info('-' * 89)
         logger.info('Exiting from training early')
 
-    test_data = batchify(corpus.test, EVAL_BATCH_SIZE, device)
     get_training_results(model, corpus, criterion, device, timestamp)
 
 

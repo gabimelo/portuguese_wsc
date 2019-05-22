@@ -9,7 +9,6 @@ class RNNModel(nn.Module):
         self.drop = nn.Dropout(dropout)
         self.encoder = nn.Embedding(ntoken, ninp)
         if rnn_type in ['LSTM', 'GRU']:
-            # TODO maybe should have batch first=True set here right before dropout
             self.rnn = getattr(nn, rnn_type)(ninp, nhid, nlayers, dropout=dropout)
         else:
             try:
@@ -17,7 +16,6 @@ class RNNModel(nn.Module):
             except KeyError:
                 raise ValueError("""An invalid option for `--model` was supplied,
                                  options are ['LSTM', 'GRU', 'RNN_TANH' or 'RNN_RELU']""")
-            # TODO maybe should have batch first=True set here right before dropout
             self.rnn = nn.RNN(ninp, nhid, nlayers, nonlinearity=nonlinearity, dropout=dropout)
         self.decoder = nn.Linear(nhid, ntoken)
 
@@ -44,9 +42,7 @@ class RNNModel(nn.Module):
         self.decoder.bias.data.zero_()
         self.decoder.weight.data.uniform_(-initrange, initrange)
 
-#     def forward(self, input, hidden_0, hidden_1):
     def forward(self, input, hidden):
-#         import pdb; pdb.set_trace()
         emb = self.drop(self.encoder(input.permute(1, 0)))
         self.rnn.flatten_parameters()
         output, hidden = self.rnn(emb, (hidden[0].permute(1, 0, 2).contiguous(),

@@ -27,7 +27,6 @@ class Dictionary(object):
 
     def generate_full_dir_dictionary(self):
         file_token_count_dict = {}
-        # TODO figure out if should be WIKI_PT_TXT_DIR_NAME or PROCESSED_DATA_DIR_NAME
         for file_name in os.listdir(consts.WIKI_PT_TXT_DIR_NAME):
             file_token_count = self.generate_corpus_dictionary(consts.WIKI_PT_TXT_DIR_NAME + '/' + file_name)
             file_token_count_dict[file_name] = file_token_count

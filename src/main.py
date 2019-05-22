@@ -40,7 +40,7 @@ def main(use_data_paralellization=False):
     setup_torch()
     device = torch.device("cuda" if USE_CUDA else "cpu")
     corpus = get_corpus()
-    
+
     # TODO remove these two lines
     assert len(corpus.dictionary) == 602755
     assert corpus.valid.size()[0] == 11606861

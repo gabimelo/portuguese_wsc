@@ -12,6 +12,7 @@ def summary(model, criterion):
 
     print("\nTotal Parameters: {:,}".format(total_params))
 
+
 def check_cuda_mem(device):
     print('Max mem', torch.cuda.max_memory_allocated(device=device))
     print('Mem', torch.cuda.memory_allocated(device=device))
