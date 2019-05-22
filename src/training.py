@@ -20,13 +20,13 @@ def train(model, corpus, criterion, device):
 
     # At any point you can hit Ctrl + C to break out of training early.
     try:
-        for epoch in range(1, EPOCHS+1):
+        for epoch in range(1, EPOCHS + 1):
             epoch_start_time = time.time()
-            
+
             train_one_epoch(model, corpus, criterion, lr, epoch, device)
 
             val_loss = evaluate(model, corpus, criterion, device)
-            
+
             logger.info('-' * 89)
             logger.info('| end of epoch {:3d} | time: {:5.2f}s | valid loss {:5.2f} | '
                         'valid ppl {:8.2f}'.format(epoch, (time.time() - epoch_start_time),
@@ -43,11 +43,11 @@ def train(model, corpus, criterion, device):
     except KeyboardInterrupt:
         logger.info('-' * 89)
         logger.info('Exiting from training early')
-        
+
     test_data = batchify(corpus.test, EVAL_BATCH_SIZE, device)
     get_training_results(test_data)
 
-        
+
 def evaluate(model, corpus, criterion, device):
     # Turn on evaluation mode which disables dropout.
     model.eval()
@@ -94,9 +94,9 @@ def train_one_epoch(model, corpus, criterion, lr, epoch, device):
             cur_loss = total_loss / LOG_INTERVAL
             elapsed = time.time() - start_time
             logger.info('| epoch {:3d} | {:5d}/{:5d} batches | lr {:02.2f} | ms/batch {:5.2f} | '
-                        'loss {:5.2f} | ppl {:8.2f}'.format(
-                         epoch, batch, len(train_data) // SEQUENCE_LENGTH, lr,
-                         elapsed * 1000 / LOG_INTERVAL, cur_loss, math.exp(cur_loss)))
+                        'loss {:5.2f} | ppl {:8.2f}'.format(epoch, batch, len(train_data) // SEQUENCE_LENGTH, lr,
+                                                            elapsed * 1000 / LOG_INTERVAL, cur_loss,
+                                                            math.exp(cur_loss)))
             total_loss = 0
             start_time = time.time()
 

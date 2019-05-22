@@ -18,7 +18,7 @@ class Corpus(object):
             self.dictionary = Dictionary()
             file_token_count_dict = self.dictionary.generate_full_dir_dictionary()
             self.dictionary.save_dictionary(file_token_count_dict)
-            
+
     def add_corpus_data(self, path=PROCESSED_DATA_DIR_NAME):
         # TODO hard coded for now, must fix this
         self.train = self.tokenize(path + '/train.txt', 'wiki_pt00.txt')

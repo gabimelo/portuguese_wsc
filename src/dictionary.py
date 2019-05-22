@@ -24,32 +24,32 @@ class Dictionary(object):
 
     def __len__(self):
         return len(self.idx2word)
-    
+
     def generate_full_dir_dictionary(self):
         file_token_count_dict = {}
         # TODO figure out if should be WIKI_PT_TXT_DIR_NAME or PROCESSED_DATA_DIR_NAME
         for file_name in os.listdir(consts.WIKI_PT_TXT_DIR_NAME):
             file_token_count = self.generate_corpus_dictionary(consts.WIKI_PT_TXT_DIR_NAME + '/' + file_name)
             file_token_count_dict[file_name] = file_token_count
-        
+
         # we don't want to remove word at index 0, which is <UNK>, and for now has not been present in data
-        for index in range(len(self.idx2word)-1, 0, -1):
+        for index in range(len(self.idx2word) - 1, 0, -1):
             if self.word_count[self.idx2word[index]] < MIN_APPEARANCES_FOR_WORD_IN_VOCAB:
                 self.word_count['<UNK>'] += self.word_count[self.idx2word[index]]
                 del self.word_count[self.idx2word[index]]
                 del self.word2idx[self.idx2word[index]]
                 del self.idx2word[index]
-        
+
         del self.word_count
-        
+
         return file_token_count_dict
-    
+
     def save_dictionary(self, file_token_count_dict):
         with open(consts.FILE_TOKEN_COUNT_DICT_FILE_NAME, 'w') as outfile:
             json.dump(file_token_count_dict, outfile)
 
         pickle.dump(self, open(consts.CORPUS_DICTIONARY_FILE_NAME, "wb"))
-        
+
     def generate_corpus_dictionary(self, file_name):
         # Add words to the dictionary
         with open(file_name, 'r', encoding="utf8") as f:
