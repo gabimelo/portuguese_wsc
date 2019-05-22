@@ -58,12 +58,12 @@ def evaluate(model, corpus, criterion, device, use_test_data=False):
     ntokens = len(corpus.dictionary)
     hidden = model.init_hidden(EVAL_BATCH_SIZE)
     if not use_test_data:
-        data = batchify(corpus.valid, EVAL_BATCH_SIZE, device)
+        full_data = batchify(corpus.valid, EVAL_BATCH_SIZE, device)
     else:
-        data = batchify(corpus.test, EVAL_BATCH_SIZE, device)
+        full_data = batchify(corpus.test, EVAL_BATCH_SIZE, device)
     with torch.no_grad():
-        for i in range(0, data.size(0) - 1, SEQUENCE_LENGTH):
-            data, targets = get_batch(data, i)
+        for i in range(0, full_data.size(0) - 1, SEQUENCE_LENGTH):
+            data, targets = get_batch(full_data, i)
 #             output, hidden = model(data, hidden)
             output, hidden = model(data.permute(1, 0), (hidden[0].permute(1, 0, 2).contiguous(),
                                                         hidden[1].permute(1, 0, 2).contiguous()))
