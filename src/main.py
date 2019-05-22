@@ -32,13 +32,14 @@ def get_corpus():
     else:
         corpus = Corpus()
         corpus.add_corpus_data()
-        
+
     return corpus
-            
+
+
 def main():
     setup_torch()
     device = torch.device("cuda" if USE_CUDA else "cpu")
-    corpus = get_corpus()    
+    corpus = get_corpus()
 
     ntokens = len(corpus.dictionary)
     model = RNNModel(MODEL_TYPE, ntokens, EMBEDDINGS_SIZE, HIDDEN_UNIT_COUNT, LAYER_COUNT, DROPOUT_PROB,

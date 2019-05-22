@@ -48,12 +48,15 @@ class RNNModel(nn.Module):
     def forward(self, input, hidden):
 #         import pdb; pdb.set_trace()
         emb = self.drop(self.encoder(input.permute(1, 0)))
-        output, hidden = self.rnn(emb, (hidden[0].permute(1, 0, 2).contiguous(), hidden[1].permute(1, 0, 2).contiguous()))
+        self.rnn.flatten_parameters()
+        output, hidden = self.rnn(emb, (hidden[0].permute(1, 0, 2).contiguous(),
+                                        hidden[1].permute(1, 0, 2).contiguous()))
 #         output, hidden = self.rnn(emb, hidden)
         output = self.drop(output)
         decoded = self.decoder(output.view(output.size(0) * output.size(1), output.size(2)))
 #         return decoded.view(output.size(0), output.size(1), decoded.size(1)), hidden
-        return decoded.view(output.size(0), output.size(1), decoded.size(1)), (hidden[0].permute(1, 0, 2), hidden[1].permute(1, 0, 2))
+        return decoded.view(output.size(0), output.size(1), decoded.size(1)), (hidden[0].permute(1, 0, 2),
+                                                                               hidden[1].permute(1, 0, 2))
 
     def init_hidden(self, batch_size):
         weight = next(self.parameters())

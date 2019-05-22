@@ -59,7 +59,8 @@ def evaluate(model, corpus, criterion, device):
         for i in range(0, data.size(0) - 1, SEQUENCE_LENGTH):
             data, targets = get_batch(data, i)
 #             output, hidden = model(data, hidden)
-            output, hidden = model(data.permute(1, 0), (hidden[0].permute(1, 0, 2).contiguous(), hidden[1].permute(1, 0, 2).contiguous()))
+            output, hidden = model(data.permute(1, 0), (hidden[0].permute(1, 0, 2).contiguous(),
+                                                        hidden[1].permute(1, 0, 2).contiguous()))
             hidden = (hidden[0].permute(1, 0, 2).contiguous(), hidden[1].permute(1, 0, 2).contiguous())
             output_flat = output.view(-1, ntokens)
             total_loss += len(data) * criterion(output_flat, targets).item()
@@ -82,7 +83,8 @@ def train_one_epoch(model, corpus, criterion, lr, epoch, device):
         hidden = repackage_hidden(hidden)
         model.zero_grad()
 #         output, hidden = model(data, hidden)
-        output, hidden = model(data.permute(1, 0), (hidden[0].permute(1, 0, 2).contiguous(), hidden[1].permute(1, 0, 2).contiguous()))
+        output, hidden = model(data.permute(1, 0), (hidden[0].permute(1, 0, 2).contiguous(),
+                                                    hidden[1].permute(1, 0, 2).contiguous()))
         hidden = (hidden[0].permute(1, 0, 2).contiguous(), hidden[1].permute(1, 0, 2).contiguous())
         loss = criterion(output.view(-1, ntokens), targets)
         loss.backward()
