@@ -1,3 +1,4 @@
+import datetime
 import time
 import math
 
@@ -14,6 +15,8 @@ logger = Logger()
 
 
 def train(model, corpus, criterion, device):
+    timestamp = datetime.datetime.now()
+    
     # Loop over epochs.
     lr = INITIAL_LEARNING_RATE
     best_val_loss = None
@@ -34,7 +37,7 @@ def train(model, corpus, criterion, device):
             logger.info('-' * 89)
             # Save the model if the validation loss is the best we've seen so far.
             if not best_val_loss or val_loss < best_val_loss:
-                with open(MODEL_FILE_NAME, 'wb') as f:
+                with open(MODEL_FILE_NAME.format(timestamp), 'wb') as f:
                     torch.save(model, f)
                 best_val_loss = val_loss
             else:
@@ -45,16 +48,19 @@ def train(model, corpus, criterion, device):
         logger.info('Exiting from training early')
 
     test_data = batchify(corpus.test, EVAL_BATCH_SIZE, device)
-    get_training_results(test_data)
+    get_training_results(model, corpus, criterion, device, timestamp)
 
 
-def evaluate(model, corpus, criterion, device):
+def evaluate(model, corpus, criterion, device, use_test_data=False):
     # Turn on evaluation mode which disables dropout.
     model.eval()
     total_loss = 0.
     ntokens = len(corpus.dictionary)
     hidden = model.init_hidden(EVAL_BATCH_SIZE)
-    data = batchify(corpus.valid, EVAL_BATCH_SIZE, device)
+    if not use_test_data:
+        data = batchify(corpus.valid, EVAL_BATCH_SIZE, device)
+    else:
+        data = batchify(corpus.test, EVAL_BATCH_SIZE, device)
     with torch.no_grad():
         for i in range(0, data.size(0) - 1, SEQUENCE_LENGTH):
             data, targets = get_batch(data, i)
@@ -107,16 +113,16 @@ def train_one_epoch(model, corpus, criterion, lr, epoch, device):
             start_time = time.time()
 
 
-def get_training_results(test_data):
+def get_training_results(model, corpus, criterion, device, timestamp):
     # Load the best saved model.
-    with open(MODEL_FILE_NAME, 'rb') as f:
+    with open(MODEL_FILE_NAME.format(timestamp), 'rb') as f:
         model = torch.load(f)
         # after load the rnn params are not a continuous chunk of memory
         # this makes them a continuous chunk, and will speed up forward pass
         model.rnn.flatten_parameters()
 
     # Run on test data.
-    test_loss = evaluate(test_data)
+    test_loss = evaluate(model, corpus, criterion, device, use_test_data=True)
     logger.info('=' * 89)
     logger.info('| End of training | test loss {:5.2f} | test ppl {:8.2f}'.format(
         test_loss, math.exp(test_loss)))

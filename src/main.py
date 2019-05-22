@@ -8,7 +8,7 @@ import pickle
 
 from src.consts import (
     RANDOM_SEED, USE_CUDA, MODEL_TYPE, EMBEDDINGS_SIZE, HIDDEN_UNIT_COUNT,
-    LAYER_COUNT, DROPOUT_PROB, TIED, CORPUS_FILE_NAME
+    LAYER_COUNT, DROPOUT_PROB, TIED, CORPUS_FILE_NAME, USE_DATA_PARALLELIZATION
 )
 from src.corpus import Corpus
 from src.model import RNNModel
@@ -36,15 +36,22 @@ def get_corpus():
     return corpus
 
 
-def main():
+def main(use_data_paralellization=False):
     setup_torch()
     device = torch.device("cuda" if USE_CUDA else "cpu")
     corpus = get_corpus()
+    
+    # TODO remove these two lines
+    assert len(corpus.dictionary) == 602755
+    assert corpus.valid.size()[0] == 11606861
 
     ntokens = len(corpus.dictionary)
     model = RNNModel(MODEL_TYPE, ntokens, EMBEDDINGS_SIZE, HIDDEN_UNIT_COUNT, LAYER_COUNT, DROPOUT_PROB,
                      TIED)
-    model = CustomDataParallel(model)
+    if use_data_paralellization or USE_DATA_PARALLELIZATION:
+        model = CustomDataParallel(model)
+    else:
+        model.to(device)
     criterion = nn.CrossEntropyLoss()
 
     train(model, corpus, criterion, device)

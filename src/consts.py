@@ -9,7 +9,7 @@ TEST_SET_FILE_NAME = 'data/processed/test.txt'
 TRAIN_SET_FILE_NAME = 'data/processed/train.txt'
 VAL_SET_FILE_NAME = 'data/processed/val.txt'
 
-MODEL_FILE_NAME = 'models/trained_models/model-{}.pt'.format(datetime.datetime.now())
+MODEL_FILE_NAME = 'models/trained_models/model-{}.pt'
 CORPUS_DICTIONARY_FILE_NAME = 'models/corpus_dictionary.pkl'
 CORPUS_FILE_NAME = 'models/corpus.pkl'
 FILE_TOKEN_COUNT_DICT_FILE_NAME = 'models/file_token_count_dict.json'
@@ -31,3 +31,4 @@ INITIAL_LEARNING_RATE = 20
 EPOCHS = 40
 GRADIENT_CLIPPING = 0.25
 LOG_INTERVAL = 200
+USE_DATA_PARALLELIZATION = False
