@@ -5,7 +5,9 @@ from io import open
 
 import torch
 
-from src.consts import PROCESSED_DATA_DIR_NAME, FILE_TOKEN_COUNT_DICT_FILE_NAME, CORPUS_DICTIONARY_FILE_NAME
+from src.consts import (
+    PROCESSED_DATA_DIR_NAME, FILE_TOKEN_COUNT_DICT_FILE_NAME, CORPUS_DICTIONARY_FILE_NAME, CORPUS_FILE_NAME
+)
 from src.dictionary import Dictionary
 
 
@@ -24,6 +26,10 @@ class Corpus(object):
         self.train = self.tokenize(path + '/train.txt', 'wiki_pt00.txt')
         self.valid = self.tokenize(path + '/val.txt', 'wiki_pt01.txt')
         self.test = self.tokenize(path + '/test.txt', 'wiki_pt02.txt')
+        self.save_corpus()
+
+    def save_corpus(self):
+        pickle.dump(self, open(CORPUS_FILE_NAME, "wb"))
 
     def tokenize(self, file_path, file_name):
         """
