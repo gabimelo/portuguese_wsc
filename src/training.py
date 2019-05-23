@@ -63,14 +63,20 @@ def evaluate(model, corpus, criterion, device, use_test_data=False):
     with torch.no_grad():
         for i in range(0, full_data.size(0) - 1, SEQUENCE_LENGTH):
             data, targets = get_batch(full_data, i)
-#             output, hidden = model(data, hidden)
-            output, hidden = model(data.permute(1, 0), (hidden[0].permute(1, 0, 2).contiguous(),
-                                                        hidden[1].permute(1, 0, 2).contiguous()))
-            hidden = (hidden[0].permute(1, 0, 2).contiguous(), hidden[1].permute(1, 0, 2).contiguous())
-            output_flat = output.view(-1, ntokens)
-            total_loss += len(data) * criterion(output_flat, targets).item()
+            output, hidden = model(data, hidden)
+#             output, hidden = model(data.permute(1, 0), (hidden[0].permute(1, 0, 2).contiguous(),
+#                                                         hidden[1].permute(1, 0, 2).contiguous()))
+#             hidden = (hidden[0].permute(1, 0, 2).contiguous(), hidden[1].permute(1, 0, 2).contiguous())
+
+            import ipdb; ipdb.set_trace()
+#             loss = criterion(output.view(-1, ntokens), targets)
+            loss = criterion(model.decoder.weight, model.decoder.bias, output, targets).data
+#             total_loss += len(data) * loss.item()
+            total_loss += len(data) * loss
+            
             hidden = repackage_hidden(hidden)
-    return total_loss / (len(data) - 1)
+#     return total_loss / (len(full_data) - 1)
+    return total_loss.item() / (len(full_data) - 1)
 
 
 def train_one_epoch(model, corpus, criterion, lr, epoch, device):
@@ -87,11 +93,13 @@ def train_one_epoch(model, corpus, criterion, lr, epoch, device):
         # If we didn't, the model would try backpropagating all the way to start of the dataset.
         hidden = repackage_hidden(hidden)
         model.zero_grad()
-#         output, hidden = model(data, hidden)
-        output, hidden = model(data.permute(1, 0), (hidden[0].permute(1, 0, 2).contiguous(),
-                                                    hidden[1].permute(1, 0, 2).contiguous()))
-        hidden = (hidden[0].permute(1, 0, 2).contiguous(), hidden[1].permute(1, 0, 2).contiguous())
-        loss = criterion(output.view(-1, ntokens), targets)
+        output, hidden = model(data, hidden)
+#         output, hidden = model(data.permute(1, 0), (hidden[0].permute(1, 0, 2).contiguous(),
+#                                                     hidden[1].permute(1, 0, 2).contiguous()))
+#         hidden = (hidden[0].permute(1, 0, 2).contiguous(), hidden[1].permute(1, 0, 2).contiguous())
+#         loss = criterion(output.view(-1, ntokens), targets)
+        loss = criterion(model.decoder.weight, model.decoder.bias, output, targets)
+        
         loss.backward()
 
         # `clip_grad_norm` helps prevent the exploding gradient problem in RNNs / LSTMs.
