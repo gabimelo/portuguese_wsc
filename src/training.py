@@ -52,6 +52,10 @@ def train(model, corpus, criterion, device):
 
 def evaluate(model, corpus, criterion, device, use_test_data=False):
     # Turn on evaluation mode which disables dropout.
+    logger.info('-' * 89)
+    logger.info('Running eval')
+    logger.info('-' * 89)
+    
     model.eval()
     total_loss = 0.
     ntokens = len(corpus.dictionary)
@@ -61,12 +65,18 @@ def evaluate(model, corpus, criterion, device, use_test_data=False):
     else:
         full_data = batchify(corpus.test, EVAL_BATCH_SIZE, device)
     with torch.no_grad():
-        for i in range(0, full_data.size(0) - 1, SEQUENCE_LENGTH):
+        for batch, i in enumerate(range(0, full_data.size(0) - 1, SEQUENCE_LENGTH)):
             data, targets = get_batch(full_data, i)
             output, hidden = model(data, hidden)
             loss = criterion(output.view(-1, ntokens), targets)
             total_loss += len(data) * loss.item()
             hidden = repackage_hidden(hidden)
+            
+            if batch % (LOG_INTERVAL * 5) == 0 and batch > 0:
+                cur_loss = total_loss / batch
+                logger.info('| {:5d}/{:5d} batches | loss {:5.2f}'.format(batch, 
+                                                                          len(full_data) // SEQUENCE_LENGTH,
+                                                                          cur_loss))
     return total_loss / (len(full_data) - 1)
 
 
