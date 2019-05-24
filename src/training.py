@@ -66,7 +66,6 @@ def evaluate(model, corpus, criterion, device, use_test_data=False):
             output, hidden = model(data, hidden)
             loss = criterion(output.view(-1, ntokens), targets)
             total_loss += len(data) * loss.item()
-            
             hidden = repackage_hidden(hidden)
     return total_loss / (len(full_data) - 1)
 
@@ -87,7 +86,7 @@ def train_one_epoch(model, corpus, criterion, lr, epoch, device):
         model.zero_grad()
         output, hidden = model(data, hidden)
         loss = criterion(output.view(-1, ntokens), targets)
-        
+
         loss.backward()
 
         # `clip_grad_norm` helps prevent the exploding gradient problem in RNNs / LSTMs.

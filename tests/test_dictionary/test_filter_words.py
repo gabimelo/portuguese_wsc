@@ -13,11 +13,10 @@ class TestFilterWords(object):
         dic.add_word('manter2')
         dic.add_word('deletar2')
         dic.add_word('manter2')
-        
+
         dic.filter_words()
-        
+
         assert list(dic.word2idx.keys()) == ['<UNK>', 'manter', 'manter2']
         assert list(dic.word2idx.values()) == [0, 1, 2]
         assert not hasattr(dic, 'word_count')
         assert dic.idx2word == ['<UNK>', 'manter', 'manter2']
-        
