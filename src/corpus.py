@@ -26,6 +26,9 @@ class Corpus(object):
         self.train = self.tokenize(path + '/train.txt', 'wiki_pt00.txt')
         self.valid = self.tokenize(path + '/val.txt', 'wiki_pt01.txt')
         self.test = self.tokenize(path + '/test.txt', 'wiki_pt02.txt')
+#         self.train = self.tokenize(path + '/train.txt', 'train.txt')
+#         self.valid = self.tokenize(path + '/valid.txt', 'valid.txt')
+#         self.test = self.tokenize(path + '/test.txt', 'test.txt')
         self.save_corpus()
 
     def save_corpus(self):

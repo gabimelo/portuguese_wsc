@@ -44,6 +44,9 @@ def main(use_data_paralellization=False):
     # TODO remove these two lines
     assert len(corpus.dictionary) == 602755
     assert corpus.valid.size()[0] == 11606861
+    assert corpus.train.max() < len(corpus.dictionary)
+    assert corpus.valid.max() < len(corpus.dictionary)
+    assert corpus.test.max() < len(corpus.dictionary)
 
     ntokens = len(corpus.dictionary)
     model = RNNModel(MODEL_TYPE, ntokens, EMBEDDINGS_SIZE, HIDDEN_UNIT_COUNT, LAYER_COUNT, DROPOUT_PROB,
