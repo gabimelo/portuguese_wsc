@@ -24,22 +24,31 @@ class Dictionary(object):
 
     def __len__(self):
         return len(self.idx2word)
+    
+    def word2idx_from_idx2word(self):
+        self.word2idx = dict(zip(self.idx2word, list(range(len(self.idx2word)))))
 
+    def filter_words(self):
+        del self.word2idx
+        
+        # we don't want to remove word at index 0, which is <UNK>, and for now has not been present in data
+        for index in range(len(self.idx2word) - 1, 0, -1):
+            if self.word_count[self.idx2word[index]] < MIN_APPEARANCES_FOR_WORD_IN_VOCAB:
+                self.word_count['<UNK>'] += self.word_count[self.idx2word[index]]
+                del self.word_count[self.idx2word[index]]
+                del self.idx2word[index]
+                
+        del self.word_count
+        
+        self.word2idx_from_idx2word()
+    
     def generate_full_dir_dictionary(self):
         file_token_count_dict = {}
         for file_name in os.listdir(consts.WIKI_PT_TXT_DIR_NAME):
             file_token_count = self.generate_corpus_dictionary(consts.WIKI_PT_TXT_DIR_NAME + '/' + file_name)
             file_token_count_dict[file_name] = file_token_count
 
-        # we don't want to remove word at index 0, which is <UNK>, and for now has not been present in data
-        for index in range(len(self.idx2word) - 1, 0, -1):
-            if self.word_count[self.idx2word[index]] < MIN_APPEARANCES_FOR_WORD_IN_VOCAB:
-                self.word_count['<UNK>'] += self.word_count[self.idx2word[index]]
-                del self.word_count[self.idx2word[index]]
-                del self.word2idx[self.idx2word[index]]
-                del self.idx2word[index]
-
-        del self.word_count
+        self.filter_words()
 
         return file_token_count_dict
 
