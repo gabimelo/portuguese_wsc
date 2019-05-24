@@ -41,7 +41,7 @@ def batchify(data, batch_size, device):
 # done along the batch dimension (i.e. dimension 1), since that was handled
 # by the batchify function. The chunks are along dimension 0, corresponding
 # to the seq_len dimension in the LSTM.
-def get_batch(source, i, device=torch.device("cuda")):
+def get_batch(source, i):
     seq_len = min(SEQUENCE_LENGTH, len(source) - 1 - i)
     data = source[i:i + seq_len]
     target = source[i + 1:i + 1 + seq_len].view(-1)
