@@ -34,8 +34,7 @@ def generate(model_file_name, corpus, ntokens, device, input_wsc=None):
             if input_wsc is None:
                 new_word_id = torch.multinomial(word_probs, 1)[0]
             else:
-                if i + 1 <= number_of_words:
-                    new_word_id = corpus.dictionary.word2idx[input_wsc_words[i + 1]]
+                new_word_id = corpus.dictionary.word2idx[input_wsc_words[i + 1]]
 
             input_word_id.fill_(new_word_id)
             input_words.append(corpus.dictionary.idx2word[new_word_id])
