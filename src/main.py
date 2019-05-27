@@ -1,7 +1,6 @@
 # coding: utf-8
 import os
 
-import numpy as np
 import torch
 import torch.nn as nn
 import pickle
@@ -65,10 +64,9 @@ def main(training, use_data_paralellization=False, model_timestamp=None):
         if model_timestamp is None:
             model_file_name = get_latest_model_file()
 
-        logger.info('Generating sentence')
+        logger.info('Generating text')
         words, words_probs = generate(model_file_name, corpus, ntokens, device, is_wsc=False)
-        logger.info('Generated sentence: ', (' ').join(words))
-        logger.info('Overall probability: ', np.prod(words_probs))
+        logger.info('Generated text: ', (' ').join(words))
 
 
 if __name__ == '__main__':

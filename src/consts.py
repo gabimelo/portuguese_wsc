@@ -13,6 +13,7 @@ VAL_SET_FILE_NAME = 'data/processed/val.txt'
 # VAL_SET_FILE_NAME = 'data/interim/english-wikitext-2/val.txt'
 
 MODEL_FILE_NAME = 'models/trained_models/model-{}.pt'
+MODEL_RESULTS_FILE_NAME = 'models/trained_models/model-results-{}.txt'
 CORPUS_DICTIONARY_FILE_NAME = 'models/corpus_dictionary.pkl'
 CORPUS_FILE_NAME = 'models/corpus.pkl'
 FILE_TOKEN_COUNT_DICT_FILE_NAME = 'models/file_token_count_dict.json'

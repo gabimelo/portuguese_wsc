@@ -7,7 +7,7 @@ import torch
 
 from src.consts import (
     BATCH_SIZE, SEQUENCE_LENGTH, EVAL_BATCH_SIZE, INITIAL_LEARNING_RATE, EPOCHS, GRADIENT_CLIPPING,
-    LOG_INTERVAL, MODEL_FILE_NAME
+    LOG_INTERVAL, MODEL_FILE_NAME, MODEL_RESULTS_FILE_NAME
 )
 from src.logger import Logger
 from src.utils import batchify, get_batch, repackage_hidden
@@ -48,7 +48,14 @@ def train(model, corpus, criterion, device):
         logger.info('-' * 89)
         logger.info('Exiting from training early')
 
-    get_training_results(model, corpus, criterion, device, timestamp)
+    test_loss = get_training_results(model, corpus, criterion, device, timestamp)
+
+    if best_val_loss is None:
+        best_val_loss = 0
+    with open(MODEL_RESULTS_FILE_NAME.format(timestamp), 'w') as f:
+        f.write('final lr: {}\ntest loss: {:5.2f}\ntest ppl: {:8.2f}\nbest val loss: {:5.2f}\n'
+                'epochs: {}\ntime to run: {:5.2f}s'
+                .format(lr, test_loss, math.exp(test_loss), best_val_loss, epoch, (time.time() - epoch_start_time)))
 
 
 def evaluate(model, corpus, criterion, device, use_test_data=False):
@@ -126,3 +133,5 @@ def get_training_results(model, corpus, criterion, device, timestamp):
     logger.info('| End of training | test loss {:5.2f} | test ppl {:8.2f}'.format(
         test_loss, math.exp(test_loss)))
     logger.info('=' * 89)
+
+    return test_loss
