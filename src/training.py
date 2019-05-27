@@ -2,6 +2,7 @@ import datetime
 import time
 import math
 
+from tqdm import tqdm
 import torch
 
 from src.consts import (
@@ -55,7 +56,7 @@ def evaluate(model, corpus, criterion, device, use_test_data=False):
     logger.info('-' * 89)
     logger.info('Running eval')
     logger.info('-' * 89)
-    
+
     model.eval()
     total_loss = 0.
     ntokens = len(corpus.dictionary)
@@ -65,18 +66,11 @@ def evaluate(model, corpus, criterion, device, use_test_data=False):
     else:
         full_data = batchify(corpus.test, EVAL_BATCH_SIZE, device)
     with torch.no_grad():
-        for batch, i in enumerate(range(0, full_data.size(0) - 1, SEQUENCE_LENGTH)):
+        for batch, i in tqdm(enumerate(range(0, full_data.size(0) - 1, SEQUENCE_LENGTH))):
             data, targets = get_batch(full_data, i)
             output, hidden = model(data, hidden)
-            loss = criterion(output.view(-1, ntokens), targets)
-            total_loss += len(data) * loss.item()
+            total_loss += len(data) * criterion(output.view(-1, ntokens), targets).item()
             hidden = repackage_hidden(hidden)
-            
-            if batch % (LOG_INTERVAL * 5) == 0 and batch > 0:
-                cur_loss = total_loss / batch
-                logger.info('| {:5d}/{:5d} batches | loss {:5.2f}'.format(batch, 
-                                                                          len(full_data) // SEQUENCE_LENGTH,
-                                                                          cur_loss))
     return total_loss / (len(full_data) - 1)
 
 
@@ -121,9 +115,10 @@ def get_training_results(model, corpus, criterion, device, timestamp):
     # Load the best saved model.
     with open(MODEL_FILE_NAME.format(timestamp), 'rb') as f:
         model = torch.load(f)
-        # after load the rnn params are not a continuous chunk of memory
-        # this makes them a continuous chunk, and will speed up forward pass
-        model.rnn.flatten_parameters()
+
+    # after load the rnn params are not a continuous chunk of memory
+    # this makes them a continuous chunk, and will speed up forward pass
+    model.rnn.flatten_parameters()
 
     # Run on test data.
     test_loss = evaluate(model, corpus, criterion, device, use_test_data=True)

@@ -1,6 +1,9 @@
+import os
+import glob
+
 import torch
 
-from src.consts import SEQUENCE_LENGTH
+from src.consts import SEQUENCE_LENGTH, MODEL_FILE_NAME
 
 
 def repackage_hidden(h):
@@ -46,3 +49,11 @@ def get_batch(source, i):
     data = source[i:i + seq_len]
     target = source[i + 1:i + 1 + seq_len].view(-1)
     return data, target
+
+
+def get_latest_model_file():
+    models_dir = ('/').join(MODEL_FILE_NAME.split('/')[:-1]) + '/*'
+    list_of_model_files = glob.glob(models_dir)
+    latest_file_path = max(list_of_model_files, key=os.path.getctime)
+
+    return latest_file_path

@@ -39,3 +39,6 @@ EPOCHS = 40
 GRADIENT_CLIPPING = 0.25
 LOG_INTERVAL = 200
 USE_DATA_PARALLELIZATION = False
+
+WORDS_TO_GENERATE = 1000
+TEMPERATURE = 1.0  # higher will increase diversity. Has to be greater or equal 1e-3

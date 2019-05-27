@@ -1,7 +1,7 @@
 # coding: utf-8
-
 import os
 
+import numpy as np
 import torch
 import torch.nn as nn
 import pickle
@@ -15,6 +15,8 @@ from src.model import RNNModel
 from src.logger import Logger
 from src.custom_data_parallel import CustomDataParallel
 from src.training import train
+from src.generation import generate
+from src.utils import get_latest_model_file
 
 logger = Logger()
 
@@ -36,28 +38,37 @@ def get_corpus():
     return corpus
 
 
-def main(use_data_paralellization=False):
+def main(training, use_data_paralellization=False, model_timestamp=None):
     setup_torch()
     device = torch.device("cuda" if USE_CUDA else "cpu")
     corpus = get_corpus()
+    ntokens = len(corpus.dictionary)
 
     # TODO remove these two lines
-    assert len(corpus.dictionary) == 602755
+    assert ntokens == 602755
     assert corpus.valid.size()[0] == 11606861
-    assert corpus.train.max() < len(corpus.dictionary)
-    assert corpus.valid.max() < len(corpus.dictionary)
-    assert corpus.test.max() < len(corpus.dictionary)
+    assert corpus.train.max() < ntokens
+    assert corpus.valid.max() < ntokens
+    assert corpus.test.max() < ntokens
 
-    ntokens = len(corpus.dictionary)
-    model = RNNModel(MODEL_TYPE, ntokens, EMBEDDINGS_SIZE, HIDDEN_UNIT_COUNT, LAYER_COUNT, DROPOUT_PROB,
-                     TIED)
-    if use_data_paralellization or USE_DATA_PARALLELIZATION:
-        model = CustomDataParallel(model)
+    if training:
+        model = RNNModel(MODEL_TYPE, ntokens, EMBEDDINGS_SIZE, HIDDEN_UNIT_COUNT, LAYER_COUNT, DROPOUT_PROB,
+                         TIED)
+        if use_data_paralellization or USE_DATA_PARALLELIZATION:
+            model = CustomDataParallel(model)
+        else:
+            model.to(device)
+        criterion = nn.CrossEntropyLoss()
+
+        train(model, corpus, criterion, device)
     else:
-        model.to(device)
-    criterion = nn.CrossEntropyLoss()
+        if model_timestamp is None:
+            model_file_name = get_latest_model_file()
 
-    train(model, corpus, criterion, device)
+        logger.info('Generating sentence')
+        words, words_probs = generate(model_file_name, corpus, ntokens, device, is_wsc=False)
+        logger.info('Generated sentence: ', (' ').join(words))
+        logger.info('Overall probability: ', np.prod(words_probs))
 
 
 if __name__ == '__main__':
