@@ -1,4 +1,3 @@
-import torch
 import torch.nn as nn
 
 
@@ -44,23 +43,19 @@ class RNNModel(nn.Module):
         self.decoder.weight.data.uniform_(-initrange, initrange)
 
     def forward(self, input, hidden):
-        hidden = (hidden[0].permute(1, 0, 2).contiguous(), 
+        hidden = (hidden[0].permute(1, 0, 2).contiguous(),
                   hidden[1].permute(1, 0, 2).contiguous())
         input = input.permute(1, 0)
-        
+
         emb = self.drop(self.encoder(input))
 #         self.rnn.flatten_parameters()
         output, hidden = self.rnn(emb, hidden)
         output = self.drop(output)
         decoded = self.decoder(output.view(output.size(0) * output.size(1), output.size(2)))
-        
-        hidden = (hidden[0].permute(1, 0, 2).contiguous(), 
+
+        hidden = (hidden[0].permute(1, 0, 2).contiguous(),
                   hidden[1].permute(1, 0, 2).contiguous())
-        
-        print('inside forward', decoded.view(output.size(0) * output.size(1), decoded.size(1)).size())
-        print(hidden[0].size())
-        print(hidden[1].size())
-        
+
         return decoded.view(output.size(0) * output.size(1), decoded.size(1)), hidden
 #         return decoded.view(output.size(0), output.size(1), decoded.size(1)), hidden
 

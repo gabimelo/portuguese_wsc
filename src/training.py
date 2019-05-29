@@ -15,7 +15,7 @@ from src.utils import batchify, get_batch, repackage_hidden
 logger = Logger()
 
 
-def train(model, corpus, criterion, device):
+def train(model, corpus, criterion, optimizer, device):
     timestamp = datetime.datetime.now()
 
     # Loop over epochs.
@@ -27,7 +27,7 @@ def train(model, corpus, criterion, device):
         for epoch in range(1, EPOCHS + 1):
             epoch_start_time = time.time()
 
-            train_one_epoch(model, corpus, criterion, lr, epoch, device)
+            train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device)
 
             val_loss = evaluate(model, corpus, criterion, device)
 
@@ -81,12 +81,11 @@ def evaluate(model, corpus, criterion, device, use_test_data=False):
     return total_loss / (len(full_data) - 1)
 
 
-def train_one_epoch(model, corpus, criterion, lr, epoch, device):
+def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device):
     # Turn on training mode which enables dropout.
     model.train()
     total_loss = 0.
     start_time = time.time()
-    ntokens = len(corpus.dictionary)
     hidden = model.init_hidden(BATCH_SIZE)
     train_data = batchify(corpus.train, BATCH_SIZE, device)
     for batch, i in enumerate(range(0, train_data.size(0) - 1, SEQUENCE_LENGTH)):
@@ -94,14 +93,16 @@ def train_one_epoch(model, corpus, criterion, lr, epoch, device):
         # Starting each batch, we detach the hidden state from how it was previously produced.
         # If we didn't, the model would try backpropagating all the way to start of the dataset.
         hidden = repackage_hidden(hidden)
-        model.zero_grad()
-        
+
+#         model.zero_grad()
+        optimizer.zero_grad()
+
         data = data.permute(1, 0)
-        hidden = (hidden[0].permute(1, 0, 2).contiguous(), 
+        hidden = (hidden[0].permute(1, 0, 2).contiguous(),
                   hidden[1].permute(1, 0, 2).contiguous())
-        
+
         results = model(data, hidden)
-        
+
         outputs = []
         hidden_0 = torch.Tensor().to(device)
         hidden_1 = torch.Tensor().to(device)
@@ -111,23 +112,24 @@ def train_one_epoch(model, corpus, criterion, lr, epoch, device):
             hidden_0 = torch.cat((hidden_0, result[1][0]))
             hidden_1 = torch.cat((hidden_1, result[1][1]))
             del result
-            
-        
-        hidden = (hidden_0.permute(1, 0, 2).contiguous(), 
+
+        hidden = (hidden_0.permute(1, 0, 2).contiguous(),
                   hidden_1.permute(1, 0, 2).contiguous())
-        
-        loss = criterion(tuple(outputs), targets)        
-        
+
+        loss = criterion(tuple(outputs), targets)
+
         # TODO fix error here
-        loss.backward()
+#         loss.backward()
+        loss[0].backward()
+#         loss[1].backward()
 
         # `clip_grad_norm` helps prevent the exploding gradient problem in RNNs / LSTMs.
         torch.nn.utils.clip_grad_norm_(model.parameters(), GRADIENT_CLIPPING)
-        for p in model.parameters():
-            p.data.add_(-lr, p.grad.data)
+#         for p in model.parameters():
+#             p.data.add_(-lr, p.grad.data)
 
-        import ipdb; ipdb.set_trace()
-            
+        optimizer.step()
+
         total_loss += loss.mean().item()
 
         if batch % LOG_INTERVAL == 0 and batch > 0:
