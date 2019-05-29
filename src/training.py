@@ -87,6 +87,7 @@ def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device):
     total_loss = 0.
     start_time = time.time()
     hidden = model.init_hidden(BATCH_SIZE)
+    print('using Batch Size', BATCH_SIZE)
     train_data = batchify(corpus.train, BATCH_SIZE, device)
     for batch, i in enumerate(range(0, train_data.size(0) - 1, SEQUENCE_LENGTH)):
         data, targets = get_batch(train_data, i)
@@ -94,8 +95,8 @@ def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device):
         # If we didn't, the model would try backpropagating all the way to start of the dataset.
         hidden = repackage_hidden(hidden)
 
-#         model.zero_grad()
-        optimizer.zero_grad()
+        model.zero_grad()
+#         optimizer.zero_grad()
 
         data = data.permute(1, 0)
         hidden = (hidden[0].permute(1, 0, 2).contiguous(),
@@ -120,15 +121,16 @@ def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device):
 
         # TODO fix error here
 #         loss.backward()
-        loss[0].backward()
+        loss.mean().backward()
+#         loss[0].backward()
 #         loss[1].backward()
 
         # `clip_grad_norm` helps prevent the exploding gradient problem in RNNs / LSTMs.
         torch.nn.utils.clip_grad_norm_(model.parameters(), GRADIENT_CLIPPING)
-#         for p in model.parameters():
-#             p.data.add_(-lr, p.grad.data)
+        for p in model.parameters():
+            p.data.add_(-lr, p.grad.data)
 
-        optimizer.step()
+#         optimizer.step()
 
         total_loss += loss.mean().item()
 

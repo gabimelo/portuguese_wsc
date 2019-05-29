@@ -194,13 +194,7 @@ def _criterion_parallel_apply(modules, inputs, targets, kwargs_tup=None, devices
                 if not isinstance(target, (list, tuple)):
                     target = (target,)
 
-                print('device index: ', device)
-                print(input[0].size())
-                print(target[0].size())
-#                 import ipdb; ipdb.set_trace()
-
                 output = module(*(input + target), **kwargs)
-                print(output)
             with lock:
                 results[i] = output
         except Exception as e:

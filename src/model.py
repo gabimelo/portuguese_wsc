@@ -48,7 +48,7 @@ class RNNModel(nn.Module):
         input = input.permute(1, 0)
 
         emb = self.drop(self.encoder(input))
-#         self.rnn.flatten_parameters()
+        self.rnn.flatten_parameters()
         output, hidden = self.rnn(emb, hidden)
         output = self.drop(output)
         decoded = self.decoder(output.view(output.size(0) * output.size(1), output.size(2)))

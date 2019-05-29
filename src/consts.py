@@ -25,7 +25,7 @@ FILE_TOKEN_COUNT_DICT_FILE_NAME = 'models/file_token_count_dict.json'
 RANDOM_SEED = 42
 USE_CUDA = True
 
-BATCH_SIZE = 20
+BATCH_SIZE = 20 * 2  # TODO this multiplication shouldn't be hard coded
 # TODO maybe should have TEST_BATCH_SIZE as well, and set it to 1
 EVAL_BATCH_SIZE = 10
 MODEL_TYPE = 'LSTM'  # other options: RNN_TANH, RNN_RELU, LSTM, GRU
