@@ -1,13 +1,16 @@
 import torch.nn as nn
 
+from src.parallel import DataParallelModel
+
 
 class CustomDataParallel(nn.Module):
     def __init__(self, model):
         super(CustomDataParallel, self).__init__()
-        self.model = nn.DataParallel(model).cuda()
+        self.model = DataParallelModel(model)
+#         .cuda()
 
-    def forward(self, *input):
-        return self.model(*input)
+    def forward(self, input, hidden):
+        return self.model(input, hidden)
 
     def __getattr__(self, name):
         try:

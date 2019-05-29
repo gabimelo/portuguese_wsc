@@ -95,9 +95,30 @@ def train_one_epoch(model, corpus, criterion, lr, epoch, device):
         # If we didn't, the model would try backpropagating all the way to start of the dataset.
         hidden = repackage_hidden(hidden)
         model.zero_grad()
-        output, hidden = model(data, hidden)
-        loss = criterion(output.view(-1, ntokens), targets)
+        
+        data = data.permute(1, 0)
+        hidden = (hidden[0].permute(1, 0, 2).contiguous(), 
+                  hidden[1].permute(1, 0, 2).contiguous())
+        
+        results = model(data, hidden)
+        
+        outputs = []
+        hidden_0 = torch.Tensor().to(device)
+        hidden_1 = torch.Tensor().to(device)
 
+        for result in results:
+            outputs.append(result[0])
+            hidden_0 = torch.cat((hidden_0, result[1][0]))
+            hidden_1 = torch.cat((hidden_1, result[1][1]))
+            del result
+            
+        
+        hidden = (hidden_0.permute(1, 0, 2).contiguous(), 
+                  hidden_1.permute(1, 0, 2).contiguous())
+        
+        loss = criterion(tuple(outputs), targets)        
+        
+        # TODO fix error here
         loss.backward()
 
         # `clip_grad_norm` helps prevent the exploding gradient problem in RNNs / LSTMs.
@@ -105,7 +126,9 @@ def train_one_epoch(model, corpus, criterion, lr, epoch, device):
         for p in model.parameters():
             p.data.add_(-lr, p.grad.data)
 
-        total_loss += loss.item()
+        import ipdb; ipdb.set_trace()
+            
+        total_loss += loss.mean().item()
 
         if batch % LOG_INTERVAL == 0 and batch > 0:
             cur_loss = total_loss / LOG_INTERVAL
