@@ -15,7 +15,7 @@ from src.logger import Logger
 from src.custom_data_parallel import CustomDataParallel
 from src.training import train
 from src.generation import generate
-from src.utils import get_latest_model_file
+from src.utils import get_latest_model_file, summary
 from src.parallel import DataParallelCriterion
 
 logger = Logger()
@@ -55,13 +55,13 @@ def main(training=True, use_data_paralellization=True, model_timestamp=None, ver
         model = RNNModel(MODEL_TYPE, ntokens, EMBEDDINGS_SIZE, HIDDEN_UNIT_COUNT, LAYER_COUNT, DROPOUT_PROB,
                          TIED).to(device)
         criterion = nn.CrossEntropyLoss()
-        
+
         if use_data_paralellization or USE_DATA_PARALLELIZATION:
             model = CustomDataParallel(model)
             criterion = DataParallelCriterion(criterion)
-            
+
         optimizer = torch.optim.Adam(model.parameters())
-        
+
         if verbose:
             summary(model, criterion)
 

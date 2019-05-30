@@ -86,7 +86,7 @@ def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_
     model.train()
     total_loss = 0.
     start_time = time.time()
-    batch_size = BATCH_SIZE 
+    batch_size = BATCH_SIZE
     if use_data_paralellization:
         batch_size *= torch.cuda.device_count()
     hidden = model.init_hidden(batch_size)
@@ -123,14 +123,14 @@ def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_
                       hidden_1.permute(1, 0, 2).contiguous())
             outputs = tuple(outputs)
         else:
-             outputs, hidden = model(data, hidden)
+            outputs, hidden = model(data, hidden)
 
         loss = criterion(outputs, targets)
         loss.backward()
 
         # `clip_grad_norm` helps prevent the exploding gradient problem in RNNs / LSTMs.
         torch.nn.utils.clip_grad_norm_(model.parameters(), GRADIENT_CLIPPING)
-        
+
         if optimizer is None:
             for p in model.parameters():
                 p.data.add_(-lr, p.grad.data)
