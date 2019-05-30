@@ -16,6 +16,7 @@ from src.custom_data_parallel import CustomDataParallel
 from src.training import train
 from src.generation import generate
 from src.utils import get_latest_model_file
+from src.parallel import DataParallelCriterion
 
 logger = Logger()
 
@@ -37,7 +38,7 @@ def get_corpus():
     return corpus
 
 
-def main(training, use_data_paralellization=False, model_timestamp=None):
+def main(training=True, use_data_paralellization=True, model_timestamp=None, verbose=False):
     setup_torch()
     device = torch.device("cuda" if USE_CUDA else "cpu")
     corpus = get_corpus()
@@ -52,14 +53,19 @@ def main(training, use_data_paralellization=False, model_timestamp=None):
 
     if training:
         model = RNNModel(MODEL_TYPE, ntokens, EMBEDDINGS_SIZE, HIDDEN_UNIT_COUNT, LAYER_COUNT, DROPOUT_PROB,
-                         TIED)
+                         TIED).to(device)
+        criterion = nn.CrossEntropyLoss()
+        
         if use_data_paralellization or USE_DATA_PARALLELIZATION:
             model = CustomDataParallel(model)
-        else:
-            model.to(device)
-        criterion = nn.CrossEntropyLoss()
+            criterion = DataParallelCriterion(criterion)
+            
+        optimizer = torch.optim.Adam(model.parameters())
+        
+        if verbose:
+            summary(model, criterion)
 
-        train(model, corpus, criterion, device)
+        train(model, corpus, criterion, optimizer, device, use_data_paralellization)
     else:
         if model_timestamp is None:
             model_file_name = get_latest_model_file()

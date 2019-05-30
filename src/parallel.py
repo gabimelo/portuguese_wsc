@@ -159,9 +159,9 @@ class DataParallelCriterion(DataParallel):
             return self.module(inputs, *targets[0], **kwargs[0])
         replicas = self.replicate(self.module, self.device_ids[:len(inputs)])
         outputs = _criterion_parallel_apply(replicas, inputs, targets, kwargs)
-        # return Reduce.apply(*outputs) / len(outputs)
+        return Reduce.apply(*outputs) / len(outputs)
         # return self.gather(outputs, self.output_device).mean()
-        return self.gather(outputs, self.output_device)
+        # return self.gather(outputs, self.output_device)
 
 
 def _criterion_parallel_apply(modules, inputs, targets, kwargs_tup=None, devices=None):
@@ -221,6 +221,7 @@ def _criterion_parallel_apply(modules, inputs, targets, kwargs_tup=None, devices
         if isinstance(output, Exception):
             raise output
         outputs.append(output)
+
     return outputs
 
 

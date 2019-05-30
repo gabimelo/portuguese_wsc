@@ -15,7 +15,7 @@ from src.utils import batchify, get_batch, repackage_hidden
 logger = Logger()
 
 
-def train(model, corpus, criterion, optimizer, device):
+def train(model, corpus, criterion, optimizer, device, use_data_paralellization):
     timestamp = datetime.datetime.now()
 
     # Loop over epochs.
@@ -27,7 +27,7 @@ def train(model, corpus, criterion, optimizer, device):
         for epoch in range(1, EPOCHS + 1):
             epoch_start_time = time.time()
 
-            train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device)
+            train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_data_paralellization)
 
             val_loss = evaluate(model, corpus, criterion, device)
 
@@ -81,58 +81,63 @@ def evaluate(model, corpus, criterion, device, use_test_data=False):
     return total_loss / (len(full_data) - 1)
 
 
-def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device):
+def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_data_paralellization):
     # Turn on training mode which enables dropout.
     model.train()
     total_loss = 0.
     start_time = time.time()
-    hidden = model.init_hidden(BATCH_SIZE)
-    print('using Batch Size', BATCH_SIZE)
-    train_data = batchify(corpus.train, BATCH_SIZE, device)
+    batch_size = BATCH_SIZE 
+    if use_data_paralellization:
+        batch_size *= torch.cuda.device_count()
+    hidden = model.init_hidden(batch_size)
+    train_data = batchify(corpus.train, batch_size, device)
     for batch, i in enumerate(range(0, train_data.size(0) - 1, SEQUENCE_LENGTH)):
         data, targets = get_batch(train_data, i)
         # Starting each batch, we detach the hidden state from how it was previously produced.
         # If we didn't, the model would try backpropagating all the way to start of the dataset.
         hidden = repackage_hidden(hidden)
 
-        model.zero_grad()
-#         optimizer.zero_grad()
+        if optimizer is None:
+            model.zero_grad()
+        else:
+            optimizer.zero_grad()
 
-        data = data.permute(1, 0)
-        hidden = (hidden[0].permute(1, 0, 2).contiguous(),
-                  hidden[1].permute(1, 0, 2).contiguous())
+        if use_data_paralellization:
+            data = data.permute(1, 0)
+            hidden = (hidden[0].permute(1, 0, 2).contiguous(),
+                      hidden[1].permute(1, 0, 2).contiguous())
 
-        results = model(data, hidden)
+            results = model(data, hidden)
 
-        outputs = []
-        hidden_0 = torch.Tensor().to(device)
-        hidden_1 = torch.Tensor().to(device)
+            outputs = []
+            hidden_0 = torch.Tensor().to(device)
+            hidden_1 = torch.Tensor().to(device)
 
-        for result in results:
-            outputs.append(result[0])
-            hidden_0 = torch.cat((hidden_0, result[1][0]))
-            hidden_1 = torch.cat((hidden_1, result[1][1]))
-            del result
+            for result in results:
+                outputs.append(result[0])
+                hidden_0 = torch.cat((hidden_0, result[1][0]))
+                hidden_1 = torch.cat((hidden_1, result[1][1]))
+                del result
 
-        hidden = (hidden_0.permute(1, 0, 2).contiguous(),
-                  hidden_1.permute(1, 0, 2).contiguous())
+            hidden = (hidden_0.permute(1, 0, 2).contiguous(),
+                      hidden_1.permute(1, 0, 2).contiguous())
+            outputs = tuple(outputs)
+        else:
+             outputs, hidden = model(data, hidden)
 
-        loss = criterion(tuple(outputs), targets)
-
-        # TODO fix error here
-#         loss.backward()
-        loss.mean().backward()
-#         loss[0].backward()
-#         loss[1].backward()
+        loss = criterion(outputs, targets)
+        loss.backward()
 
         # `clip_grad_norm` helps prevent the exploding gradient problem in RNNs / LSTMs.
         torch.nn.utils.clip_grad_norm_(model.parameters(), GRADIENT_CLIPPING)
-        for p in model.parameters():
-            p.data.add_(-lr, p.grad.data)
+        
+        if optimizer is None:
+            for p in model.parameters():
+                p.data.add_(-lr, p.grad.data)
+        else:
+            optimizer.step()
 
-#         optimizer.step()
-
-        total_loss += loss.mean().item()
+        total_loss += loss.item()
 
         if batch % LOG_INTERVAL == 0 and batch > 0:
             cur_loss = total_loss / LOG_INTERVAL
