@@ -1,12 +1,11 @@
-# #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-## Created by: Hang Zhang
-## ECE Department, Rutgers University
-## Email: zhang.hang@rutgers.edu
-## Copyright (c) 2017
+# #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+## Created by: Hang Zhang, Rutgers University, Email: zhang.hang@rutgers.edu
+## Modified by Gabriela Melo, University of Sao Paulo, Email: gabriela.melo@usp.br
+## Copyright (c) 2017-2019
 ##
 ## This source code is licensed under the MIT-style license found in the
 ## LICENSE file in the root directory of this source tree
-# #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 """Encoding Data Parallel"""
 import threading
