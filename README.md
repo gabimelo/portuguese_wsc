@@ -8,6 +8,7 @@ Solver for Winograd Schema Challenge in Portuguese. Portuguese translations for 
 - Code for Language Model based on [Pytorch's Word-level language modeling RNN example](https://github.com/pytorch/examples/tree/master/word_language_model)
 - Code for parallelization of PyTorch model based on [PyTorch-Encoding package](https://github.com/zhanghang1989/PyTorch-Encoding) with help from [this medium post](https://medium.com/huggingface/training-larger-batches-practical-tips-on-1-gpu-multi-gpu-distributed-setups-ec88c3e51255).
 - Idea of using language model for solving Winograd Schema Challenge based on paper "A Simple Method for Commonsense Reasoning":
+```
 @article{DBLP:journals/corr/abs-1806-02847,
   author    = {Trieu H. Trinh and
                Quoc V. Le},
@@ -22,6 +23,7 @@ Solver for Winograd Schema Challenge in Portuguese. Portuguese translations for 
   biburl    = {https://dblp.org/rec/bib/journals/corr/abs-1806-02847},
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
+```
 
 ----
 
