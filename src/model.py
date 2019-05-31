@@ -1,6 +1,6 @@
 import torch.nn as nn
 
-from src.consts import SEQUENCE_LENGTH
+from src.consts import LAYER_COUNT
 from src.utils import permute_for_parallelization
 
 
@@ -46,7 +46,7 @@ class RNNModel(nn.Module):
         self.decoder.weight.data.uniform_(-initrange, initrange)
 
     def forward(self, inp, hidden):
-        permute = inp.size()[0] != SEQUENCE_LENGTH
+        permute = hidden[0].size()[0] != LAYER_COUNT
         if permute:
             hidden, inp = permute_for_parallelization(hidden, inp)
 
