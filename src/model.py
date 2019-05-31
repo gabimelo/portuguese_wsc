@@ -1,5 +1,8 @@
 import torch.nn as nn
 
+from src.consts import SEQUENCE_LENGTH
+from src.utils import permute_for_parallelization
+
 
 class RNNModel(nn.Module):
     """Container module with an encoder, a recurrent module, and a decoder."""
@@ -42,13 +45,21 @@ class RNNModel(nn.Module):
         self.decoder.bias.data.zero_()
         self.decoder.weight.data.uniform_(-initrange, initrange)
 
-    def forward(self, input, hidden):
-        emb = self.drop(self.encoder(input))
-#         self.rnn.flatten_parameters()
+    def forward(self, inp, hidden):
+        permute = inp.size()[0] != SEQUENCE_LENGTH
+        if permute:
+            hidden, inp = permute_for_parallelization(hidden, inp)
+
+        emb = self.drop(self.encoder(inp))
+        self.rnn.flatten_parameters()
         output, hidden = self.rnn(emb, hidden)
         output = self.drop(output)
         decoded = self.decoder(output.view(output.size(0) * output.size(1), output.size(2)))
-        return decoded.view(output.size(0), output.size(1), decoded.size(1)), hidden
+
+        if permute:
+            hidden = permute_for_parallelization(hidden)
+
+        return decoded.view(output.size(0) * output.size(1), decoded.size(1)), hidden
 
     def init_hidden(self, batch_size):
         weight = next(self.parameters())

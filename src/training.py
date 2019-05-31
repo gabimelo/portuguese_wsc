@@ -10,12 +10,14 @@ from src.consts import (
     LOG_INTERVAL, MODEL_FILE_NAME, MODEL_RESULTS_FILE_NAME
 )
 from src.logger import Logger
-from src.utils import batchify, get_batch, repackage_hidden
+from src.utils import (
+    batchify, get_batch, repackage_hidden, permute_for_parallelization, get_results_from_data_parallelized_forward
+)
 
 logger = Logger()
 
 
-def train(model, corpus, criterion, device):
+def train(model, corpus, criterion, optimizer, device, use_data_paralellization):
     timestamp = datetime.datetime.now()
 
     # Loop over epochs.
@@ -27,7 +29,7 @@ def train(model, corpus, criterion, device):
         for epoch in range(1, EPOCHS + 1):
             epoch_start_time = time.time()
 
-            train_one_epoch(model, corpus, criterion, lr, epoch, device)
+            train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_data_paralellization)
 
             val_loss = evaluate(model, corpus, criterion, device)
 
@@ -81,29 +83,55 @@ def evaluate(model, corpus, criterion, device, use_test_data=False):
     return total_loss / (len(full_data) - 1)
 
 
-def train_one_epoch(model, corpus, criterion, lr, epoch, device):
+def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_data_paralellization):
     # Turn on training mode which enables dropout.
     model.train()
     total_loss = 0.
     start_time = time.time()
-    ntokens = len(corpus.dictionary)
-    hidden = model.init_hidden(BATCH_SIZE)
-    train_data = batchify(corpus.train, BATCH_SIZE, device)
+    batch_size = BATCH_SIZE
+
+    if use_data_paralellization:
+        batch_size *= torch.cuda.device_count()
+
+    hidden = model.init_hidden(batch_size)
+    train_data = batchify(corpus.train, batch_size, device)
+
     for batch, i in enumerate(range(0, train_data.size(0) - 1, SEQUENCE_LENGTH)):
         data, targets = get_batch(train_data, i)
         # Starting each batch, we detach the hidden state from how it was previously produced.
         # If we didn't, the model would try backpropagating all the way to start of the dataset.
         hidden = repackage_hidden(hidden)
-        model.zero_grad()
-        output, hidden = model(data, hidden)
-        loss = criterion(output.view(-1, ntokens), targets)
 
+        if optimizer is None:
+            model.zero_grad()
+        else:
+            optimizer.zero_grad()
+
+        if use_data_paralellization:
+            # code seems to be slightly faster (~12ms/batch, with batch_size=40) doing it this way instead
+            # of setting dim=1 when instantiating DataParallelModel)
+            hidden, data = permute_for_parallelization(hidden, data)
+
+            # it's not required to send data to device here, but seems to run a bit faster if we do
+            results = model(data.to(device), hidden)
+
+            outputs, hidden = get_results_from_data_parallelized_forward(results, device)
+            hidden = permute_for_parallelization(hidden)
+        else:
+            outputs, hidden = model(data.to(device), hidden)
+            targets = targets.to(device)
+
+        loss = criterion(outputs, targets)
         loss.backward()
 
         # `clip_grad_norm` helps prevent the exploding gradient problem in RNNs / LSTMs.
         torch.nn.utils.clip_grad_norm_(model.parameters(), GRADIENT_CLIPPING)
-        for p in model.parameters():
-            p.data.add_(-lr, p.grad.data)
+
+        if optimizer is None:
+            for p in model.parameters():
+                p.data.add_(-lr, p.grad.data)
+        else:
+            optimizer.step()
 
         total_loss += loss.item()
 
