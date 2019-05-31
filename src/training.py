@@ -135,10 +135,15 @@ def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_
         if batch % LOG_INTERVAL == 0 and batch > 0:
             cur_loss = total_loss / LOG_INTERVAL
             elapsed = time.time() - start_time
-            logger.info('| epoch {:3d} | {:5d}/{:5d} batches | lr {:02.2f} | ms/batch {:5.2f} | '
-                        'loss {:5.2f} | ppl {:8.2f}'.format(epoch, batch, len(train_data) // SEQUENCE_LENGTH, lr,
-                                                            elapsed * 1000 / LOG_INTERVAL, cur_loss,
-                                                            math.exp(cur_loss)))
+            try:
+                logger.info('| epoch {:3d} | {:5d}/{:5d} batches | lr {:02.2f} | ms/batch {:5.2f} | '
+                            'loss {:5.2f} | ppl {:8.2f}'.format(epoch, batch, len(train_data) // SEQUENCE_LENGTH, lr,
+                                                                elapsed * 1000 / LOG_INTERVAL, cur_loss,
+                                                                math.exp(cur_loss)))
+            except OverflowError:
+                logger.info('| epoch {:3d} | {:5d}/{:5d} batches | lr {:02.2f} | ms/batch {:5.2f} | '
+                            'loss {:5.2f} | ppl OVERFLOW'.format(epoch, batch, len(train_data) // SEQUENCE_LENGTH, lr,
+                                                                 elapsed * 1000 / LOG_INTERVAL, cur_loss))
             total_loss = 0
             start_time = time.time()
 

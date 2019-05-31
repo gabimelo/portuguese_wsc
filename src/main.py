@@ -7,7 +7,8 @@ import pickle
 
 from src.consts import (
     RANDOM_SEED, USE_CUDA, MODEL_TYPE, EMBEDDINGS_SIZE, HIDDEN_UNIT_COUNT,
-    LAYER_COUNT, DROPOUT_PROB, TIED, CORPUS_FILE_NAME, USE_DATA_PARALLELIZATION
+    LAYER_COUNT, DROPOUT_PROB, TIED, CORPUS_FILE_NAME, USE_DATA_PARALLELIZATION,
+    INITIAL_LEARNING_RATE
 )
 from src.corpus import Corpus
 from src.model import RNNModel
@@ -38,7 +39,7 @@ def get_corpus():
     return corpus
 
 
-def main(training=True, use_data_paralellization=True, model_timestamp=None, verbose=False):
+def main(training=True, use_data_paralellization=False, model_timestamp=None, verbose=False):
     setup_torch()
     # code seems to run slower (~90ms/batch, with batch_size=40) when default GPU is not cuda:0
     main_gpu_index = 0  # TODO set this somewhere else
@@ -64,7 +65,10 @@ def main(training=True, use_data_paralellization=True, model_timestamp=None, ver
             model = CustomDataParallel(model, device_ids=device_ids)
             criterion = DataParallelCriterion(criterion, device_ids=device_ids)
 
-        optimizer = torch.optim.Adam(model.parameters())
+        # TODO use global Learning Rate here
+        # TODO check if weight decay will be kept
+        optimizer = torch.optim.Adam(model.parameters(), lr=INITIAL_LEARNING_RATE, weight_decay=1.2e-6)
+#         optimizer = torch.optim.SGD(model.parameters(), lr=INITIAL_LEARNING_RATE, weight_decay=1.2e-6)
 
         if verbose:
             summary(model, criterion)
