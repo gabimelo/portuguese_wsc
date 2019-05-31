@@ -38,10 +38,10 @@ def get_corpus():
     return corpus
 
 
-def main(training=True, use_data_paralellization=False, model_timestamp=None, verbose=False):
+def main(training=True, use_data_paralellization=True, model_timestamp=None, verbose=False):
     setup_torch()
     # code seems to run slower (~90ms/batch, with batch_size=40) when default GPU is not cuda:0
-    main_gpu_index = 1 # TODO set this somewhere else
+    main_gpu_index = 0  # TODO set this somewhere else
     device = torch.device("cuda:" + str(main_gpu_index) if USE_CUDA else "cpu")
     corpus = get_corpus()
     ntokens = len(corpus.dictionary)
@@ -59,8 +59,8 @@ def main(training=True, use_data_paralellization=False, model_timestamp=None, ve
         criterion = nn.CrossEntropyLoss()
 
         if use_data_paralellization or USE_DATA_PARALLELIZATION:
-            cuda_devices = [i for i in range(torch.cuda.device_count())]  
-            device_ids = [main_gpu_index] + cuda_devices[:main_gpu_index] + cuda_devices[main_gpu_index+1:]
+            cuda_devices = [i for i in range(torch.cuda.device_count())]
+            device_ids = [main_gpu_index] + cuda_devices[:main_gpu_index] + cuda_devices[main_gpu_index + 1:]
             model = CustomDataParallel(model, device_ids=device_ids)
             criterion = DataParallelCriterion(criterion, device_ids=device_ids)
 

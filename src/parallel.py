@@ -21,7 +21,6 @@ from torch.nn.parallel._functions import Broadcast
 torch_ver = torch.__version__[:3]
 
 __all__ = ['allreduce', 'DataParallelModel', 'DataParallelCriterion']
-#            'patch_replication_callback']  TODO understand why this was missing
 
 
 def allreduce(*inputs):
@@ -101,7 +100,6 @@ class DataParallelModel(DataParallel):
 
     def replicate(self, module, device_ids):
         modules = super(DataParallelModel, self).replicate(module, device_ids)
-        # execute_replication_callbacks(modules)
         return modules
 
 
