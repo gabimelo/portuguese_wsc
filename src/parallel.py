@@ -59,7 +59,7 @@ class Reduce(Function):
     def forward(ctx, *inputs):
         ctx.target_gpus = [inputs[i].get_device() for i in range(len(inputs))]
         inputs = sorted(inputs, key=lambda i: i.get_device())
-        return comm.reduce_add(inputs)
+        return comm.reduce_add(inputs, destination=ctx.target_gpus[0])
 
     @staticmethod
     def backward(ctx, gradOutput):

@@ -108,11 +108,12 @@ def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_
             optimizer.zero_grad()
 
         if use_data_paralellization:
-            # code seems to be slightly (~12ms/batch, with batch_size=40 doing it this way instead
+            # code seems to be slightly faster (~12ms/batch, with batch_size=40) doing it this way instead
             # of setting dim=1 when instantiating DataParallelModel)
             hidden, data = permute_for_parallelization(hidden, data)
 
-            results = model(data, hidden)
+            # it's not required to send data to device here, but seems to run a bit faster if we do
+            results = model(data.to(device), hidden)
 
             outputs, hidden = get_results_from_data_parallelized_forward(results, device)
             hidden = permute_for_parallelization(hidden)
