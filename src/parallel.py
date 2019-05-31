@@ -101,7 +101,7 @@ class DataParallelModel(DataParallel):
 
     def replicate(self, module, device_ids):
         modules = super(DataParallelModel, self).replicate(module, device_ids)
-        # execute_replication_callbacks(modules) TODO understand this
+        # execute_replication_callbacks(modules)
         return modules
 
 

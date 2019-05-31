@@ -1,6 +1,7 @@
 import torch.nn as nn
 
 from src.consts import SEQUENCE_LENGTH
+from src.utils import permute_for_parallelization
 
 
 class RNNModel(nn.Module):
@@ -44,22 +45,19 @@ class RNNModel(nn.Module):
         self.decoder.bias.data.zero_()
         self.decoder.weight.data.uniform_(-initrange, initrange)
 
-    def forward(self, input, hidden):
-        permute = input.size()[0] != SEQUENCE_LENGTH
+    def forward(self, inp, hidden):
+        permute = inp.size()[0] != SEQUENCE_LENGTH
         if permute:
-            hidden = (hidden[0].permute(1, 0, 2).contiguous(),
-                      hidden[1].permute(1, 0, 2).contiguous())
-            input = input.permute(1, 0)
+            hidden, inp = permute_for_parallelization(hidden, inp)
 
-        emb = self.drop(self.encoder(input))
+        emb = self.drop(self.encoder(inp))
         self.rnn.flatten_parameters()
         output, hidden = self.rnn(emb, hidden)
         output = self.drop(output)
         decoded = self.decoder(output.view(output.size(0) * output.size(1), output.size(2)))
 
         if permute:
-            hidden = (hidden[0].permute(1, 0, 2).contiguous(),
-                      hidden[1].permute(1, 0, 2).contiguous())
+            hidden = permute_for_parallelization(hidden)
 
         return decoded.view(output.size(0) * output.size(1), decoded.size(1)), hidden
 

@@ -32,7 +32,7 @@ def batchify(data, batch_size, device):
     data = data.narrow(0, 0, nbatch * batch_size)
     # Evenly divide the data across the batch_size batches.
     data = data.view(batch_size, -1).t().contiguous()
-    return data.to(device)
+    return data
 
 
 # get_batch subdivides the source data into chunks of length SEQUENCE_LENGTH.
@@ -74,3 +74,27 @@ def summary(model, criterion):
 def check_cuda_mem(device):
     print('Max mem', torch.cuda.max_memory_allocated(device=device))
     print('Mem', torch.cuda.memory_allocated(device=device))
+
+
+def permute_for_parallelization(hidden, data=None):
+    hidden = (hidden[0].permute(1, 0, 2).contiguous(),
+              hidden[1].permute(1, 0, 2).contiguous())
+    if data is None:
+        return hidden
+    data = data.permute(1, 0)
+
+    return hidden, data
+
+
+def get_results_from_data_parallelized_forward(results, device):
+    outputs = []
+    hidden_0 = torch.Tensor().to(device)
+    hidden_1 = torch.Tensor().to(device)
+
+    for result in results:
+        outputs.append(result[0])
+        hidden_0 = torch.cat((hidden_0, result[1][0]))
+        hidden_1 = torch.cat((hidden_1, result[1][1]))
+        del result
+
+    return tuple(outputs), (hidden_0, hidden_1)

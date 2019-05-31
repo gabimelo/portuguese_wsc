@@ -10,7 +10,9 @@ from src.consts import (
     LOG_INTERVAL, MODEL_FILE_NAME, MODEL_RESULTS_FILE_NAME
 )
 from src.logger import Logger
-from src.utils import batchify, get_batch, repackage_hidden
+from src.utils import (
+    batchify, get_batch, repackage_hidden, permute_for_parallelization, get_results_from_data_parallelized_forward
+)
 
 logger = Logger()
 
@@ -87,10 +89,13 @@ def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_
     total_loss = 0.
     start_time = time.time()
     batch_size = BATCH_SIZE
+
     if use_data_paralellization:
         batch_size *= torch.cuda.device_count()
+
     hidden = model.init_hidden(batch_size)
     train_data = batchify(corpus.train, batch_size, device)
+
     for batch, i in enumerate(range(0, train_data.size(0) - 1, SEQUENCE_LENGTH)):
         data, targets = get_batch(train_data, i)
         # Starting each batch, we detach the hidden state from how it was previously produced.
@@ -103,27 +108,17 @@ def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_
             optimizer.zero_grad()
 
         if use_data_paralellization:
-            data = data.permute(1, 0)
-            hidden = (hidden[0].permute(1, 0, 2).contiguous(),
-                      hidden[1].permute(1, 0, 2).contiguous())
+            # code seems to be slightly (~12ms/batch, with batch_size=40 doing it this way instead
+            # of setting dim=1 when instantiating DataParallelModel)
+            hidden, data = permute_for_parallelization(hidden, data)
 
             results = model(data, hidden)
 
-            outputs = []
-            hidden_0 = torch.Tensor().to(device)
-            hidden_1 = torch.Tensor().to(device)
-
-            for result in results:
-                outputs.append(result[0])
-                hidden_0 = torch.cat((hidden_0, result[1][0]))
-                hidden_1 = torch.cat((hidden_1, result[1][1]))
-                del result
-
-            hidden = (hidden_0.permute(1, 0, 2).contiguous(),
-                      hidden_1.permute(1, 0, 2).contiguous())
-            outputs = tuple(outputs)
+            outputs, hidden = get_results_from_data_parallelized_forward(results, device)
+            hidden = permute_for_parallelization(hidden)
         else:
-            outputs, hidden = model(data, hidden)
+            outputs, hidden = model(data.to(device), hidden)
+            targets = targets.to(device)
 
         loss = criterion(outputs, targets)
         loss.backward()

@@ -40,6 +40,7 @@ def get_corpus():
 
 def main(training=True, use_data_paralellization=True, model_timestamp=None, verbose=False):
     setup_torch()
+    main_gpu_index = 1 # TODO set this somewhere else
     device = torch.device("cuda" if USE_CUDA else "cpu")
     corpus = get_corpus()
     ntokens = len(corpus.dictionary)
@@ -59,6 +60,10 @@ def main(training=True, use_data_paralellization=True, model_timestamp=None, ver
         if use_data_paralellization or USE_DATA_PARALLELIZATION:
             model = CustomDataParallel(model)
             criterion = DataParallelCriterion(criterion)
+            cuda_devices = [i for i in range(torch.cuda.device_count())]  
+            device_ids = [main_gpu_index] + cuda_devices[:main_gpu_index] + cuda_devices[main_gpu_index+1:]
+#             model = CustomDataParallel(model, device_ids=[1, 0], output_device=device.index)
+#             criterion = DataParallelCriterion(criterion, device_ids=[1, 0], output_device=device.index)
 
         optimizer = torch.optim.Adam(model.parameters())
 
