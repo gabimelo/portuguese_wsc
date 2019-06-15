@@ -63,7 +63,9 @@ def winograd_test(df, corpus, model_file_name, ntokens, device, partial=False, e
         language = 'portuguese' if not english else 'english'
         word_list = word_tokenize(sentence, language=language)
         word_list = word_tokenize(sentence, language='english')
-        word_list = [word if word not in missing_words else '<UNK>' for word in word_list]
+
+        unknown_word = '<unk>' if english else '<UNK>'
+        word_list = [word if word not in missing_words else unknown_word for word in word_list]
 
         return word_list
 

@@ -22,13 +22,14 @@ class Corpus(object):
             self.dictionary.save_dictionary(file_token_count_dict)
 
     def add_corpus_data(self, path=PROCESSED_DATA_DIR_NAME):
-        # TODO hard coded for now, must fix this
-        self.train = self.tokenize(path + '/train.txt', 'wiki_pt00.txt')
-        self.valid = self.tokenize(path + '/val.txt', 'wiki_pt01.txt')
-        self.test = self.tokenize(path + '/test.txt', 'wiki_pt02.txt')
-#         self.train = self.tokenize(path + '/train.txt', 'train.txt')
-#         self.valid = self.tokenize(path + '/valid.txt', 'valid.txt')
-#         self.test = self.tokenize(path + '/test.txt', 'test.txt')
+        if 'english-wikitext-2' in CORPUS_FILE_NAME:
+            self.train = self.tokenize(path + '/train.txt', 'train.txt')
+            self.valid = self.tokenize(path + '/valid.txt', 'valid.txt')
+            self.test = self.tokenize(path + '/test.txt', 'test.txt')
+        else:
+            self.train = self.tokenize(path + '/train.txt', 'wiki_pt00.txt')
+            self.valid = self.tokenize(path + '/val.txt', 'wiki_pt01.txt')
+            self.test = self.tokenize(path + '/test.txt', 'wiki_pt02.txt')
         self.save_corpus()
 
     def save_corpus(self):
@@ -54,7 +55,7 @@ class Corpus(object):
                     if word in self.dictionary.word2idx:
                         tokens[file_token_count] = self.dictionary.word2idx[word]
                     else:
-                        tokens[file_token_count] = self.dictionary.word2idx['<UNK>']
+                        tokens[file_token_count] = self.dictionary.word2idx['<unk>']
                     file_token_count += 1
 
         return tokens

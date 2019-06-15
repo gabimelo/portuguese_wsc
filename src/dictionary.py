@@ -9,9 +9,9 @@ MIN_APPEARANCES_FOR_WORD_IN_VOCAB = 10
 
 class Dictionary(object):
     def __init__(self):
-        self.word2idx = {'<UNK>': 0}
-        self.word_count = {'<UNK>': 0}
-        self.idx2word = ['<UNK>']
+        self.word2idx = {'<unk>': 0}
+        self.word_count = {'<unk>': 0}
+        self.idx2word = ['<unk>']
 
     def add_word(self, word):
         if word not in self.word2idx:
@@ -34,7 +34,7 @@ class Dictionary(object):
         # we don't want to remove word at index 0, which is <UNK>, and for now has not been present in data
         for index in range(len(self.idx2word) - 1, 0, -1):
             if self.word_count[self.idx2word[index]] < MIN_APPEARANCES_FOR_WORD_IN_VOCAB:
-                self.word_count['<UNK>'] += self.word_count[self.idx2word[index]]
+                self.word_count['<unk>'] += self.word_count[self.idx2word[index]]
                 del self.word_count[self.idx2word[index]]
                 del self.idx2word[index]
 
@@ -48,7 +48,8 @@ class Dictionary(object):
             file_token_count = self.generate_corpus_dictionary(consts.WIKI_PT_TXT_DIR_NAME + '/' + file_name)
             file_token_count_dict[file_name] = file_token_count
 
-        self.filter_words()
+        if consts.FILTER_WORDS:
+            self.filter_words()
 
         return file_token_count_dict
 

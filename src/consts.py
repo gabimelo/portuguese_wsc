@@ -23,6 +23,8 @@ CORPUS_DICTIONARY_FILE_NAME = 'models/english-wikitext-2/corpus_dictionary.pkl'
 CORPUS_FILE_NAME = 'models/english-wikitext-2/corpus.pkl'
 FILE_TOKEN_COUNT_DICT_FILE_NAME = 'models/english-wikitext-2/file_token_count_dict.json'
 
+FILTER_WORDS = False  # TODO revert
+
 RANDOM_SEED = 42
 USE_CUDA = True
 
