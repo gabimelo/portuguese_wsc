@@ -68,7 +68,6 @@ def evaluate(model, corpus, criterion, device, use_test_data=False):
 
     model.eval()
     total_loss = 0.
-    ntokens = len(corpus.dictionary)
     hidden = model.init_hidden(EVAL_BATCH_SIZE)
     if not use_test_data:
         full_data = batchify(corpus.valid, EVAL_BATCH_SIZE, device)
@@ -80,7 +79,7 @@ def evaluate(model, corpus, criterion, device, use_test_data=False):
             output, hidden = model(data.to(device), hidden)
             total_loss += len(data) * criterion(output, targets.to(device)).item()
             hidden = repackage_hidden(hidden)
-    
+
     return total_loss / (len(full_data) - 1)
 
 
