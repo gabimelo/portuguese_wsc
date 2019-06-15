@@ -18,16 +18,23 @@ def analyse_single_wsc(model_file_name, corpus, ntokens, device, correct_sentenc
         wrong_words_probs = wrong_words_probs[-i:]
     
     if np.prod(correct_words_probs) >= np.prod(wrong_words_probs):
+        print('Most probable: ', correct_sentence)
         return True
     else:
+        print('Most probable: ', wrong_sentence)
         return False
 
 
 def find_missing_wsc_words_in_corpus_vocab(df, corpus):
+    # TODO make language dynamic
     correct_sentences_vocab = [ word for sentence in df.correct_sentence.values 
-                               for word in word_tokenize(sentence, language='portuguese')]
+                               # TODO revert
+#                                for word in word_tokenize(sentence, language='portuguese')]
+                               for word in word_tokenize(sentence, language='english')]
     incorrect_sentences_vocab = [ word for sentence in df.incorrect_sentence.values 
-                                 for word in word_tokenize(sentence, language='portuguese')]
+                                 # TODO revert
+#                                  for word in word_tokenize(sentence, language='portuguese')]
+                                 for word in word_tokenize(sentence, language='english')]
     wsc_vocab = set(correct_sentences_vocab + incorrect_sentences_vocab)
     # TODO quotes need to be in the same format as wiki corpus, and split from words
     missing_words = []
@@ -59,7 +66,9 @@ def generate_full_sentences(row):
 
 def winograd_test(df, corpus, model_file_name, ntokens, device, partial=False):
     def sentence_to_word_list(sentence):
-        word_list = word_tokenize(sentence, language='portuguese')
+        # TODO revert
+#         word_list = word_tokenize(sentence, language='portuguese')
+        word_list = word_tokenize(sentence, language='english')
         word_list = [ word if word not in missing_words else '<UNK>' for word in word_list]
 
         return word_list

@@ -52,7 +52,7 @@ def get_batch(source, i):
 
 
 def get_latest_model_file():
-    models_dir = ('/').join(MODEL_FILE_NAME.split('/')[:-1]) + '/*'
+    models_dir = ('/').join(MODEL_FILE_NAME.split('/')[:-1]) + '/*.pt'
     list_of_model_files = glob.glob(models_dir)
     latest_file_path = max(list_of_model_files, key=os.path.getctime)
 
