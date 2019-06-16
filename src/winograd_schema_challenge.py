@@ -23,14 +23,53 @@ def analyse_single_wsc(model_file_name, corpus, ntokens, device, correct_sentenc
         return False
 
 
+def clean_quotes(word_list):
+    while "''" in word_list:
+        i = word_list.index("''")
+        word_list[i] = '"'
+    while "``" in word_list:
+        i = word_list.index("``")
+        word_list[i] = '"'
+
+    return word_list
+
+
+def clean_at_marks(word_list):
+    "For merging things like ['@', '-', '@'] into ['@-@']"
+    start = 0
+    while '@' in word_list[start:]:
+        i = word_list.index('@')
+        if word_list[i + 2] == '@':
+            middle = word_list.pop(i + 1)
+            word_list.pop(i + 1)
+            word_list[i] = '@' + middle + '@'
+        start = i
+
+    return word_list
+
+
+def get_word_list(sentence, english):
+    if not english:
+        word_list = word_tokenize(sentence, language='portuguese')
+    else:
+        sentence = sentence.replace("n't", "n 't")
+        word_list = word_tokenize(sentence, language='english')
+        word_list = clean_quotes(word_list)
+        word_list = clean_at_marks(word_list)
+
+    return word_list
+
+
+def get_vocab_list(sentence_list, english):
+    return [word for sentence in sentence_list
+            for word in get_word_list(sentence, english)]
+
+
 def find_missing_wsc_words_in_corpus_vocab(df, corpus, english=False):
-    language = 'portuguese' if not english else 'english'
-    correct_sentences_vocab = [word for sentence in df.correct_sentence.values
-                               for word in word_tokenize(sentence, language=language)]
-    incorrect_sentences_vocab = [word for sentence in df.incorrect_sentence.values
-                                 for word in word_tokenize(sentence, language=language)]
+    correct_sentences_vocab = get_vocab_list(df.correct_sentence.values, english)
+    incorrect_sentences_vocab = get_vocab_list(df.incorrect_sentence.values, english)
     wsc_vocab = set(correct_sentences_vocab + incorrect_sentences_vocab)
-    # TODO quotes need to be in the same format as wiki corpus, and split from words
+
     missing_words = []
     for word in wsc_vocab:
         if word not in corpus.dictionary.word2idx:
@@ -60,10 +99,7 @@ def generate_full_sentences(row):
 
 def winograd_test(df, corpus, model_file_name, ntokens, device, partial=False, english=False):
     def sentence_to_word_list(sentence):
-        language = 'portuguese' if not english else 'english'
-        word_list = word_tokenize(sentence, language=language)
-        word_list = word_tokenize(sentence, language='english')
-
+        word_list = get_word_list(sentence, english)
         unknown_word = '<unk>' if english else '<UNK>'
         word_list = [word if word not in missing_words else unknown_word for word in word_list]
 
@@ -75,7 +111,7 @@ def winograd_test(df, corpus, model_file_name, ntokens, device, partial=False, e
         return analyse_single_wsc(model_file_name, corpus, ntokens, device,
                                   winograd_sentences[0], winograd_sentences[1], partial)
 
-    missing_words = find_missing_wsc_words_in_corpus_vocab(df, corpus)
+    missing_words = find_missing_wsc_words_in_corpus_vocab(df, corpus, english)
     df['test_result'] = df.apply(run_test, axis=1)
 
     accuracy = sum(df.test_result) / len(df)
