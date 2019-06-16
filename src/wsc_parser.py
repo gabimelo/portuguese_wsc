@@ -83,3 +83,13 @@ def generate_df_from_json():
     df = pd.DataFrame(rows, columns=['correct_sentence', 'incorrect_sentence'])
 
     return df
+
+
+def generate_json(df):
+    json_rows = []
+    for index, row in df.iterrows():
+        json_rows.append({'question_id': index, 'substitution': row.correct_sentence, 'correctness': True})
+        json_rows.append({'question_id': index, 'substitution': row.incorrect_sentence, 'correctness': False})
+
+    with open('data/processed/portuguese_wsc.json', 'w') as outfile:
+        json.dump(json_rows, outfile)
