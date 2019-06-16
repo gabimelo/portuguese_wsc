@@ -38,8 +38,7 @@ def get_schema_and_snippet_texts(item):
     return schema, snippet
 
 
-# TODO these two parameters and code related to them must be removed
-def generate_df(still_in_english, subs_not_working):
+def generate_df(still_in_english):
     with open('data/processed/port_wsc.html', 'r') as f:
         soup = BeautifulSoup(f, 'html5lib')
 
@@ -57,11 +56,6 @@ def generate_df(still_in_english, subs_not_working):
         skip = False
         for english_sentence in still_in_english:
             if english_sentence[:20] in schema:
-                skip = True
-        if skip:
-            continue
-        for not_working_sentence in subs_not_working:
-            if not_working_sentence[:20] in schema:
                 skip = True
         if skip:
             continue
