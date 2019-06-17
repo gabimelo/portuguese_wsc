@@ -47,7 +47,7 @@ def main(training=True, use_data_paralellization=False, model_timestamp=None, ve
     ntokens = len(corpus.dictionary)
 
     # TODO remove these two lines
-    assert ntokens == 602755
+    assert ntokens == 111550
     assert corpus.valid.size()[0] == 11606861
     assert corpus.train.max() < ntokens
     assert corpus.valid.max() < ntokens
@@ -73,7 +73,7 @@ def main(training=True, use_data_paralellization=False, model_timestamp=None, ve
         if verbose:
             summary(model, criterion)
 
-        train(model, corpus, criterion, optimizer, device, use_data_paralellization)
+        train(model, corpus, criterion, optimizer, device, use_data_paralellization or USE_DATA_PARALLELIZATION)
     else:
         if model_timestamp is None:
             model_file_name = get_latest_model_file()
