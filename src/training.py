@@ -60,7 +60,7 @@ def train(model, corpus, criterion, optimizer, device, use_data_paralellization)
                 .format(lr, test_loss, math.exp(test_loss), best_val_loss, epoch, (time.time() - epoch_start_time)))
 
 
-def evaluate(model, corpus, criterion, device, use_test_data=False):
+def evaluate(model, corpus, criterion, device, use_test_data=False, use_train_data=False):
     # Turn on evaluation mode which disables dropout.
     logger.info('-' * 89)
     logger.info('Running eval')
@@ -68,10 +68,14 @@ def evaluate(model, corpus, criterion, device, use_test_data=False):
 
     model.eval()
     total_loss = 0.
-    hidden = model.init_hidden(EVAL_BATCH_SIZE)
-    if not use_test_data:
+    if use_train_data:
+        hidden = model.init_hidden(BATCH_SIZE)
+        full_data = batchify(corpus.train, BATCH_SIZE, device)
+    elif not use_test_data:
+        hidden = model.init_hidden(EVAL_BATCH_SIZE)
         full_data = batchify(corpus.valid, EVAL_BATCH_SIZE, device)
     else:
+        hidden = model.init_hidden(EVAL_BATCH_SIZE)
         full_data = batchify(corpus.test, EVAL_BATCH_SIZE, device)
     with torch.no_grad():
         for batch, i in tqdm(enumerate(range(0, full_data.size(0) - 1, SEQUENCE_LENGTH))):
