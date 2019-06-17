@@ -55,7 +55,10 @@ class Corpus(object):
                     if word in self.dictionary.word2idx:
                         tokens[file_token_count] = self.dictionary.word2idx[word]
                     else:
-                        tokens[file_token_count] = self.dictionary.word2idx['<unk>']
+                        try:
+                            tokens[file_token_count] = self.dictionary.word2idx['<unk>']
+                        except KeyError:
+                            tokens[file_token_count] = self.dictionary.word2idx['<UNK>']
                     file_token_count += 1
 
         return tokens

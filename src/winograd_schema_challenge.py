@@ -100,7 +100,7 @@ def generate_full_sentences(row):
 def winograd_test(df, corpus, model_file_name, ntokens, device, partial=False, english=False):
     def sentence_to_word_list(sentence):
         word_list = get_word_list(sentence, english)
-        unknown_word = '<unk>' if english else '<UNK>'
+        unknown_word = '<unk>' if '<unk>' in corpus.dictionary.word2idx else '<UNK>'
         word_list = [word if word not in missing_words else unknown_word for word in word_list]
 
         return word_list
