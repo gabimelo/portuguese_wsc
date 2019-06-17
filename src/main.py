@@ -7,8 +7,7 @@ import pickle
 
 from src.consts import (
     RANDOM_SEED, USE_CUDA, MODEL_TYPE, EMBEDDINGS_SIZE, HIDDEN_UNIT_COUNT,
-    LAYER_COUNT, DROPOUT_PROB, TIED, CORPUS_FILE_NAME, USE_DATA_PARALLELIZATION,
-    INITIAL_LEARNING_RATE
+    LAYER_COUNT, DROPOUT_PROB, TIED, CORPUS_FILE_NAME, USE_DATA_PARALLELIZATION
 )
 from src.corpus import Corpus
 from src.model import RNNModel
@@ -67,8 +66,9 @@ def main(training=True, use_data_paralellization=False, model_timestamp=None, ve
 
         # TODO use global Learning Rate here
         # TODO check if weight decay will be kept
-        optimizer = torch.optim.Adam(model.parameters(), lr=INITIAL_LEARNING_RATE, weight_decay=1.2e-6)
+#         optimizer = torch.optim.Adam(model.parameters(), lr=INITIAL_LEARNING_RATE, weight_decay=1.2e-6)
 #         optimizer = torch.optim.SGD(model.parameters(), lr=INITIAL_LEARNING_RATE, weight_decay=1.2e-6)
+        optimizer = None
 
         if verbose:
             summary(model, criterion)

@@ -1,7 +1,7 @@
 WIKI_PT_XML_FILE_NAME = 'data/external/ptwiki-latest-pages-articles.xml.bz2'
 WIKI_PT_TXT_FILE_NAME = 'wiki_pt'
 
-PORTUGUESE = False
+PORTUGUESE = True
 
 if PORTUGUESE:
     WINOGRAD_SCHEMAS_FILE = './data/processed/portuguese_wsc.json'
@@ -12,9 +12,9 @@ if PORTUGUESE:
     VAL_SET_FILE_NAME = 'data/processed/val.txt'
     MODEL_FILE_NAME = 'models/trained_models/model-{}.pt'
     MODEL_RESULTS_FILE_NAME = 'models/trained_models/model-results-{}.txt'
-    CORPUS_DICTIONARY_FILE_NAME = 'models/corpus_dictionary.pkl'
-    CORPUS_FILE_NAME = 'models/corpus.pkl'
-    FILE_TOKEN_COUNT_DICT_FILE_NAME = 'models/file_token_count_dict.json'
+    CORPUS_DICTIONARY_FILE_NAME = 'models/corpus_dictionary_vocab_from_first_three_files.pkl'
+    CORPUS_FILE_NAME = 'models/corpus_vocab_from_first_three_files.pkl'
+    FILE_TOKEN_COUNT_DICT_FILE_NAME = 'models/file_token_count_dict_vocab_from_first_three_files.json'
     FILTER_WORDS = True
 else:
     WINOGRAD_SCHEMAS_FILE = './data/processed/english_wsc.json'
