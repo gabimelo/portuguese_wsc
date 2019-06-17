@@ -4,6 +4,7 @@ WIKI_PT_TXT_FILE_NAME = 'wiki_pt'
 PORTUGUESE = True
 
 if PORTUGUESE:
+    WINOGRAD_SCHEMAS_FILE = './data/processed/portuguese_wsc.json'
     WIKI_PT_TXT_DIR_NAME = 'data/interim/wiki_pt_splits'
     PROCESSED_DATA_DIR_NAME = 'data/processed'
     TEST_SET_FILE_NAME = 'data/processed/test.txt'
@@ -16,6 +17,7 @@ if PORTUGUESE:
     FILE_TOKEN_COUNT_DICT_FILE_NAME = 'models/file_token_count_dict.json'
     FILTER_WORDS = True
 else:
+    WINOGRAD_SCHEMAS_FILE = './data/processed/english_wsc.json'
     WIKI_PT_TXT_DIR_NAME = 'data/interim/english-wikitext-2'
     PROCESSED_DATA_DIR_NAME = 'data/interim/english-wikitext-2'
     TEST_SET_FILE_NAME = 'data/interim/english-wikitext-2/test.txt'

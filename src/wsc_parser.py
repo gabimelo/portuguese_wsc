@@ -3,6 +3,8 @@ import json
 import pandas as pd
 from bs4 import BeautifulSoup
 
+from src.consts import WINOGRAD_SCHEMAS_FILE
+
 
 def join_content(item):
     content = [it.strip().replace('  ', ' ') for it in item.text.split('\n') if it.strip() != '']
@@ -70,7 +72,7 @@ def generate_df(still_in_english):
 
 def generate_df_from_json():
     rows = []
-    with open('./data/processed/english_wsc.json', 'r', encoding='utf-8') as fp:
+    with open(WINOGRAD_SCHEMAS_FILE, 'r', encoding='utf-8') as fp:
         wsc_json = json.load(fp)
 
     for i in range(0, len(wsc_json), 2):
