@@ -31,7 +31,7 @@ def train(model, corpus, criterion, optimizer, device, use_data_paralellization)
 
             train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_data_paralellization)
 
-            val_loss = evaluate(model, corpus, criterion, device)
+            val_loss = evaluate(model, corpus, criterion, device, use_data_paralellization=use_data_paralellization)
 
             logger.info('-' * 89)
             logger.info('| end of epoch {:3d} | time: {:5.2f}s | valid loss {:5.2f} | '
@@ -50,7 +50,8 @@ def train(model, corpus, criterion, optimizer, device, use_data_paralellization)
         logger.info('-' * 89)
         logger.info('Exiting from training early')
 
-    test_loss = get_training_results(model, corpus, criterion, device, timestamp)
+    test_loss = get_training_results(model, corpus, criterion, device, timestamp,
+                                     use_data_paralellization=use_data_paralellization)
 
     if best_val_loss is None:
         best_val_loss = 0
@@ -60,7 +61,8 @@ def train(model, corpus, criterion, optimizer, device, use_data_paralellization)
                 .format(lr, test_loss, math.exp(test_loss), best_val_loss, epoch, (time.time() - epoch_start_time)))
 
 
-def evaluate(model, corpus, criterion, device, use_test_data=False, use_train_data=False):
+def evaluate(model, corpus, criterion, device, use_test_data=False, use_train_data=False,
+             use_data_paralellization=False):
     # Turn on evaluation mode which disables dropout.
     logger.info('-' * 89)
     logger.info('Running eval')
@@ -80,9 +82,18 @@ def evaluate(model, corpus, criterion, device, use_test_data=False, use_train_da
     with torch.no_grad():
         for batch, i in tqdm(enumerate(range(0, full_data.size(0) - 1, SEQUENCE_LENGTH))):
             data, targets = get_batch(full_data, i)
-            output, hidden = model(data.to(device), hidden)
-            total_loss += len(data) * criterion(output, targets.to(device)).item()
             hidden = repackage_hidden(hidden)
+
+            if use_data_paralellization:
+                hidden, data = permute_for_parallelization(hidden, data)
+                results = model(data, hidden)
+                outputs, hidden = get_results_from_data_parallelized_forward(results, device)
+                hidden = permute_for_parallelization(hidden)
+            else:
+                outputs, hidden = model(data.to(device), hidden)
+                targets = targets.to(device)
+
+            total_loss += len(data) * criterion(outputs, targets).item()
 
     return total_loss / (len(full_data) - 1)
 
@@ -152,7 +163,7 @@ def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_
             start_time = time.time()
 
 
-def get_training_results(model, corpus, criterion, device, timestamp):
+def get_training_results(model, corpus, criterion, device, timestamp, use_data_paralellization=False):
     # Load the best saved model.
     with open(MODEL_FILE_NAME.format(timestamp), 'rb') as f:
         model = torch.load(f)
@@ -162,7 +173,8 @@ def get_training_results(model, corpus, criterion, device, timestamp):
     model.rnn.flatten_parameters()
 
     # Run on test data.
-    test_loss = evaluate(model, corpus, criterion, device, use_test_data=True)
+    test_loss = evaluate(model, corpus, criterion, device, use_test_data=True,
+                         use_data_paralellization=use_data_paralellization)
     logger.info('=' * 89)
     logger.info('| End of training | test loss {:5.2f} | test ppl {:8.2f}'.format(
         test_loss, math.exp(test_loss)))
