@@ -39,7 +39,7 @@ def train(model, corpus, criterion, optimizer, device, use_data_paralellization)
                                                    val_loss, math.exp(val_loss)))
             logger.info('-' * 89)
             # Save the model if the validation loss is the best we've seen so far.
-            if not best_val_loss or val_loss < best_val_loss:
+            if best_val_loss is None or val_loss < best_val_loss:
                 with open(MODEL_FILE_NAME.format(timestamp), 'wb') as f:
                     torch.save(model, f)
                 best_val_loss = val_loss
