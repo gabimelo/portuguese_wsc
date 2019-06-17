@@ -1,7 +1,7 @@
 WIKI_PT_XML_FILE_NAME = 'data/external/ptwiki-latest-pages-articles.xml.bz2'
 WIKI_PT_TXT_FILE_NAME = 'wiki_pt'
 
-PORTUGUESE = True
+PORTUGUESE = False
 
 if PORTUGUESE:
     WINOGRAD_SCHEMAS_FILE = './data/processed/portuguese_wsc.json'
