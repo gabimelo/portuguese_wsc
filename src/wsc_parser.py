@@ -40,7 +40,7 @@ def get_schema_and_snippet_texts(item):
     return schema, snippet
 
 
-def generate_df(still_in_english):
+def generate_df(full_english_text):
     with open('data/processed/port_wsc.html', 'r') as f:
         soup = BeautifulSoup(f, 'html5lib')
 
@@ -55,18 +55,13 @@ def generate_df(still_in_english):
 
         schema, snippet = get_schema_and_snippet_texts(item)
 
-        skip = False
-        for english_sentence in still_in_english:
-            if english_sentence[:20] in schema:
-                skip = True
-        if skip:
-            continue
+        translated = False if schema[:20] in full_english_text else True
 
-        row = [schema, snippet, pronoun, correct_answer, substitution_a, substitution_b]
+        row = [schema, snippet, pronoun, correct_answer, substitution_a, substitution_b, translated]
         rows.append(row)
 
     df = pd.DataFrame(rows, columns=['schema', 'snippet', 'pronoun', 'correct_answer',
-                                     'substitution_a', 'substitution_b'])
+                                     'substitution_a', 'substitution_b', 'translated'])
     return df
 
 
@@ -95,8 +90,9 @@ def generate_json(df, switched=False):
         incorrect_dict = {'question_id': index, 'substitution': row.incorrect_sentence,
                           'switched': row.switched, 'correctness': False}
         if switched:
-            is_switchable = 0 if 'is_switchable' not in row else row.is_switchable
+            is_switchable = False if 'is_switchable' not in row else row.is_switchable
             correct_dict['is_switchable'] = incorrect_dict['is_switchable'] = is_switchable
+        correct_dict['translated'] = incorrect_dict['translated'] = row.translated
         json_rows.append(correct_dict)
         json_rows.append(incorrect_dict)
 
