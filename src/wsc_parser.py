@@ -123,13 +123,8 @@ def generate_json(df):
 
 
 def generate_full_sentences(row):
-    if row.pronoun.islower() and (row.substitution_b.lower() in row.schema or
-                                  row.substitution_b.lower() not in row.schema.lower()):
-        subs_a = row.substitution_a.lower()
-        subs_b = row.substitution_b.lower()
-    else:
-        subs_a = row.substitution_a
-        subs_b = row.substitution_b
+    subs_a = row.substitution_a.lower()
+    subs_b = row.substitution_b.lower()
 
     new_snippet_a = re.sub(r"\b%s\b" % row.pronoun, subs_a, row.snippet)
     new_snippet_b = re.sub(r"\b%s\b" % row.pronoun, subs_b, row.snippet)
