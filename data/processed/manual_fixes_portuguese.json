@@ -1,1 +1,312 @@
-[{"question_id": 40, "substitution": "Os alunos mais velhos estavam fazendo bullying com os mais jovens, ent\u00e3o n\u00f3s punimos os alunos mais velhos.", "correctness": true}, {"question_id": 40, "substitution": "Os alunos mais velhos estavam fazendo bullying com os mais jovens, ent\u00e3o n\u00f3s punimos os alunos mais jovens.", "correctness": false}, {"question_id": 41, "substitution": "Os alunos mais velhos estavam fazendo bullying com os mais jovens, ent\u00e3o n\u00f3s protegemos os alunos mais jovens.", "correctness": true}, {"question_id": 41, "substitution": "Os alunos mais velhos estavam fazendo bullying com os mais jovens, ent\u00e3o n\u00f3s protegemos os alunos mais velhos.", "correctness": false}, {"question_id": 54, "substitution": "H\u00e1 uma fenda na parede. \u00c9 poss\u00edvel enxergar o jardim atrav\u00e9s da fenda.", "correctness": true}, {"question_id": 54, "substitution": "H\u00e1 uma fenda na parede. \u00c9 poss\u00edvel enxergar o jardim atrav\u00e9s da parede.", "correctness": false}, {"question_id": 55, "substitution": "H\u00e1 uma fenda na parede. \u00c9 poss\u00edvel enxergar o jardim atr\u00e1s da parede.", "correctness": true}, {"question_id": 55, "substitution": "H\u00e1 uma fenda na parede. \u00c9 poss\u00edvel enxergar o jardim atr\u00e1s da fenda.", "correctness": false}, {"question_id": 66, "substitution": "Eu usei um pano velho para limpar o alicate, e ent\u00e3o coloquei o pano no lixo.", "correctness": true}, {"question_id": 66, "substitution": "Eu usei um pano velho para limpar o alicate, e ent\u00e3o coloquei o alicate no lixo.", "correctness": false}, {"question_id": 67, "substitution": "Eu usei um pano velho para limpar o alicate, e ent\u00e3o coloquei o alicate na gaveta.", "correctness": true}, {"question_id": 67, "substitution": "Eu usei um pano velho para limpar o alicate, e ent\u00e3o coloquei o pano na gaveta.", "correctness": false}, {"question_id": 98, "substitution": "Eu estava tentando abrir o cadeado com a chave, mas algu\u00e9m havia preenchido a fechadura com goma de mascar, e eu n\u00e3o conseguia inserir a chave .", "correctness": true}, {"question_id": 98, "substitution": "Eu estava tentando abrir o cadeado com a chave, mas algu\u00e9m havia preenchido a fechadura com goma de mascar, e eu n\u00e3o conseguia inserir a goma de mascar .", "correctness": false}, {"question_id": 99, "substitution": "Eu estava tentando abrir o cadeado com a chave, mas algu\u00e9m havia preenchido a fechadura com goma de mascar, e eu n\u00e3o conseguia remover a goma de mascar.", "correctness": true}, {"question_id": 99, "substitution": "Eu estava tentando abrir o cadeado com a chave, mas algu\u00e9m havia preenchido a fechadura com goma de mascar, e eu n\u00e3o conseguia remover a chave.", "correctness": false}, {"question_id": 102, "substitution": "Durante a tempestade, o poste caiu e atravessou o telhado da minha casa. Agora, eu tenho que mandar remover o poste.", "correctness": true}, {"question_id": 102, "substitution": "Durante a tempestade, o poste caiu e atravessou o telhado da minha casa. Agora, eu tenho que mandar remover o telhado.", "correctness": false}, {"question_id": 103, "substitution": "Durante a tempestade, o poste caiu e atravessou o telhado da minha casa. Agora, eu tenho que mandar consertar o telhado.", "correctness": true}, {"question_id": 103, "substitution": "Durante a tempestade, o poste caiu e atravessou o telhado da minha casa. Agora, eu tenho que mandar consertar o poste.", "correctness": false}, {"question_id": 116, "substitution": "Joe vendeu sua casa e comprou uma nova a alguns quil\u00f4metros de dist\u00e2ncia. Ele se mudar\u00e1 da velha casa na quinta-feira.", "correctness": true}, {"question_id": 116, "substitution": "Joe vendeu sua casa e comprou uma nova a alguns quil\u00f4metros de dist\u00e2ncia. Ele se mudar\u00e1 da nova casa na quinta-feira.", "correctness": false}, {"question_id": 120, "substitution": "Mary sacou sua flauta e tocou uma de suas pe\u00e7as favoritas. Ela tem a flauta desde crian\u00e7a.", "correctness": true}, {"question_id": 120, "substitution": "Mary sacou sua flauta e tocou uma de suas pe\u00e7as favoritas. Ela tem a pe\u00e7a desde crian\u00e7a.", "correctness": false}, {"question_id": 121, "substitution": "Mary sacou sua flauta e tocou uma de suas pe\u00e7as favoritas. Ela ama a pe\u00e7a desde crian\u00e7a.", "correctness": true}, {"question_id": 121, "substitution": "Mary sacou sua flauta e tocou uma de suas pe\u00e7as favoritas. Ela ama a flauta desde crian\u00e7a.", "correctness": false}, {"question_id": 124, "substitution": "Como estava chovendo, eu carreguei a revista na minha mochila para manter a revista seca.", "correctness": true}, {"question_id": 124, "substitution": "Como estava chovendo, eu carreguei a revista na minha mochila para manter a mochila seca.", "correctness": false}, {"question_id": 125, "substitution": "Como estava chovendo, eu carreguei a revista sobre a minha mochila para manter a mochila seca.", "correctness": true}, {"question_id": 125, "substitution": "Como estava chovendo, eu carreguei a revista sobre a minha mochila para manter a revista seca.", "correctness": false}, {"question_id": 126, "substitution": "Sara pegou um livro emprestado da biblioteca porque ela precisa dele para um artigo no qual ela est\u00e1 trabalhando. Ela l\u00ea o livro quando chega do trabalho.", "correctness": true}, {"question_id": 126, "substitution": "Sara pegou um livro emprestado da biblioteca porque ela precisa dele para um artigo no qual ela est\u00e1 trabalhando. Ela l\u00ea o artigo quando chega do trabalho.", "correctness": false}, {"question_id": 127, "substitution": "Sara pegou um livro emprestado da biblioteca porque ela precisa dele para um artigo no qual ela est\u00e1 trabalhando. Ela escreve o artigo quando chega do trabalho.", "correctness": true}, {"question_id": 127, "substitution": "Sara pegou um livro emprestado da biblioteca porque ela precisa dele para um artigo no qual ela est\u00e1 trabalhando. Ela escreve o livro quando chega do trabalho.", "correctness": false}, {"question_id": 128, "substitution": "Nesta manh\u00e3, Joey construiu um castelo de areia na praia, e colocou um soldado de brinquedo na torre mais alta, mas nesta tarde a mar\u00e9 derrubou o castelo de areia.", "correctness": true}, {"question_id": 128, "substitution": "Nesta manh\u00e3, Joey construiu um castelo de areia na praia, e colocou um soldado de brinquedo na torre mais alta, mas nesta tarde a mar\u00e9 derrubou o soldado.", "correctness": false}, {"question_id": 129, "substitution": "Nesta manh\u00e3, Joey construiu um castelo de areia na praia, e colocou um soldado de brinquedo na torre mais alta, mas nesta tarde o vento derrubou o soldado.", "correctness": true}, {"question_id": 129, "substitution": "Nesta manh\u00e3, Joey construiu um castelo de areia na praia, e colocou um soldado de brinquedo na torre mais alta, mas nesta tarde o vento derrubou o castelo de areia.", "correctness": false}, {"question_id": 136, "substitution": "O caminho at\u00e9 o lago estava interditado, ent\u00e3o n\u00f3s n\u00e3o pod\u00edamos usar o caminho.", "correctness": true}, {"question_id": 136, "substitution": "O caminho at\u00e9 o lago estava interditado, ent\u00e3o n\u00f3s n\u00e3o pod\u00edamos usar o lago.", "correctness": false}, {"question_id": 137, "substitution": "O caminho at\u00e9 o lago estava interditado, ent\u00e3o n\u00f3s n\u00e3o pod\u00edamos alcan\u00e7ar o lago.", "correctness": true}, {"question_id": 137, "substitution": "O caminho at\u00e9 o lago estava interditado, ent\u00e3o n\u00f3s n\u00e3o pod\u00edamos alcan\u00e7ar o caminho.", "correctness": false}, {"question_id": 154, "substitution": "As raposas est\u00e3o entrando \u00e0 noite e atacando as galinhas. Eu terei que matar as raposas.", "correctness": true}, {"question_id": 154, "substitution": "As raposas est\u00e3o entrando \u00e0 noite e atacando as galinhas. Eu terei que matar as galinhas.", "correctness": false}, {"question_id": 155, "substitution": "As raposas est\u00e3o entrando \u00e0 noite e atacando as galinhas. Eu terei que proteger as galinhas.", "correctness": true}, {"question_id": 155, "substitution": "As raposas est\u00e3o entrando \u00e0 noite e atacando as galinhas. Eu terei que proteger as raposas.", "correctness": false}, {"question_id": 158, "substitution": "Fred cobriu seus olhos com os antebra\u00e7os, porque o vento estava carregando muita areia. Ele abriu seus olhos quando o vento parou.", "correctness": true}, {"question_id": 158, "substitution": "Fred cobriu seus olhos com os antebra\u00e7os, porque o vento estava carregando muita areia. Ele abriu seus antebra\u00e7os quando o vento parou.", "correctness": false}, {"question_id": 159, "substitution": "Fred cobriu seus olhos com os antebra\u00e7os, porque o vento estava carregando muita areia. Ele abaixou seus antebra\u00e7os quando o vento parou.", "correctness": true}, {"question_id": 159, "substitution": "Fred cobriu seus olhos com os antebra\u00e7os, porque o vento estava carregando muita areia. Ele abaixou seus olhos quando o vento parou.", "correctness": false}, {"question_id": 164, "substitution": "Fred deveria ter ligado a m\u00e1quina de lavar lou\u00e7a, mas ele adiou, porque queria assistir TV. Por fim o programa estava chato, ent\u00e3o ele mudou de ideia e ligou a m\u00e1quina de lavar.", "correctness": true}, {"question_id": 164, "substitution": "Fred deveria ter ligado a m\u00e1quina de lavar lou\u00e7a, mas ele adiou, porque queria assistir TV. Por fim o programa estava chato, ent\u00e3o ele mudou de ideia e ligou a tv.", "correctness": false}, {"question_id": 165, "substitution": "Fred deveria ter ligado a m\u00e1quina de lavar lou\u00e7a, mas ele adiou, porque queria assistir TV. Por fim o programa estava chato, ent\u00e3o ele mudou de ideia e desligou a tv.", "correctness": true}, {"question_id": 165, "substitution": "Fred deveria ter ligado a m\u00e1quina de lavar lou\u00e7a, mas ele adiou, porque queria assistir TV. Por fim o programa estava chato, ent\u00e3o ele mudou de ideia e desligou a m\u00e1quina de lavar.", "correctness": false}, {"question_id": 189, "substitution": "A gente havia planejado colocar c\u00f3pias da nossa newsletter o sobre todas as cadeiras no audit\u00f3rio, mas n\u00e3o havia o suficiente de c\u00f3pias da newsletter.", "correctness": true}, {"question_id": 189, "substitution": "A gente havia planejado colocar c\u00f3pias da nossa newsletter o sobre todas as cadeiras no audit\u00f3rio, mas n\u00e3o havia o suficiente de cadeiras.", "correctness": false}, {"question_id": 201, "substitution": "John contratou Bill para cuidar de John.", "correctness": true}, {"question_id": 201, "substitution": "John contratou Bill para cuidar de Bill.", "correctness": false}, {"question_id": 202, "substitution": "John foi contratado por Bill para cuidar de Bill.", "correctness": true}, {"question_id": 202, "substitution": "John foi contratado por Bill para cuidar de John.", "correctness": false}, {"question_id": 207, "substitution": "A m\u00e3e da Emma havia morrido fazia muitos anos, e a educa\u00e7\u00e3o da Emma estava sendo cuidada por uma excelente governanta.", "correctness": true}, {"question_id": 207, "substitution": "A m\u00e3e da Emma havia morrido fazia muitos anos, e a educa\u00e7\u00e3o da m\u00e3e da Emma estava sendo cuidada por uma excelente governanta.", "correctness": false}, {"question_id": 208, "substitution": "A m\u00e3e da Emma havia morrido fazia muitos anos, e a casa da m\u00e3e da Emma estava sendo cuidada por uma excelente governanta.", "correctness": true}, {"question_id": 208, "substitution": "A m\u00e3e da Emma havia morrido fazia muitos anos, e a casa da Emma estava sendo cuidada por uma excelente governanta.", "correctness": false}, {"question_id": 215, "substitution": "Jim fez um sinal para o barman e apontou para a ta\u00e7a vazia do Jim.", "correctness": true}, {"question_id": 215, "substitution": "Jim fez um sinal para o barman e apontou para a ta\u00e7a vazia do barman.", "correctness": false}, {"question_id": 216, "substitution": "Jim fez um sinal para o barman e apontou para a chave do banheiro do barman.", "correctness": true}, {"question_id": 216, "substitution": "Jim fez um sinal para o barman e apontou para a chave do banheiro do Jim.", "correctness": false}, {"question_id": 217, "substitution": "Dan ficou no banco de tr\u00e1s enquanto Bill reinvidicava a frente porque o \"Eu primeiro!\" do Dan foi lento.", "correctness": true}, {"question_id": 217, "substitution": "Dan ficou no banco de tr\u00e1s enquanto Bill reinvidicava a frente porque o \"Eu primeiro!\" do Bill foi lento.", "correctness": false}, {"question_id": 218, "substitution": "Dan ficou no banco de tr\u00e1s enquanto Bill reinvidicava a frente porque o \"Eu primeiro!\" do Bill foi mais r\u00e1pido.", "correctness": true}, {"question_id": 218, "substitution": "Dan ficou no banco de tr\u00e1s enquanto Bill reinvidicava a frente porque o \"Eu primeiro!\" do Dan foi mais r\u00e1pido.", "correctness": false}, {"question_id": 219, "substitution": "Tom disse \"Check\" para Ralph enquanto ele movia o bispo do Tom.", "correctness": true}, {"question_id": 219, "substitution": "Tom disse \"Check\" para Ralph enquanto ele movia o bispo do Ralph.", "correctness": false}, {"question_id": 220, "substitution": "Tom disse \"Check\" para Ralph enquanto ele tomava o bispo do Ralph.", "correctness": true}, {"question_id": 220, "substitution": "Tom disse \"Check\" para Ralph enquanto ele tomava o bispo do Tom.", "correctness": false}, {"question_id": 227, "substitution": "Bill passou o gameboy para John porque a vez de Bill tinha acabado.", "correctness": true}, {"question_id": 227, "substitution": "Bill passou o gameboy para John porque a vez de John tinha acabado.", "correctness": false}, {"question_id": 228, "substitution": "Bill passou o gameboy para John porque a vez de John era a pr\u00f3xima.", "correctness": true}, {"question_id": 228, "substitution": "Bill passou o gameboy para John porque a vez de Bill era a pr\u00f3xima.", "correctness": false}, {"question_id": 229, "substitution": "O homem levantou o menino sobre a cabe\u00e7a do homem.", "correctness": true}, {"question_id": 229, "substitution": "O homem levantou o menino sobre a cabe\u00e7a do menino.", "correctness": false}, {"question_id": 230, "substitution": "O homem levantou o menino at\u00e9 a beliche do menino.", "correctness": true}, {"question_id": 230, "substitution": "O homem levantou o menino at\u00e9 a beliche do homem.", "correctness": false}, {"question_id": 231, "substitution": "Alongando as costas da mulher, a mulher sorriu para a menina.", "correctness": true}, {"question_id": 231, "substitution": "Alongando as costas da menina, a mulher sorriu para a menina.", "correctness": false}, {"question_id": 232, "substitution": "Dando um tapinha nas costas da menina, a mulher sorriu para a menina.", "correctness": true}, {"question_id": 232, "substitution": "Dando um tapinha nas costas da mulher, a mulher sorriu para a menina.", "correctness": false}, {"question_id": 233, "substitution": "Billy chorou porque Toby n\u00e3o queria aceitar o brinquedo do Billy.", "correctness": true}, {"question_id": 233, "substitution": "Billy chorou porque Toby n\u00e3o queria aceitar o brinquedo do Toby.", "correctness": false}, {"question_id": 234, "substitution": "Billy chorou porque Toby n\u00e3o queria compartilhar o brinquedo do Toby.", "correctness": true}, {"question_id": 234, "substitution": "Billy chorou porque Toby n\u00e3o queria compartilhar o brinquedo do Billy.", "correctness": false}, {"question_id": 235, "substitution": "Lily conversou com Donna, quebrando a promessa da Lily.", "correctness": true}, {"question_id": 235, "substitution": "Lily conversou com Donna, quebrando a promessa da Donna.", "correctness": false}, {"question_id": 236, "substitution": "Lily conversou com Donna, tirando a concentra\u00e7\u00e3o da Donna.", "correctness": true}, {"question_id": 236, "substitution": "Lily conversou com Donna, tirando a concentra\u00e7\u00e3o da Lily.", "correctness": false}, {"question_id": 237, "substitution": "Quando Tommy derrubou seu sorvete, Timmy gargalhou, ent\u00e3o seu pai olhou Tommy com olhar emp\u00e1tico.", "correctness": true}, {"question_id": 237, "substitution": "Quando Tommy derrubou seu sorvete, Timmy gargalhou, ent\u00e3o seu pai olhou Timmy com olhar emp\u00e1tico.", "correctness": false}, {"question_id": 238, "substitution": "Quando Tommy derrubou seu sorvete, Timmy gargalhou, ent\u00e3o seu pai olhou Timmy com olhar severo.", "correctness": true}, {"question_id": 238, "substitution": "Quando Tommy derrubou seu sorvete, Timmy gargalhou, ent\u00e3o seu pai olhou Tommy com olhar severo.", "correctness": false}, {"question_id": 239, "substitution": "Enquanto Ollie carregava Tommy subindo a longa escada em espiral, as pernas do Ollie do\u00edam.", "correctness": true}, {"question_id": 239, "substitution": "Enquanto Ollie carregava Tommy subindo a longa escada em espiral, as pernas do Tommy do\u00edam.", "correctness": false}, {"question_id": 240, "substitution": "Enquanto Ollie carregava Tommy subindo a longa escada em espiral, as pernas do Tommy balan\u00e7avam.", "correctness": true}, {"question_id": 240, "substitution": "Enquanto Ollie carregava Tommy subindo a longa escada em espiral, as pernas do Ollie balan\u00e7avam.", "correctness": false}, {"question_id": 241, "substitution": "O pai carregava o menino dormindo no colo do pai.", "correctness": true}, {"question_id": 241, "substitution": "O pai carregava o menino dormindo no colo do menino.", "correctness": false}, {"question_id": 242, "substitution": "O pai carregava o menino dormindo no ber\u00e7o do menino.", "correctness": true}, {"question_id": 242, "substitution": "O pai carregava o menino dormindo no ber\u00e7o do pai.", "correctness": false}, {"question_id": 243, "substitution": "A mulher estava segurando a menina contra o peito da mulher.", "correctness": true}, {"question_id": 243, "substitution": "A mulher estava segurando a menina contra o peito da menina.", "correctness": false}, {"question_id": 244, "substitution": "A mulher estava segurando a menina contra o desejo da menina.", "correctness": true}, {"question_id": 244, "substitution": "A mulher estava segurando a menina contra o desejo da mulher.", "correctness": false}, {"question_id": 268, "substitution": "Madonna demitiu sua treinadora porque ela dormiu com o namorado da Madonna.", "correctness": true}, {"question_id": 268, "substitution": "Madonna demitiu sua treinadora porque ela dormiu com o namorado da treinadora.", "correctness": false}, {"question_id": 269, "substitution": "Madonna demitiu sua treinadora porque ela n\u00e3o suportava o namorado da treinadora.", "correctness": true}, {"question_id": 269, "substitution": "Madonna demitiu sua treinadora porque ela n\u00e3o suportava o namorado da Madonna.", "correctness": false}, {"question_id": 272, "substitution": "Este livro introduziu Shakespeare a Ov\u00eddio; ele foi uma grande influ\u00eancia na escrita de Shakespeare.", "correctness": true}, {"question_id": 272, "substitution": "Este livro introduziu Shakespeare a Ov\u00eddio; ele foi uma grande influ\u00eancia na escrita de Ov\u00eddio.", "correctness": false}, {"question_id": 273, "substitution": "Este livro introduziu Shakespeare a Goethe; ele foi uma grande influ\u00eancia na escrita de Goethe.", "correctness": true}, {"question_id": 273, "substitution": "Este livro introduziu Shakespeare a Goethe; ele foi uma grande influ\u00eancia na escrita de Shakespeare.", "correctness": false}, {"question_id": 274, "substitution": "Este livro introduziu Shakespeare a Ov\u00eddio; ele era uma excelente sele\u00e7\u00e3o da escrita de Ov\u00eddio.", "correctness": true}, {"question_id": 274, "substitution": "Este livro introduziu Shakespeare a Ov\u00eddio; ele era uma excelente sele\u00e7\u00e3o da escrita de Shakespeare.", "correctness": false}, {"question_id": 275, "substitution": "Este livro introduziu Shakespeare a Goethe; ele era uma excelente sele\u00e7\u00e3o da escrita de Shakespeare.", "correctness": true}, {"question_id": 275, "substitution": "Este livro introduziu Shakespeare a Goethe; ele era uma excelente sele\u00e7\u00e3o da escrita de Goethe.", "correctness": false}]
+[
+  {
+    "question_id": 40,
+    "manually_fixed_correct_sentence": "Os alunos mais velhos estavam fazendo bullying com os mais jovens, então nós punimos os alunos mais velhos.",
+    "manually_fixed_incorrect_sentence": "Os alunos mais velhos estavam fazendo bullying com os mais jovens, então nós punimos os alunos mais jovens."
+  },
+  {
+    "question_id": 41,
+    "manually_fixed_correct_sentence": "Os alunos mais velhos estavam fazendo bullying com os mais jovens, então nós protegemos os alunos mais jovens.",
+    "manually_fixed_incorrect_sentence": "Os alunos mais velhos estavam fazendo bullying com os mais jovens, então nós protegemos os alunos mais velhos."
+  },
+  {
+    "question_id": 54,
+    "manually_fixed_correct_sentence": "Há uma fenda na parede. É possível enxergar o jardim através da fenda.",
+    "manually_fixed_incorrect_sentence": "Há uma fenda na parede. É possível enxergar o jardim através da parede."
+  },
+  {
+    "question_id": 55,
+    "manually_fixed_correct_sentence": "Há uma fenda na parede. É possível enxergar o jardim atrás da parede.",
+    "manually_fixed_incorrect_sentence": "Há uma fenda na parede. É possível enxergar o jardim atrás da fenda."
+  },
+  {
+    "question_id": 66,
+    "manually_fixed_correct_sentence": "Eu usei um pano velho para limpar o alicate, e então coloquei o pano no lixo.",
+    "manually_fixed_incorrect_sentence": "Eu usei um pano velho para limpar o alicate, e então coloquei o alicate no lixo."
+  },
+  {
+    "question_id": 67,
+    "manually_fixed_correct_sentence": "Eu usei um pano velho para limpar o alicate, e então coloquei o alicate na gaveta.",
+    "manually_fixed_incorrect_sentence": "Eu usei um pano velho para limpar o alicate, e então coloquei o pano na gaveta."
+  },
+  {
+    "question_id": 98,
+    "manually_fixed_correct_sentence": "Eu estava tentando abrir o cadeado com a chave, mas alguém havia preenchido a fechadura com goma de mascar, e eu não conseguia inserir a chave .",
+    "manually_fixed_incorrect_sentence": "Eu estava tentando abrir o cadeado com a chave, mas alguém havia preenchido a fechadura com goma de mascar, e eu não conseguia inserir a goma de mascar ."
+  },
+  {
+    "question_id": 99,
+    "manually_fixed_correct_sentence": "Eu estava tentando abrir o cadeado com a chave, mas alguém havia preenchido a fechadura com goma de mascar, e eu não conseguia remover a goma de mascar.",
+    "manually_fixed_incorrect_sentence": "Eu estava tentando abrir o cadeado com a chave, mas alguém havia preenchido a fechadura com goma de mascar, e eu não conseguia remover a chave."
+  },
+  {
+    "question_id": 102,
+    "manually_fixed_correct_sentence": "Durante a tempestade, o poste caiu e atravessou o telhado da minha casa. Agora, eu tenho que mandar remover o poste.",
+    "manually_fixed_incorrect_sentence": "Durante a tempestade, o poste caiu e atravessou o telhado da minha casa. Agora, eu tenho que mandar remover o telhado."
+  },
+  {
+    "question_id": 103,
+    "manually_fixed_correct_sentence": "Durante a tempestade, o poste caiu e atravessou o telhado da minha casa. Agora, eu tenho que mandar consertar o telhado.",
+    "manually_fixed_incorrect_sentence": "Durante a tempestade, o poste caiu e atravessou o telhado da minha casa. Agora, eu tenho que mandar consertar o poste."
+  },
+  {
+    "question_id": 116,
+    "manually_fixed_correct_sentence": "Joe vendeu sua casa e comprou uma nova a alguns quilômetros de distância. Ele se mudará da velha casa na quinta-feira.",
+    "manually_fixed_incorrect_sentence": "Joe vendeu sua casa e comprou uma nova a alguns quilômetros de distância. Ele se mudará da nova casa na quinta-feira."
+  },
+  {
+    "question_id": 120,
+    "manually_fixed_correct_sentence": "Mary sacou sua flauta e tocou uma de suas peças favoritas. Ela tem a flauta desde criança.",
+    "manually_fixed_incorrect_sentence": "Mary sacou sua flauta e tocou uma de suas peças favoritas. Ela tem a peça desde criança."
+  },
+  {
+    "question_id": 121,
+    "manually_fixed_correct_sentence": "Mary sacou sua flauta e tocou uma de suas peças favoritas. Ela ama a peça desde criança.",
+    "manually_fixed_incorrect_sentence": "Mary sacou sua flauta e tocou uma de suas peças favoritas. Ela ama a flauta desde criança."
+  },
+  {
+    "question_id": 124,
+    "manually_fixed_correct_sentence": "Como estava chovendo, eu carreguei a revista na minha mochila para manter a revista seca.",
+    "manually_fixed_incorrect_sentence": "Como estava chovendo, eu carreguei a revista na minha mochila para manter a mochila seca."
+  },
+  {
+    "question_id": 125,
+    "manually_fixed_correct_sentence": "Como estava chovendo, eu carreguei a revista sobre a minha mochila para manter a mochila seca.",
+    "manually_fixed_incorrect_sentence": "Como estava chovendo, eu carreguei a revista sobre a minha mochila para manter a revista seca."
+  },
+  {
+    "question_id": 126,
+    "manually_fixed_correct_sentence": "Sara pegou um livro emprestado da biblioteca porque ela precisa dele para um artigo no qual ela está trabalhando. Ela lê o livro quando chega do trabalho.",
+    "manually_fixed_incorrect_sentence": "Sara pegou um livro emprestado da biblioteca porque ela precisa dele para um artigo no qual ela está trabalhando. Ela lê o artigo quando chega do trabalho."
+  },
+  {
+    "question_id": 127,
+    "manually_fixed_correct_sentence": "Sara pegou um livro emprestado da biblioteca porque ela precisa dele para um artigo no qual ela está trabalhando. Ela escreve o artigo quando chega do trabalho.",
+    "manually_fixed_incorrect_sentence": "Sara pegou um livro emprestado da biblioteca porque ela precisa dele para um artigo no qual ela está trabalhando. Ela escreve o livro quando chega do trabalho."
+  },
+  {
+    "question_id": 128,
+    "manually_fixed_correct_sentence": "Nesta manhã, Joey construiu um castelo de areia na praia, e colocou um soldado de brinquedo na torre mais alta, mas nesta tarde a maré derrubou o castelo de areia.",
+    "manually_fixed_incorrect_sentence": "Nesta manhã, Joey construiu um castelo de areia na praia, e colocou um soldado de brinquedo na torre mais alta, mas nesta tarde a maré derrubou o soldado."
+  },
+  {
+    "question_id": 129,
+    "manually_fixed_correct_sentence": "Nesta manhã, Joey construiu um castelo de areia na praia, e colocou um soldado de brinquedo na torre mais alta, mas nesta tarde o vento derrubou o soldado.",
+    "manually_fixed_incorrect_sentence": "Nesta manhã, Joey construiu um castelo de areia na praia, e colocou um soldado de brinquedo na torre mais alta, mas nesta tarde o vento derrubou o castelo de areia."
+  },
+  {
+    "question_id": 136,
+    "manually_fixed_correct_sentence": "O caminho até o lago estava interditado, então nós não podíamos usar o caminho.",
+    "manually_fixed_incorrect_sentence": "O caminho até o lago estava interditado, então nós não podíamos usar o lago."
+  },
+  {
+    "question_id": 137,
+    "manually_fixed_correct_sentence": "O caminho até o lago estava interditado, então nós não podíamos alcançar o lago.",
+    "manually_fixed_incorrect_sentence": "O caminho até o lago estava interditado, então nós não podíamos alcançar o caminho."
+  },
+  {
+    "question_id": 154,
+    "manually_fixed_correct_sentence": "As raposas estão entrando à noite e atacando as galinhas. Eu terei que matar as raposas.",
+    "manually_fixed_incorrect_sentence": "As raposas estão entrando à noite e atacando as galinhas. Eu terei que matar as galinhas."
+  },
+  {
+    "question_id": 155,
+    "manually_fixed_correct_sentence": "As raposas estão entrando à noite e atacando as galinhas. Eu terei que proteger as galinhas.",
+    "manually_fixed_incorrect_sentence": "As raposas estão entrando à noite e atacando as galinhas. Eu terei que proteger as raposas."
+  },
+  {
+    "question_id": 158,
+    "manually_fixed_correct_sentence": "Fred cobriu seus olhos com os antebraços, porque o vento estava carregando muita areia. Ele abriu seus olhos quando o vento parou.",
+    "manually_fixed_incorrect_sentence": "Fred cobriu seus olhos com os antebraços, porque o vento estava carregando muita areia. Ele abriu seus antebraços quando o vento parou."
+  },
+  {
+    "question_id": 159,
+    "manually_fixed_correct_sentence": "Fred cobriu seus olhos com os antebraços, porque o vento estava carregando muita areia. Ele abaixou seus antebraços quando o vento parou.",
+    "manually_fixed_incorrect_sentence": "Fred cobriu seus olhos com os antebraços, porque o vento estava carregando muita areia. Ele abaixou seus olhos quando o vento parou."
+  },
+  {
+    "question_id": 164,
+    "manually_fixed_correct_sentence": "Fred deveria ter ligado a máquina de lavar louça, mas ele adiou, porque queria assistir TV. Por fim o programa estava chato, então ele mudou de ideia e ligou a máquina de lavar.",
+    "manually_fixed_incorrect_sentence": "Fred deveria ter ligado a máquina de lavar louça, mas ele adiou, porque queria assistir TV. Por fim o programa estava chato, então ele mudou de ideia e ligou a tv."
+  },
+  {
+    "question_id": 165,
+    "manually_fixed_correct_sentence": "Fred deveria ter ligado a máquina de lavar louça, mas ele adiou, porque queria assistir TV. Por fim o programa estava chato, então ele mudou de ideia e desligou a tv.",
+    "manually_fixed_incorrect_sentence": "Fred deveria ter ligado a máquina de lavar louça, mas ele adiou, porque queria assistir TV. Por fim o programa estava chato, então ele mudou de ideia e desligou a máquina de lavar."
+  },
+  {
+    "question_id": 189,
+    "manually_fixed_correct_sentence": "A gente havia planejado colocar cópias da nossa newsletter o sobre todas as cadeiras no auditório, mas não havia o suficiente de cópias da newsletter.",
+    "manually_fixed_incorrect_sentence": "A gente havia planejado colocar cópias da nossa newsletter o sobre todas as cadeiras no auditório, mas não havia o suficiente de cadeiras."
+  },
+  {
+    "question_id": 201,
+    "manually_fixed_correct_sentence": "John contratou Bill para cuidar de John.",
+    "manually_fixed_incorrect_sentence": "John contratou Bill para cuidar de Bill."
+  },
+  {
+    "question_id": 202,
+    "manually_fixed_correct_sentence": "John foi contratado por Bill para cuidar de Bill.",
+    "manually_fixed_incorrect_sentence": "John foi contratado por Bill para cuidar de John."
+  },
+  {
+    "question_id": 207,
+    "manually_fixed_correct_sentence": "A mãe da Emma havia morrido fazia muitos anos, e a educação da Emma estava sendo cuidada por uma excelente governanta.",
+    "manually_fixed_incorrect_sentence": "A mãe da Emma havia morrido fazia muitos anos, e a educação da mãe da Emma estava sendo cuidada por uma excelente governanta."
+  },
+  {
+    "question_id": 208,
+    "manually_fixed_correct_sentence": "A mãe da Emma havia morrido fazia muitos anos, e a casa da mãe da Emma estava sendo cuidada por uma excelente governanta.",
+    "manually_fixed_incorrect_sentence": "A mãe da Emma havia morrido fazia muitos anos, e a casa da Emma estava sendo cuidada por uma excelente governanta."
+  },
+  {
+    "question_id": 215,
+    "manually_fixed_correct_sentence": "Jim fez um sinal para o barman e apontou para a taça vazia do Jim.",
+    "manually_fixed_incorrect_sentence": "Jim fez um sinal para o barman e apontou para a taça vazia do barman."
+  },
+  {
+    "question_id": 216,
+    "manually_fixed_correct_sentence": "Jim fez um sinal para o barman e apontou para a chave do banheiro do barman.",
+    "manually_fixed_incorrect_sentence": "Jim fez um sinal para o barman e apontou para a chave do banheiro do Jim."
+  },
+  {
+    "question_id": 217,
+    "manually_fixed_correct_sentence": "Dan ficou no banco de trás enquanto Bill reinvidicava a frente porque o \"Eu primeiro!\" do Dan foi lento.",
+    "manually_fixed_incorrect_sentence": "Dan ficou no banco de trás enquanto Bill reinvidicava a frente porque o \"Eu primeiro!\" do Bill foi lento."
+  },
+  {
+    "question_id": 218,
+    "manually_fixed_correct_sentence": "Dan ficou no banco de trás enquanto Bill reinvidicava a frente porque o \"Eu primeiro!\" do Bill foi mais rápido.",
+    "manually_fixed_incorrect_sentence": "Dan ficou no banco de trás enquanto Bill reinvidicava a frente porque o \"Eu primeiro!\" do Dan foi mais rápido."
+  },
+  {
+    "question_id": 219,
+    "manually_fixed_correct_sentence": "Tom disse \"Check\" para Ralph enquanto ele movia o bispo do Tom.",
+    "manually_fixed_incorrect_sentence": "Tom disse \"Check\" para Ralph enquanto ele movia o bispo do Ralph."
+  },
+  {
+    "question_id": 220,
+    "manually_fixed_correct_sentence": "Tom disse \"Check\" para Ralph enquanto ele tomava o bispo do Ralph.",
+    "manually_fixed_incorrect_sentence": "Tom disse \"Check\" para Ralph enquanto ele tomava o bispo do Tom."
+  },
+  {
+    "question_id": 227,
+    "manually_fixed_correct_sentence": "Bill passou o gameboy para John porque a vez de Bill tinha acabado.",
+    "manually_fixed_incorrect_sentence": "Bill passou o gameboy para John porque a vez de John tinha acabado."
+  },
+  {
+    "question_id": 228,
+    "manually_fixed_correct_sentence": "Bill passou o gameboy para John porque a vez de John era a próxima.",
+    "manually_fixed_incorrect_sentence": "Bill passou o gameboy para John porque a vez de Bill era a próxima."
+  },
+  {
+    "question_id": 229,
+    "manually_fixed_correct_sentence": "O homem levantou o menino sobre a cabeça do homem.",
+    "manually_fixed_incorrect_sentence": "O homem levantou o menino sobre a cabeça do menino."
+  },
+  {
+    "question_id": 230,
+    "manually_fixed_correct_sentence": "O homem levantou o menino até a beliche do menino.",
+    "manually_fixed_incorrect_sentence": "O homem levantou o menino até a beliche do homem."
+  },
+  {
+    "question_id": 231,
+    "manually_fixed_correct_sentence": "Alongando as costas da mulher, a mulher sorriu para a menina.",
+    "manually_fixed_incorrect_sentence": "Alongando as costas da menina, a mulher sorriu para a menina."
+  },
+  {
+    "question_id": 232,
+    "manually_fixed_correct_sentence": "Dando um tapinha nas costas da menina, a mulher sorriu para a menina.",
+    "manually_fixed_incorrect_sentence": "Dando um tapinha nas costas da mulher, a mulher sorriu para a menina."
+  },
+  {
+    "question_id": 233,
+    "manually_fixed_correct_sentence": "Billy chorou porque Toby não queria aceitar o brinquedo do Billy.",
+    "manually_fixed_incorrect_sentence": "Billy chorou porque Toby não queria aceitar o brinquedo do Toby."
+  },
+  {
+    "question_id": 234,
+    "manually_fixed_correct_sentence": "Billy chorou porque Toby não queria compartilhar o brinquedo do Toby.",
+    "manually_fixed_incorrect_sentence": "Billy chorou porque Toby não queria compartilhar o brinquedo do Billy."
+  },
+  {
+    "question_id": 235,
+    "manually_fixed_correct_sentence": "Lily conversou com Donna, quebrando a promessa da Lily.",
+    "manually_fixed_incorrect_sentence": "Lily conversou com Donna, quebrando a promessa da Donna."
+  },
+  {
+    "question_id": 236,
+    "manually_fixed_correct_sentence": "Lily conversou com Donna, tirando a concentração da Donna.",
+    "manually_fixed_incorrect_sentence": "Lily conversou com Donna, tirando a concentração da Lily."
+  },
+  {
+    "question_id": 237,
+    "manually_fixed_correct_sentence": "Quando Tommy derrubou seu sorvete, Timmy gargalhou, então seu pai olhou Tommy com olhar empático.",
+    "manually_fixed_incorrect_sentence": "Quando Tommy derrubou seu sorvete, Timmy gargalhou, então seu pai olhou Timmy com olhar empático."
+  },
+  {
+    "question_id": 238,
+    "manually_fixed_correct_sentence": "Quando Tommy derrubou seu sorvete, Timmy gargalhou, então seu pai olhou Timmy com olhar severo.",
+    "manually_fixed_incorrect_sentence": "Quando Tommy derrubou seu sorvete, Timmy gargalhou, então seu pai olhou Tommy com olhar severo."
+  },
+  {
+    "question_id": 239,
+    "manually_fixed_correct_sentence": "Enquanto Ollie carregava Tommy subindo a longa escada em espiral, as pernas do Ollie doíam.",
+    "manually_fixed_incorrect_sentence": "Enquanto Ollie carregava Tommy subindo a longa escada em espiral, as pernas do Tommy doíam."
+  },
+  {
+    "question_id": 240,
+    "manually_fixed_correct_sentence": "Enquanto Ollie carregava Tommy subindo a longa escada em espiral, as pernas do Tommy balançavam.",
+    "manually_fixed_incorrect_sentence": "Enquanto Ollie carregava Tommy subindo a longa escada em espiral, as pernas do Ollie balançavam."
+  },
+  {
+    "question_id": 241,
+    "manually_fixed_correct_sentence": "O pai carregava o menino dormindo no colo do pai.",
+    "manually_fixed_incorrect_sentence": "O pai carregava o menino dormindo no colo do menino."
+  },
+  {
+    "question_id": 242,
+    "manually_fixed_correct_sentence": "O pai carregava o menino dormindo no berço do menino.",
+    "manually_fixed_incorrect_sentence": "O pai carregava o menino dormindo no berço do pai."
+  },
+  {
+    "question_id": 243,
+    "manually_fixed_correct_sentence": "A mulher estava segurando a menina contra o peito da mulher.",
+    "manually_fixed_incorrect_sentence": "A mulher estava segurando a menina contra o peito da menina."
+  },
+  {
+    "question_id": 244,
+    "manually_fixed_correct_sentence": "A mulher estava segurando a menina contra o desejo da menina.",
+    "manually_fixed_incorrect_sentence": "A mulher estava segurando a menina contra o desejo da mulher."
+  },
+  {
+    "question_id": 268,
+    "manually_fixed_correct_sentence": "Madonna demitiu sua treinadora porque ela dormiu com o namorado da Madonna.",
+    "manually_fixed_incorrect_sentence": "Madonna demitiu sua treinadora porque ela dormiu com o namorado da treinadora."
+  },
+  {
+    "question_id": 269,
+    "manually_fixed_correct_sentence": "Madonna demitiu sua treinadora porque ela não suportava o namorado da treinadora.",
+    "manually_fixed_incorrect_sentence": "Madonna demitiu sua treinadora porque ela não suportava o namorado da Madonna."
+  },
+  {
+    "question_id": 272,
+    "manually_fixed_correct_sentence": "Este livro introduziu Shakespeare a Ovídio; ele foi uma grande influência na escrita de Shakespeare.",
+    "manually_fixed_incorrect_sentence": "Este livro introduziu Shakespeare a Ovídio; ele foi uma grande influência na escrita de Ovídio."
+  },
+  {
+    "question_id": 273,
+    "manually_fixed_correct_sentence": "Este livro introduziu Shakespeare a Goethe; ele foi uma grande influência na escrita de Goethe.",
+    "manually_fixed_incorrect_sentence": "Este livro introduziu Shakespeare a Goethe; ele foi uma grande influência na escrita de Shakespeare."
+  },
+  {
+    "question_id": 274,
+    "manually_fixed_correct_sentence": "Este livro introduziu Shakespeare a Ovídio; ele era uma excelente seleção da escrita de Ovídio.",
+    "manually_fixed_incorrect_sentence": "Este livro introduziu Shakespeare a Ovídio; ele era uma excelente seleção da escrita de Shakespeare."
+  },
+  {
+    "question_id": 275,
+    "manually_fixed_correct_sentence": "Este livro introduziu Shakespeare a Goethe; ele era uma excelente seleção da escrita de Shakespeare.",
+    "manually_fixed_incorrect_sentence": "Este livro introduziu Shakespeare a Goethe; ele era uma excelente seleção da escrita de Goethe."
+  }
+]
