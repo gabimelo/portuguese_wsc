@@ -17,6 +17,8 @@ from src.training import train
 from src.generation import generate
 from src.utils import get_latest_model_file, summary
 from src.parallel import DataParallelCriterion
+from src.wsc_parser import generate_df_from_json
+from src.winograd_schema_challenge import winograd_test
 
 logger = Logger()
 
@@ -38,7 +40,8 @@ def get_corpus():
     return corpus
 
 
-def main(training=True, use_data_paralellization=False, model_timestamp=None, verbose=False):
+def main(training=True, wsc=False, use_data_paralellization=False, model_timestamp=None, verbose=False):
+    # if training is set to True, wsc param will be ignored
     setup_torch()
     # code seems to run slower (~90ms/batch, with batch_size=40) when default GPU is not cuda:0
     main_gpu_index = 0  # TODO set this somewhere else
@@ -78,10 +81,19 @@ def main(training=True, use_data_paralellization=False, model_timestamp=None, ve
         if model_timestamp is None:
             model_file_name = get_latest_model_file()
 
-        logger.info('Generating text')
-        words, words_probs = generate(model_file_name, corpus, ntokens, device, is_wsc=False)
-        logger.info('Generated text: ', (' ').join(words))
+        if wsc:
+            logger.info('Generating WSC set')
+            df = generate_df_from_json()
+            df, accuracy = winograd_test(df, corpus, model_file_name, ntokens, device, english=False)
+            logger.info('Acurácia: {} para teste realizado com {} exemplos'.format(accuracy, len(df)))
+            df, accuracy = winograd_test(df, corpus, model_file_name, ntokens, device, partial=True, english=False)
+            logger.info('Acurácia: {} para teste realizado com {} exemplos, método de score parcial'.
+                        format(accuracy, len(df)))
+        else:
+            logger.info('Generating text')
+            words, words_probs = generate(model_file_name, corpus, ntokens, device, is_wsc=False)
+            logger.info('Generated text: ', (' ').join(words))
 
 
 if __name__ == '__main__':
-    main()
+    main(training=False, wsc=True)

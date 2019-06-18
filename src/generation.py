@@ -1,12 +1,18 @@
 import torch
 import torch.nn.functional as F
 
+from src.logger import Logger
 from src.consts import WORDS_TO_GENERATE, TEMPERATURE
+from src.utils import permute_for_parallelization, get_results_from_data_parallelized_forward
+
+logger = Logger()
 
 
 def generate(model_file_name, corpus, ntokens, device, input_wsc=None):
     with open(model_file_name, 'rb') as f:
         model = torch.load(f).to(device)
+    use_data_paralellization = True if type(model).__name__ == 'CustomDataParallel' else False
+
     model.eval()
 
     batch_size = 1
@@ -26,7 +32,14 @@ def generate(model_file_name, corpus, ntokens, device, input_wsc=None):
 
     with torch.no_grad():  # no tracking history
         for i in range(number_of_words):
-            output, hidden = model(input_word_id, hidden)
+            if use_data_paralellization:
+                hidden, input_word_id = permute_for_parallelization(hidden, input_word_id)
+                results = model(input_word_id, hidden)
+                outputs, hidden = get_results_from_data_parallelized_forward(results, device)
+                hidden = permute_for_parallelization(hidden)
+                output = outputs[0]
+            else:
+                output, hidden = model(input_word_id, hidden)
 
 #             word_weights = output.squeeze().div(TEMPERATURE).exp().cpu()
             word_probs = F.softmax(output.squeeze().div(TEMPERATURE), dim=0)
