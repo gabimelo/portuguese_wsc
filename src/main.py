@@ -41,7 +41,10 @@ def get_corpus():
 
 
 def main(training=True, wsc=False, use_data_paralellization=False, model_timestamp=None, verbose=False):
-    # if training is set to True, wsc param will be ignored
+    '''
+     if training is set to True, wsc param will be ignored
+    '''
+
     setup_torch()
     # code seems to run slower (~90ms/batch, with batch_size=40) when default GPU is not cuda:0
     main_gpu_index = 0  # TODO set this somewhere else
