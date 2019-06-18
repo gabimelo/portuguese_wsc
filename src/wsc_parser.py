@@ -87,11 +87,18 @@ def generate_df_from_json():
     return df
 
 
-def generate_json(df):
+def generate_json(df, switched=False):
     json_rows = []
     for index, row in df.iterrows():
-        json_rows.append({'question_id': index, 'substitution': row.correct_sentence, 'correctness': True})
-        json_rows.append({'question_id': index, 'substitution': row.incorrect_sentence, 'correctness': False})
+        correct_dict = {'question_id': index, 'substitution': row.correct_sentence,
+                        'switched': row.switched, 'correctness': True}
+        incorrect_dict = {'question_id': index, 'substitution': row.incorrect_sentence,
+                          'switched': row.switched, 'correctness': False}
+        if switched:
+            is_switchable = 0 if 'is_switchable' not in row else row.is_switchable
+            correct_dict['is_switchable'] = incorrect_dict['is_switchable'] = is_switchable
+        json_rows.append(correct_dict)
+        json_rows.append(incorrect_dict)
 
     with open('data/processed/portuguese_wsc.json', 'w') as outfile:
         json.dump(json_rows, outfile)
