@@ -1,4 +1,5 @@
 import json
+import re
 
 import pandas as pd
 from bs4 import BeautifulSoup
@@ -75,26 +76,56 @@ def generate_df_from_json():
             else wsc_json[i+1]['substitution']  # noqa E226
         incorrect_sentence = wsc_json[i]['substitution'] if not wsc_json[i]['correctness'] \
             else wsc_json[i+1]['substitution'] # noqa E226
-        rows.append([correct_sentence, incorrect_sentence])
+        rows.append([correct_sentence, incorrect_sentence, ])
 
-    df = pd.DataFrame(rows, columns=['correct_sentence', 'incorrect_sentence'])
+    df = pd.DataFrame(rows, columns=['correct_sentence', 'incorrect_sentence',
+                                     'manually_fixed_correct_sentence', 'manually_fixed_incorrect_sentence',
+                                     'correct_switched', 'incorrect_switched',
+                                     'manually_fixed_correct_switched', 'manually_fixed_incorrect_switched',
+                                     'is_switchable', 'is_associative', 'translated'])
 
     return df
 
 
-def generate_json(df, switched=False):
+def generate_json(df):
     json_rows = []
     for index, row in df.iterrows():
-        correct_dict = {'question_id': index, 'substitution': row.correct_sentence,
-                        'switched': row.switched, 'correctness': True}
-        incorrect_dict = {'question_id': index, 'substitution': row.incorrect_sentence,
-                          'switched': row.switched, 'correctness': False}
-        if switched:
-            is_switchable = False if 'is_switchable' not in row else row.is_switchable
-            correct_dict['is_switchable'] = incorrect_dict['is_switchable'] = is_switchable
-        correct_dict['translated'] = incorrect_dict['translated'] = row.translated
-        json_rows.append(correct_dict)
-        json_rows.append(incorrect_dict)
+        dic = {'question_id': index,
+               'correct_sentence': row.correct_sentence,
+               'correct_switched': row.correct_switched,
+               'manually_fixed_correct_sentence': row.manually_fixed_correct_sentence,
+               'manually_fixed_correct_switched': row.manually_fixed_correct_switched,
+               'incorrect_sentence': row.incorrect_sentence,
+               'incorrect_switched': row.incorrect_switched,
+               'manually_fixed_incorrect_sentence': row.manually_fixed_incorrect_sentence,
+               'manually_fixed_incorrect_switched': row.manually_fixed_incorrect_switched}
+
+        dic['is_associative'] = False if 'is_associative' not in row else row.is_associative
+        dic['is_switchable'] = False if 'is_switchable' not in row else row.is_switchable
+        dic['translated'] = row.translated
+
+        json_rows.append(dic)
 
     with open('data/processed/portuguese_wsc.json', 'w') as outfile:
         json.dump(json_rows, outfile)
+
+
+def generate_full_sentences(row):
+    if row.pronoun.islower() and (row.substitution_b.lower() in row.schema or
+                                  row.substitution_b.lower() not in row.schema.lower()):
+        subs_a = row.substitution_a.lower()
+        subs_b = row.substitution_b.lower()
+    else:
+        subs_a = row.substitution_a
+        subs_b = row.substitution_b
+
+    new_snippet_a = re.sub(r"\b%s\b" % row.pronoun, subs_a, row.snippet)
+    new_snippet_b = re.sub(r"\b%s\b" % row.pronoun, subs_b, row.snippet)
+    new_schema_a = row.schema.replace(row.snippet, new_snippet_a).strip()
+    new_schema_b = row.schema.replace(row.snippet, new_snippet_b).strip()
+    new_switched_a = row.switched.replace(row.snippet, new_snippet_a).strip()
+    new_switched_b = row.switched.replace(row.snippet, new_snippet_b).strip()
+
+    if row.correct_answer.lower() == 'a':
+        return new_schema_a, new_schema_b, new_switched_b, new_switched_a
+    return new_schema_b, new_schema_a, new_switched_a, new_switched_b

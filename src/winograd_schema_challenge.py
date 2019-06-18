@@ -1,5 +1,3 @@
-import re
-
 import numpy as np
 from nltk.tokenize import word_tokenize
 
@@ -76,22 +74,6 @@ def find_missing_wsc_words_in_corpus_vocab(df, corpus, english=False):
             missing_words.append(word)
 
     return missing_words
-
-
-def generate_full_sentences(row):
-    subs_a = row.substitution_a.lower()
-    subs_b = row.substitution_b.lower()
-
-    new_snippet_a = re.sub(r"\b%s\b" % row.pronoun, subs_a, row.snippet)
-    new_snippet_b = re.sub(r"\b%s\b" % row.pronoun, subs_b, row.snippet)
-    new_schema_a = row.schema.replace(row.snippet, new_snippet_a).strip()
-    new_schema_b = row.schema.replace(row.snippet, new_snippet_b).strip()
-    new_switched_a = row.switched.replace(row.snippet, new_snippet_a).strip()
-    new_switched_b = row.switched.replace(row.snippet, new_snippet_b).strip()
-
-    if row.correct_answer.lower() == 'a':
-        return new_schema_a, new_schema_b, new_switched_b, new_switched_a
-    return new_schema_b, new_schema_a, new_switched_a, new_switched_b
 
 
 def winograd_test(df, corpus, model_file_name, ntokens, device, partial=False, english=False):
