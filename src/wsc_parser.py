@@ -71,18 +71,30 @@ def generate_df_from_json():
     with open(WINOGRAD_SCHEMAS_FILE, 'r', encoding='utf-8') as fp:
         wsc_json = json.load(fp)
 
-    for i in range(0, len(wsc_json), 2):
-        correct_sentence = wsc_json[i]['substitution'] if wsc_json[i]['correctness'] \
-            else wsc_json[i+1]['substitution']  # noqa E226
-        incorrect_sentence = wsc_json[i]['substitution'] if not wsc_json[i]['correctness'] \
-            else wsc_json[i+1]['substitution'] # noqa E226
-        rows.append([correct_sentence, incorrect_sentence, ])
+    if 'substitution' in wsc_json[0]:
+        for i in range(0, len(wsc_json), 2):
+            correct_sentence = wsc_json[i]['substitution'] if wsc_json[i]['correctness'] \
+                else wsc_json[i+1]['substitution']  # noqa E226
+            incorrect_sentence = wsc_json[i]['substitution'] if not wsc_json[i]['correctness'] \
+                else wsc_json[i+1]['substitution'] # noqa E226
+            rows.append([correct_sentence, incorrect_sentence])
+        df = pd.DataFrame(rows, columns=['correct_sentence', 'incorrect_sentence'])
+    else:
+        for i in range(wsc_json):
+            rows.append([wsc_json[i]['correct_sentence'], wsc_json[i]['incorrect_sentence'],
+                         wsc_json[i]['manually_fixed_correct_sentence'],
+                         wsc_json[i]['manually_fixed_incorrect_sentence'],
+                         wsc_json[i]['correct_switched'], wsc_json[i]['incorrect_switched'],
+                         wsc_json[i]['manually_fixed_correct_switched'],
+                         wsc_json[i]['manually_fixed_incorrect_switched'],
+                         wsc_json[i]['is_switchable'], wsc_json[i]['is_associative'],
+                         wsc_json[i]['translated']])
 
-    df = pd.DataFrame(rows, columns=['correct_sentence', 'incorrect_sentence',
-                                     'manually_fixed_correct_sentence', 'manually_fixed_incorrect_sentence',
-                                     'correct_switched', 'incorrect_switched',
-                                     'manually_fixed_correct_switched', 'manually_fixed_incorrect_switched',
-                                     'is_switchable', 'is_associative', 'translated'])
+        df = pd.DataFrame(rows, columns=['correct_sentence', 'incorrect_sentence',
+                                         'manually_fixed_correct_sentence', 'manually_fixed_incorrect_sentence',
+                                         'correct_switched', 'incorrect_switched',
+                                         'manually_fixed_correct_switched', 'manually_fixed_incorrect_switched',
+                                         'is_switchable', 'is_associative', 'translated'])
 
     return df
 
