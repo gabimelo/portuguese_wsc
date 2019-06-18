@@ -181,8 +181,8 @@
     "question_id": 218,
     "manually_fixed_correct_sentence": "Dan ficou no banco de trás enquanto Bill reinvidicava a frente porque o \"Eu primeiro!\" do Dan foi lento.",
     "manually_fixed_incorrect_sentence": "Dan ficou no banco de trás enquanto Bill reinvidicava a frente porque o \"Eu primeiro!\" do Bill foi lento.",
-    "manually_fixed_correct_switched": "Bill ficou no banco de trás enquanto Dan reinvidicava a frente porque o `` eu primeiro! `` do Bill foi lento.",
-    "manually_fixed_incorrect_switched": "Bill ficou no banco de trás enquanto Dan reinvidicava a frente porque o `` eu primeiro! `` do Dan foi lento."
+    "manually_fixed_correct_switched": "Bill ficou no banco de trás enquanto Dan reinvidicava a frente porque o \"Eu primeiro!\" do Bill foi lento.",
+    "manually_fixed_incorrect_switched": "Bill ficou no banco de trás enquanto Dan reinvidicava a frente porque o \"Eu primeiro!\" do Dan foi lento."
   },
   {
     "question_id": 219,
