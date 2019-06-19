@@ -80,20 +80,17 @@ def generate_df_from_json():
             rows.append([correct_sentence, incorrect_sentence])
         df = pd.DataFrame(rows, columns=['correct_sentence', 'incorrect_sentence'])
     else:
-        for i in range(wsc_json):
+        for i in range(len(wsc_json)):
             rows.append([wsc_json[i]['correct_sentence'], wsc_json[i]['incorrect_sentence'],
                          wsc_json[i]['manually_fixed_correct_sentence'],
                          wsc_json[i]['manually_fixed_incorrect_sentence'],
                          wsc_json[i]['correct_switched'], wsc_json[i]['incorrect_switched'],
-                         wsc_json[i]['manually_fixed_correct_switched'],
-                         wsc_json[i]['manually_fixed_incorrect_switched'],
                          wsc_json[i]['is_switchable'], wsc_json[i]['is_associative'],
                          wsc_json[i]['translated']])
 
         df = pd.DataFrame(rows, columns=['correct_sentence', 'incorrect_sentence',
                                          'manually_fixed_correct_sentence', 'manually_fixed_incorrect_sentence',
                                          'correct_switched', 'incorrect_switched',
-                                         'manually_fixed_correct_switched', 'manually_fixed_incorrect_switched',
                                          'is_switchable', 'is_associative', 'translated'])
 
     return df
@@ -104,13 +101,11 @@ def generate_json(df):
     for index, row in df.iterrows():
         dic = {'question_id': index,
                'correct_sentence': row.correct_sentence,
-               'correct_switched': row.correct_switched,
-               'manually_fixed_correct_sentence': row.manually_fixed_correct_sentence,
-               'manually_fixed_correct_switched': row.manually_fixed_correct_switched,
                'incorrect_sentence': row.incorrect_sentence,
-               'incorrect_switched': row.incorrect_switched,
+               'manually_fixed_correct_sentence': row.manually_fixed_correct_sentence,
                'manually_fixed_incorrect_sentence': row.manually_fixed_incorrect_sentence,
-               'manually_fixed_incorrect_switched': row.manually_fixed_incorrect_switched}
+               'correct_switched': row.manually_fixed_correct_switched,
+               'incorrect_switched': row.manually_fixed_incorrect_switched}
 
         dic['is_associative'] = False if 'is_associative' not in row else row.is_associative
         dic['is_switchable'] = False if 'is_switchable' not in row else row.is_switchable
@@ -119,7 +114,7 @@ def generate_json(df):
         json_rows.append(dic)
 
     with open('data/processed/portuguese_wsc.json', 'w') as outfile:
-        json.dump(json_rows, outfile)
+        json.dump(json_rows, outfile, ensure_ascii=False)
 
 
 def generate_full_sentences(row):

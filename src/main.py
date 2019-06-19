@@ -87,11 +87,7 @@ def main(training=True, wsc=False, use_data_paralellization=False, model_timesta
         if wsc:
             logger.info('Generating WSC set, using model: {}'.format(model_file_name))
             df = generate_df_from_json()
-            df, accuracy = winograd_test(df, corpus, model_file_name, ntokens, device, english=False)
-            logger.info('Acurácia: {} para teste realizado com {} exemplos'.format(accuracy, len(df)))
-            df, accuracy = winograd_test(df, corpus, model_file_name, ntokens, device, partial=True, english=False)
-            logger.info('Acurácia: {} para teste realizado com {} exemplos, método de score parcial'.
-                        format(accuracy, len(df)))
+            df = winograd_test(df, corpus, model_file_name, ntokens, device, english=False)
         else:
             logger.info('Generating text, using model: {}'.format(model_file_name))
             words, words_probs = generate(model_file_name, corpus, ntokens, device, is_wsc=False)
