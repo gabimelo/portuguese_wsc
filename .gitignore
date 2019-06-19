@@ -5,7 +5,10 @@ models/*
 data/external/*
 data/interim/*
 data/raw/*
-data/processed/*.txt
+data/processed/train.txt
+data/processed/test.txt
+data/processed/val.txt
+data/processed/valid.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
