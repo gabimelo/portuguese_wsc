@@ -17,7 +17,10 @@ def generate(model_file_name, corpus, ntokens, device, input_wsc=None):
 
     batch_size = 1
     hidden = model.init_hidden(batch_size)
-    # create random first word
+    # TODO test this new generation of first word
+    # if hasattr(corpus.dictionary, 'word_count'):
+    #     input_word_id = torch.multinomial(corpus.dictionary.word_count, 1)[0]
+    # else:
     input_word_id = torch.randint(ntokens, (1, 1), dtype=torch.long).to(device)
 
     if input_wsc is not None:
@@ -25,7 +28,8 @@ def generate(model_file_name, corpus, ntokens, device, input_wsc=None):
         input_word_id.fill_(corpus.dictionary.word2idx[input_wsc_words[0]])
 
     input_words = [corpus.dictionary.idx2word[input_word_id]]
-    # TODO this initial prob should be obtained from distribution instead of being 1, shouldn't it?
+    # TODO this initial prob should be obtained from distribution (frequency
+    #  count of word) instead of being 1
     input_words_probs = [1]
 
     number_of_words = WORDS_TO_GENERATE if input_wsc is None else len(input_wsc_words) - 1

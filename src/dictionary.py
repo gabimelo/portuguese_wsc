@@ -38,8 +38,6 @@ class Dictionary(object):
                 del self.word_count[self.idx2word[index]]
                 del self.idx2word[index]
 
-        del self.word_count
-
         self.word2idx_from_idx2word()
 
     def generate_full_dir_dictionary(self):
