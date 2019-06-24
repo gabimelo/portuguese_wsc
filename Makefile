@@ -63,6 +63,9 @@ clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
 
+clean_ipynb_checkpoints:
+	find . -type d -name ".ipynb_checkpoints" -exec rm -rv {} +
+
 ## Lint using flake8
 lint: lint_src lint_tests
 
