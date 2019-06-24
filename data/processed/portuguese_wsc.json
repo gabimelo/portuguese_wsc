@@ -346,7 +346,7 @@
     "is_associative": false,
     "is_switchable": true,
     "translated": true
-  }, 
+  },
   {
     "question_id": 29,
     "correct_sentence": "Anna se saiu muito pior do que sua amiga Lucy na prova porque Lucy tinha estudado muito.",
@@ -1057,10 +1057,10 @@
   },
   {
     "question_id": 88,
-    "correct_sentence": "O gato estava esperando próximo ao buraco esperando pelo rato, mas o gato estava muito impaciente.",
-    "incorrect_sentence": "O gato estava esperando próximo ao buraco esperando pelo rato, mas o rato estava muito impaciente.",
-    "manually_fixed_correct_sentence": "O gato estava esperando próximo ao buraco esperando pelo rato, mas o gato estava muito impaciente.",
-    "manually_fixed_incorrect_sentence": "O gato estava esperando próximo ao buraco esperando pelo rato, mas o rato estava muito impaciente.",
+    "correct_sentence": "O gato estava deitado próximo ao buraco esperando pelo rato, mas o gato estava muito impaciente.",
+    "incorrect_sentence": "O gato estava deitado próximo ao buraco esperando pelo rato, mas o rato estava muito impaciente.",
+    "manually_fixed_correct_sentence": "O gato estava deitado próximo ao buraco esperando pelo rato, mas o gato estava muito impaciente.",
+    "manually_fixed_incorrect_sentence": "O gato estava deitado próximo ao buraco esperando pelo rato, mas o rato estava muito impaciente.",
     "correct_switched": "",
     "incorrect_switched": "",
     "is_associative": false,
@@ -1069,10 +1069,10 @@
   },
   {
     "question_id": 89,
-    "correct_sentence": "O gato estava esperando próximo ao buraco esperando pelo rato, mas o rato era muito cauteloso.",
-    "incorrect_sentence": "O gato estava esperando próximo ao buraco esperando pelo rato, mas o gato era muito cauteloso.",
-    "manually_fixed_correct_sentence": "O gato estava esperando próximo ao buraco esperando pelo rato, mas o rato era muito cauteloso.",
-    "manually_fixed_incorrect_sentence": "O gato estava esperando próximo ao buraco esperando pelo rato, mas o gato era muito cauteloso.",
+    "correct_sentence": "O gato estava deitado próximo ao buraco esperando pelo rato, mas o rato era muito cauteloso.",
+    "incorrect_sentence": "O gato estava deitado próximo ao buraco esperando pelo rato, mas o gato era muito cauteloso.",
+    "manually_fixed_correct_sentence": "O gato estava deitado próximo ao buraco esperando pelo rato, mas o rato era muito cauteloso.",
+    "manually_fixed_incorrect_sentence": "O gato estava deitado próximo ao buraco esperando pelo rato, mas o gato era muito cauteloso.",
     "correct_switched": "",
     "incorrect_switched": "",
     "is_associative": false,
@@ -1145,10 +1145,10 @@
     "incorrect_sentence": "Eu vi o Jim gritando com um cara que vestia uma farda e tinha uma grande barba ruiva. Eu não sei quem Jim era, mas ele parecia muito chateado.",
     "manually_fixed_correct_sentence": "Eu vi o Jim gritando com um cara que vestia uma farda e tinha uma grande barba ruiva. Eu não sei quem o cara que vestia uma farda era, mas ele parecia muito chateado.",
     "manually_fixed_incorrect_sentence": "Eu vi o Jim gritando com um cara que vestia uma farda e tinha uma grande barba ruiva. Eu não sei quem Jim era, mas ele parecia muito chateado.",
-    "correct_switched": "Eu vi um cara que vestia uma farda e tinha uma grande barba ruiva gritando com o Jim. Eu não sei quem Jim era, mas ele parecia muito chateado.",
-    "incorrect_switched": "Eu vi um cara que vestia uma farda e tinha uma grande barba ruiva gritando com o Jim. Eu não sei quem o cara que vestia uma farda era, mas ele parecia muito chateado.",
+    "correct_switched": "",
+    "incorrect_switched": "",
     "is_associative": false,
-    "is_switchable": true,
+    "is_switchable": false,
     "translated": true
   },
   {
