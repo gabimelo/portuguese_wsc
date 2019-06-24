@@ -114,7 +114,7 @@ def generate_json(df):
         json_rows.append(dic)
 
     with open('data/processed/portuguese_wsc.json', 'w') as outfile:
-        json.dump(json_rows, outfile, ensure_ascii=False)
+        json.dump(json_rows, outfile, ensure_ascii=False, indent=2)
 
 
 def generate_full_sentences(row):
@@ -125,9 +125,15 @@ def generate_full_sentences(row):
     new_snippet_b = re.sub(r"\b%s\b" % row.pronoun, subs_b, row.snippet)
     new_schema_a = row.schema.replace(row.snippet, new_snippet_a).strip()
     new_schema_b = row.schema.replace(row.snippet, new_snippet_b).strip()
-    new_switched_a = row.switched.replace(row.snippet, new_snippet_a).strip()
-    new_switched_b = row.switched.replace(row.snippet, new_snippet_b).strip()
 
-    if row.correct_answer.lower() == 'a':
-        return new_schema_a, new_schema_b, new_switched_b, new_switched_a
-    return new_schema_b, new_schema_a, new_switched_a, new_switched_b
+    if 'switched' in row.index:
+        new_switched_a = row.switched.replace(row.snippet, new_snippet_a).strip()
+        new_switched_b = row.switched.replace(row.snippet, new_snippet_b).strip()
+
+        if row.correct_answer.lower() == 'a':
+            return new_schema_a, new_schema_b, new_switched_b, new_switched_a
+        return new_schema_b, new_schema_a, new_switched_a, new_switched_b
+    else:
+        if row.correct_answer.lower() == 'a':
+            return new_schema_a, new_schema_b
+        return new_schema_b, new_schema_a
