@@ -131,12 +131,26 @@
   {
     "question_id": 164,
     "manually_fixed_correct_sentence": "Fred deveria ter ligado a máquina de lavar louça, mas ele adiou, porque queria assistir TV. Por fim o programa estava chato, então ele mudou de ideia e ligou a máquina de lavar.",
-    "manually_fixed_incorrect_sentence": "Fred deveria ter ligado a máquina de lavar louça, mas ele adiou, porque queria assistir TV. Por fim o programa estava chato, então ele mudou de ideia e ligou a tv."
+    "manually_fixed_incorrect_sentence": "Fred deveria ter ligado a máquina de lavar louça, mas ele adiou, porque queria assistir TV. Por fim o programa estava chato, então ele mudou de ideia e ligou a TV."
   },
   {
     "question_id": 165,
-    "manually_fixed_correct_sentence": "Fred deveria ter ligado a máquina de lavar louça, mas ele adiou, porque queria assistir TV. Por fim o programa estava chato, então ele mudou de ideia e desligou a tv.",
+    "manually_fixed_correct_sentence": "Fred deveria ter ligado a máquina de lavar louça, mas ele adiou, porque queria assistir TV. Por fim o programa estava chato, então ele mudou de ideia e desligou a TV.",
     "manually_fixed_incorrect_sentence": "Fred deveria ter ligado a máquina de lavar louça, mas ele adiou, porque queria assistir TV. Por fim o programa estava chato, então ele mudou de ideia e desligou a máquina de lavar."
+  },
+  {
+    "question_id": 188,
+    "manually_fixed_correct_sentence": "Todo mundo adorou os biscoitos de aveia; apenas algumas pessoas gostaram do biscoito com gotas de chocolate. Da próxima vez, nós deveríamos fazer mais biscoitos de aveia.",
+    "manually_fixed_incorrect_sentence": "Todo mundo adorou os biscoitos de aveia; apenas algumas pessoas gostaram do biscoito com gotas de chocolate. Da próxima vez, nós deveríamos fazer mais biscoitos com gotas de chocolate.",
+    "manually_fixed_correct_switched": "Todo mundo adorou os biscoitos com gotas de chocolate; apenas algumas pessoas gostaram do biscoito com gotas de chocolate. Da próxima vez, nós deveríamos fazer mais biscoitos com gotas de chocolate.",
+    "manually_fixed_incorrect_switched": "Todo mundo adorou os biscoitos com gotas de chocolate; apenas algumas pessoas gostaram do biscoito com gotas de chocolate. Da próxima vez, nós deveríamos fazer mais biscoitos de aveia."
+  },
+  {
+    "question_id": 189,
+    "manually_fixed_correct_sentence": "Todo mundo adorou os biscoitos de aveia; apenas algumas pessoas gostaram do biscoito com gotas de chocolate. Da próxima vez, nós deveríamos fazer menos biscoitos com gotas de chocolate.",
+    "manually_fixed_incorrect_sentence": "Todo mundo adorou os biscoitos de aveia; apenas algumas pessoas gostaram do biscoito com gotas de chocolate. Da próxima vez, nós deveríamos fazer menos biscoitos de aveia.",
+    "manually_fixed_correct_switched": "Todo mundo adorou os biscoitos com gotas de chocolate; apenas algumas pessoas gostaram do biscoito com gotas de chocolate. Da próxima vez, nós deveríamos fazer menos biscoitos de aveia.",
+    "manually_fixed_incorrect_switched": "Todo mundo adorou os biscoitos com gotas de chocolate; apenas algumas pessoas gostaram do biscoito com gotas de chocolate. Da próxima vez, nós deveríamos fazer menos biscoitos com gotas de chocolate."
   },
   {
     "question_id": 190,
