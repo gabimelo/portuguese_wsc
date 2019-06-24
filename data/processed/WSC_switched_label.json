@@ -38,10 +38,10 @@
   {
     "index": 4,
     "is_switchable": 1,
-    "sentence": "Joan made sure to thank Susan for all the help [she] had recieved.",
+    "sentence": "Joan made sure to thank Susan for all the help [she] had received.",
     "answer1": "Susan",
     "answer0": "Joan",
-    "sentence_switched": "Susan made sure to thank joan for all the help [she] had recieved.",
+    "sentence_switched": "Susan made sure to thank joan for all the help [she] had received.",
     "correct_answer": "Joan"
   },
   {
@@ -194,7 +194,7 @@
     "sentence": "Tom threw his schoolbag down to Ray after [he] reached the bottom of the stairs.",
     "answer1": "Ray",
     "answer0": "Tom",
-    "sentence_switched": "Ray threw his schoolbag down to tom after [he] reached the botray of the stairs.",
+    "sentence_switched": "Ray threw his schoolbag down to tom after [he] reached the bottom of the stairs.",
     "correct_answer": "Ray"
   },
   {
@@ -1534,17 +1534,17 @@
     "is_switchable": 1,
     "sentence": "In July, Kamtchatka declared war on Yakutsk. Since Yakutsk's army was much  better equipped and ten times larger, [they] were defeated within weeks.",
     "answer1": "Yakutsk",
-    "answer0": "Kamchatka",
-    "sentence_switched": "In july, Yakutsk declared war on kamchatka. since kamchatka's army was much  better equipped and ten times larger, [they] were defeated within weeks.",
-    "correct_answer": "Kamchatka"
+    "answer0": "Kamtchatka",
+    "sentence_switched": "In july, Yakutsk declared war on Kamtchatka. since Kamtchatka's army was much  better equipped and ten times larger, [they] were defeated within weeks.",
+    "correct_answer": "Kamtchatka"
   },
   {
     "index": 171,
     "is_switchable": 1,
     "sentence": "In July, Kamtchatka declared war on Yakutsk. Since Yakutsk's army was much  better equipped and ten times larger, [they] were victorious within weeks.",
     "answer1": "Yakutsk",
-    "answer0": "Kamchatka",
-    "sentence_switched": "In july, Yakutsk declared war on kamchatka. since kamchatka's army was much  better equipped and ten times larger, [they] were victorious within weeks.",
+    "answer0": "Kamtchatka",
+    "sentence_switched": "In july, Yakutsk declared war on Kamtchatka. since Kamtchatka's army was much  better equipped and ten times larger, [they] were victorious within weeks.",
     "correct_answer": "Yakutsk"
   },
   {

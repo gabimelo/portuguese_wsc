@@ -19,6 +19,7 @@ Charlie
 Check
 Cooper
 Dan
+Dibs
 Donna
 Dra
 Emma
@@ -26,6 +27,7 @@ Eric
 Ethan
 Frank
 Fred
+French
 George
 Goethe
 Goodman
@@ -41,6 +43,7 @@ Joan
 Joe
 Joey
 John
+July
 Kamtchatka
 Kate
 Kevin
@@ -69,6 +72,7 @@ Sam
 Shakespeare
 Shatov
 Sid
+Spartan
 Steve
 Sue
 Susan

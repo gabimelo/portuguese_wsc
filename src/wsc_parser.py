@@ -4,7 +4,7 @@ import re
 import pandas as pd
 from bs4 import BeautifulSoup
 
-from src.consts import WINOGRAD_SCHEMAS_FILE
+from src.consts import WINOGRAD_SCHEMAS_FILE, WINOGRAD_HTML_SCHEMAS_FILE
 
 
 def join_content(item):
@@ -41,8 +41,8 @@ def get_schema_and_snippet_texts(item):
     return schema, snippet
 
 
-def generate_df(full_english_text):
-    with open('data/processed/port_wsc.html', 'r') as f:
+def generate_df_from_html(full_english_text):
+    with open(WINOGRAD_HTML_SCHEMAS_FILE, 'r') as f:
         soup = BeautifulSoup(f, 'html5lib')
 
     rows = []
@@ -113,7 +113,7 @@ def generate_json(df):
 
         json_rows.append(dic)
 
-    with open('data/processed/portuguese_wsc.json', 'w') as outfile:
+    with open(WINOGRAD_SCHEMAS_FILE, 'w') as outfile:
         json.dump(json_rows, outfile, ensure_ascii=False, indent=2)
 
 
@@ -123,17 +123,29 @@ def generate_full_sentences(row):
 
     new_snippet_a = re.sub(r"\b%s\b" % row.pronoun, subs_a, row.snippet)
     new_snippet_b = re.sub(r"\b%s\b" % row.pronoun, subs_b, row.snippet)
-    new_schema_a = row.schema.replace(row.snippet, new_snippet_a).strip()
-    new_schema_b = row.schema.replace(row.snippet, new_snippet_b).strip()
+
+    if new_snippet_a[0] == '[' and new_snippet_a[-1] == ']':
+        new_snippet_a = new_snippet_a[1:-1]
+    if new_snippet_b[0] == '[' and new_snippet_b[-1] == ']':
+        new_snippet_b = new_snippet_b[1:-1]
+
+    if 'schema' in row.index:
+        new_schema_a = row.schema.replace(row.snippet, new_snippet_a).strip()
+        new_schema_b = row.schema.replace(row.snippet, new_snippet_b).strip()
 
     if 'switched' in row.index:
         new_switched_a = row.switched.replace(row.snippet, new_snippet_a).strip()
         new_switched_b = row.switched.replace(row.snippet, new_snippet_b).strip()
 
+    if 'schema' in row.index and 'switched' in row.index:
         if row.correct_answer.lower() == 'a':
             return new_schema_a, new_schema_b, new_switched_b, new_switched_a
         return new_schema_b, new_schema_a, new_switched_a, new_switched_b
-    else:
+    elif 'schema' in row.index:
         if row.correct_answer.lower() == 'a':
             return new_schema_a, new_schema_b
         return new_schema_b, new_schema_a
+    else:
+        if row.correct_answer.lower() == 'a':
+            return new_switched_b, new_switched_a
+        return new_switched_a, new_switched_b
