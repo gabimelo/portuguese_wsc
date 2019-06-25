@@ -19,6 +19,7 @@ from src.utils import get_latest_model_file, summary
 from src.parallel import DataParallelCriterion
 from src.wsc_parser import generate_df_from_json
 from src.winograd_schema_challenge import winograd_test
+from src.consts import PORTUGUESE
 
 logger = Logger()
 
@@ -53,8 +54,8 @@ def main(training=True, wsc=False, use_data_paralellization=False, model_timesta
     ntokens = len(corpus.dictionary)
 
     # TODO remove these two lines
-    assert ntokens == 111550
-    assert corpus.valid.size()[0] == 11606861
+    # assert ntokens == 111550
+    # assert corpus.valid.size()[0] == 11606861
     assert corpus.train.max() < ntokens
     assert corpus.valid.max() < ntokens
     assert corpus.test.max() < ntokens
@@ -87,7 +88,7 @@ def main(training=True, wsc=False, use_data_paralellization=False, model_timesta
         if wsc:
             logger.info('Generating WSC set, using model: {}'.format(model_file_name))
             df = generate_df_from_json()
-            df = winograd_test(df, corpus, model_file_name, ntokens, device, english=False)
+            df = winograd_test(df, corpus, model_file_name, ntokens, device, english=not PORTUGUESE)
         else:
             logger.info('Generating text, using model: {}'.format(model_file_name))
             words, words_probs = generate(model_file_name, corpus, ntokens, device, is_wsc=False)
