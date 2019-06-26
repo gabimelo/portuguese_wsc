@@ -32,12 +32,12 @@ else:
     FILE_TOKEN_COUNT_DICT_FILE_NAME = 'models/english-wikitext-2/file_token_count_dict.json'
     FILTER_WORDS = False
 
-RANDOM_SEED = 42
+RANDOM_SEED = 1111
 USE_CUDA = True
 
-BATCH_SIZE = 128
+BATCH_SIZE = 20
 # TODO maybe should have TEST_BATCH_SIZE as well, and set it to 1
-EVAL_BATCH_SIZE = 64
+EVAL_BATCH_SIZE = 10
 MODEL_TYPE = 'LSTM'  # other options: RNN_TANH, RNN_RELU, LSTM, GRU
 EMBEDDINGS_SIZE = 200
 HIDDEN_UNIT_COUNT = 200
@@ -49,7 +49,8 @@ INITIAL_LEARNING_RATE = 20
 EPOCHS = 40
 GRADIENT_CLIPPING = 0.25
 LOG_INTERVAL = 200
-USE_DATA_PARALLELIZATION = True
+USE_DATA_PARALLELIZATION = False
+MAIN_GPU_INDEX = 0
 
 WORDS_TO_GENERATE = 1000
 TEMPERATURE = 1.0  # higher will increase diversity. Has to be greater or equal 1e-3

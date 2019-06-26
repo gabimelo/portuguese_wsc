@@ -70,32 +70,33 @@ def evaluate(model, corpus, criterion, device, use_test_data=False, use_train_da
 
     model.eval()
     total_loss = 0.
+
     if use_train_data:
         hidden = model.init_hidden(BATCH_SIZE)
-        full_data = batchify(corpus.train, BATCH_SIZE, device)
+        data_source = batchify(corpus.train, BATCH_SIZE)
     elif not use_test_data:
         hidden = model.init_hidden(EVAL_BATCH_SIZE)
-        full_data = batchify(corpus.valid, EVAL_BATCH_SIZE, device)
+        data_source = batchify(corpus.valid, EVAL_BATCH_SIZE)
     else:
         hidden = model.init_hidden(EVAL_BATCH_SIZE)
-        full_data = batchify(corpus.test, EVAL_BATCH_SIZE, device)
+        data_source = batchify(corpus.test, EVAL_BATCH_SIZE)
+
     with torch.no_grad():
-        for batch, i in tqdm(enumerate(range(0, full_data.size(0) - 1, SEQUENCE_LENGTH))):
-            data, targets = get_batch(full_data, i)
-            hidden = repackage_hidden(hidden)
+        for i in tqdm(range(0, data_source.size(0) - 1, SEQUENCE_LENGTH)):
+            data, targets = get_batch(data_source, i)
 
             if use_data_paralellization:
                 hidden, data = permute_for_parallelization(hidden, data)
                 results = model(data, hidden)
-                outputs, hidden = get_results_from_data_parallelized_forward(results, device)
+                output, hidden = get_results_from_data_parallelized_forward(results, device)
                 hidden = permute_for_parallelization(hidden)
             else:
-                outputs, hidden = model(data.to(device), hidden)
-                targets = targets.to(device)
+                output, hidden = model(data.to(device), hidden)
 
-            total_loss += len(data) * criterion(outputs, targets).item()
+            total_loss += len(data) * criterion(output, targets.to(device)).item()
+            hidden = repackage_hidden(hidden)
 
-    return total_loss / (len(full_data) - 1)
+    return total_loss / (len(data_source) - 1)
 
 
 def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_data_paralellization):
@@ -109,7 +110,7 @@ def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_
         batch_size *= torch.cuda.device_count()
 
     hidden = model.init_hidden(batch_size)
-    train_data = batchify(corpus.train, batch_size, device)
+    train_data = batchify(corpus.train, batch_size)
 
     for batch, i in enumerate(range(0, train_data.size(0) - 1, SEQUENCE_LENGTH)):
         data, targets = get_batch(train_data, i)
@@ -127,13 +128,12 @@ def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_
             # of setting dim=1 when instantiating DataParallelModel)
             hidden, data = permute_for_parallelization(hidden, data)
             results = model(data, hidden)
-            outputs, hidden = get_results_from_data_parallelized_forward(results, device)
+            output, hidden = get_results_from_data_parallelized_forward(results, device)
             hidden = permute_for_parallelization(hidden)
         else:
-            outputs, hidden = model(data.to(device), hidden)
-            targets = targets.to(device)
+            output, hidden = model(data.to(device), hidden)
 
-        loss = criterion(outputs, targets)
+        loss = criterion(output, targets.to(device))
         loss.backward()
 
         # `clip_grad_norm` helps prevent the exploding gradient problem in RNNs / LSTMs.

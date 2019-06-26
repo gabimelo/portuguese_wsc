@@ -7,6 +7,16 @@ from src.logger import Logger
 logger = Logger()
 
 
+def send_array_of_tensors_to_cpu(array_of_tensors):
+    array_in_cpu = []
+    for item in array_of_tensors:
+        try:
+            array_in_cpu.append(item.cpu())
+        except AttributeError:
+            array_in_cpu.append(item)
+    return array_in_cpu
+
+
 def analyse_single_wsc(model_file_name, corpus, ntokens, device, correct_sentence, wrong_sentence, partial=False):
     _, correct_words_probs = generate(model_file_name, corpus, ntokens, device, input_wsc=correct_sentence)
     _, wrong_words_probs = generate(model_file_name, corpus, ntokens, device, input_wsc=wrong_sentence)
@@ -18,8 +28,13 @@ def analyse_single_wsc(model_file_name, corpus, ntokens, device, correct_sentenc
         correct_words_probs = correct_words_probs[-i:]
         wrong_words_probs = wrong_words_probs[-i:]
 
-    if np.prod(correct_words_probs) >= np.prod(wrong_words_probs):
+    correct_words_probs_cpu = send_array_of_tensors_to_cpu(correct_words_probs)
+    wrong_words_probs_cpu = send_array_of_tensors_to_cpu(wrong_words_probs)
+
+    if np.prod(correct_words_probs_cpu) > np.prod(wrong_words_probs_cpu):
         return True
+    elif np.prod(correct_words_probs_cpu) == np.prod(wrong_words_probs_cpu):
+        return False
     else:
         return False
 
@@ -69,7 +84,14 @@ def get_vocab_list(sentence_list, english):
 def find_missing_wsc_words_in_corpus_vocab(df, corpus, english=False):
     correct_sentences_vocab = get_vocab_list(df.correct_sentence.values, english)
     incorrect_sentences_vocab = get_vocab_list(df.incorrect_sentence.values, english)
-    wsc_vocab = set(correct_sentences_vocab + incorrect_sentences_vocab)
+    manually_fixed_correct_sentences_vocab = get_vocab_list(df.manually_fixed_correct_sentence.values, english)
+    manually_fixed_incorrect_sentences_vocab = get_vocab_list(df.manually_fixed_incorrect_sentence.values, english)
+    correct_switched_vocab = get_vocab_list(df.correct_switched.values, english)
+    incorrect_switched_vocab = get_vocab_list(df.incorrect_switched.values, english)
+
+    wsc_vocab = set(correct_sentences_vocab + incorrect_sentences_vocab +
+                    manually_fixed_correct_sentences_vocab + manually_fixed_incorrect_sentences_vocab +
+                    correct_switched_vocab + incorrect_switched_vocab)
 
     missing_words = []
     for word in wsc_vocab:

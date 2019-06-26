@@ -19,7 +19,7 @@ from src.utils import get_latest_model_file, summary
 from src.parallel import DataParallelCriterion
 from src.wsc_parser import generate_df_from_json
 from src.winograd_schema_challenge import winograd_test
-from src.consts import PORTUGUESE
+from src.consts import PORTUGUESE, MAIN_GPU_INDEX
 
 logger = Logger()
 
@@ -41,15 +41,14 @@ def get_corpus():
     return corpus
 
 
-def main(training=True, wsc=False, use_data_paralellization=False, model_timestamp=None, verbose=False):
+def main(training, wsc, model_file_name=None, verbose=False):
     '''
      if training is set to True, wsc param will be ignored
     '''
 
     setup_torch()
     # code seems to run slower (~90ms/batch, with batch_size=40) when default GPU is not cuda:0
-    main_gpu_index = 0  # TODO set this somewhere else
-    device = torch.device("cuda:" + str(main_gpu_index) if USE_CUDA else "cpu")
+    device = torch.device("cuda:" + str(MAIN_GPU_INDEX) if USE_CUDA else "cpu")
     corpus = get_corpus()
     ntokens = len(corpus.dictionary)
 
@@ -65,9 +64,9 @@ def main(training=True, wsc=False, use_data_paralellization=False, model_timesta
                          TIED).to(device)
         criterion = nn.CrossEntropyLoss()
 
-        if use_data_paralellization or USE_DATA_PARALLELIZATION:
+        if USE_DATA_PARALLELIZATION:
             cuda_devices = [i for i in range(torch.cuda.device_count())]
-            device_ids = [main_gpu_index] + cuda_devices[:main_gpu_index] + cuda_devices[main_gpu_index + 1:]
+            device_ids = [MAIN_GPU_INDEX] + cuda_devices[:MAIN_GPU_INDEX] + cuda_devices[MAIN_GPU_INDEX + 1:]
             model = CustomDataParallel(model, device_ids=device_ids)
             criterion = DataParallelCriterion(criterion, device_ids=device_ids)
 
@@ -80,9 +79,9 @@ def main(training=True, wsc=False, use_data_paralellization=False, model_timesta
         if verbose:
             summary(model, criterion)
 
-        train(model, corpus, criterion, optimizer, device, use_data_paralellization or USE_DATA_PARALLELIZATION)
+        train(model, corpus, criterion, optimizer, device, USE_DATA_PARALLELIZATION)
     else:
-        if model_timestamp is None:
+        if model_file_name is None:
             model_file_name = get_latest_model_file()
 
         if wsc:
@@ -96,4 +95,5 @@ def main(training=True, wsc=False, use_data_paralellization=False, model_timesta
 
 
 if __name__ == '__main__':
-    main(training=False, wsc=True)
+    main(training=False, wsc=True,
+         model_file_name='models/english-wikitext-2/trained_models/original_pytorch_code_model.pt')

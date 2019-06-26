@@ -25,7 +25,7 @@ def repackage_hidden(h):
 # These columns are treated as independent by the model, which means that the
 # dependence of e. g. 'g' on 'f' can not be learned, but allows more efficient
 # batch processing.
-def batchify(data, batch_size, device):
+def batchify(data, batch_size):
     # Work out how cleanly we can divide the dataset into batch_size parts.
     nbatch = data.size(0) // batch_size
     # Trim off any extra elements that wouldn't cleanly fit (remainders).
