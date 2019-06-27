@@ -1,25 +1,5 @@
 .PHONY: clean data lint requirements sync_data_to_s3 sync_data_from_s3 tests
 
-#################################################################################
-# GLOBALS                                                                       #
-#################################################################################
-
-PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-BUCKET = [OPTIONAL] your-bucket-for-syncing-data (do not include 's3://')
-PROFILE = default
-PROJECT_NAME = portuguese_wsc
-PYTHON_INTERPRETER = python3
-
-ifeq (,$(shell which conda))
-HAS_CONDA=False
-else
-HAS_CONDA=True
-endif
-
-#################################################################################
-# COMMANDS                                                                      #
-#################################################################################
-
 install_flake8:
 	python3 -m pip install flake8
 
@@ -30,25 +10,37 @@ config_githooks:
 dev_init: download_dev_data config_githooks install_flake8
 
 ## Code Testing
+
 tests:
 	pytest --cov=src tests/
 
 ## Run Code
+
 train:
+	python -m src.main --training True
+
+winograd_test:
 	python -m src.main
 
+generate:
+	python -m src.main --wsc False
+
 ## Make Dataset
-corpus_dictionary:
-	python -m src.scripts.make_corpus_dictionary_pickle
 
-processed_data:
-	python -m src.scripts.make_processed_dataset
+corpus: corpus_dictionary
+	python -m src.datasets_manipulation_scripts.make_corpus_pickle
 
-interim_data:
-	python -m src.scripts.make_interim_dataset
+corpus_dictionary: processed_data
+	python -m src.datasets_manipulation_scripts.make_corpus_dictionary_pickle
 
-interim_data_without_splits:
-	python -m src.scripts.make_interim_dataset --split False
+processed_data: interim_data
+	python -m src.datasets_manipulation_scripts.make_processed_dataset
+
+interim_data: download_dev_data
+	python -m src.datasets_manipulation_scripts.make_interim_dataset
+
+interim_data_without_splits: download_dev_data
+	python -m src.datasets_manipulation_scripts.make_interim_dataset --split False
 
 download_dev_data: wikidump
 

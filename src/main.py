@@ -1,23 +1,24 @@
 # coding: utf-8
 import os
+import pickle
+import click
 
 import torch
 import torch.nn as nn
-import pickle
 
 from src.consts import (
     RANDOM_SEED, USE_CUDA, MODEL_TYPE, EMBEDDINGS_SIZE, HIDDEN_UNIT_COUNT,
     LAYER_COUNT, DROPOUT_PROB, TIED, CORPUS_FILE_NAME, USE_DATA_PARALLELIZATION
 )
-from src.corpus import Corpus
-from src.model import RNNModel
-from src.logger import Logger
-from src.custom_data_parallel import CustomDataParallel
-from src.training import train
+from src.datasets_manipulation.corpus import Corpus
+from src.modeling.model import RNNModel
+from src.helpers.logger import Logger
+from src.modeling.custom_data_parallel import CustomDataParallel
+from src.modeling.training import train
 from src.generation import generate
-from src.utils import get_latest_model_file, summary
-from src.parallel import DataParallelCriterion
-from src.wsc_parser import generate_df_from_json
+from src.helpers.utils import get_latest_model_file, summary
+from src.modeling.parallel import DataParallelCriterion
+from src.datasets_manipulation.wsc_parser import generate_df_from_json
 from src.winograd_schema_challenge import winograd_test
 from src.consts import PORTUGUESE, MAIN_GPU_INDEX
 
@@ -41,7 +42,12 @@ def get_corpus():
     return corpus
 
 
-def main(training, wsc, model_file_name=None, verbose=False):
+@click.command()
+@click.option('--training', default=False)
+@click.option('--wsc', default=True)
+@click.option('--model_file_name', default=None)
+@click.option('--verbose', default=False)
+def main(training, wsc, model_file_name, verbose):
     '''
      if training is set to True, wsc param will be ignored
     '''
@@ -95,5 +101,4 @@ def main(training, wsc, model_file_name=None, verbose=False):
 
 
 if __name__ == '__main__':
-    main(training=False, wsc=True,
-         model_file_name='models/english-wikitext-2/trained_models/original_pytorch_code_model.pt')
+    main()

@@ -2,7 +2,7 @@ import numpy as np
 from nltk.tokenize import word_tokenize
 
 from src.generation import generate
-from src.logger import Logger
+from src.helpers.logger import Logger
 
 logger = Logger()
 

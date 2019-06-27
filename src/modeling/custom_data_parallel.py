@@ -1,6 +1,6 @@
 import torch.nn as nn
 
-from src.parallel import DataParallelModel
+from src.modeling.parallel import DataParallelModel
 
 
 class CustomDataParallel(nn.Module):

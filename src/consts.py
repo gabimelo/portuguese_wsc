@@ -1,12 +1,12 @@
 WIKI_PT_XML_FILE_NAME = 'data/external/ptwiki-latest-pages-articles.xml.bz2'
-WIKI_PT_TXT_FILE_NAME = 'wiki_pt'
+WIKI_PT_TXT_FILE_BASE_NAME = 'wiki_pt'
 
 PORTUGUESE = False
 
 if PORTUGUESE:
     WINOGRAD_SCHEMAS_FILE = './data/processed/portuguese_wsc.json'
-    WINOGRAD_HTML_SCHEMAS_FILE = './data/processed/port_wsc.html'
-    WIKI_PT_TXT_DIR_NAME = 'data/interim/wiki_pt_splits'
+    WINOGRAD_HTML_SCHEMAS_FILE = './data/processed/portuguese_wsc.html'
+    WIKI_TXT_DIR_NAME = 'data/interim/wiki_pt_splits'
     PROCESSED_DATA_DIR_NAME = 'data/processed'
     TEST_SET_FILE_NAME = 'data/processed/test.txt'
     TRAIN_SET_FILE_NAME = 'data/processed/train.txt'
@@ -20,7 +20,7 @@ if PORTUGUESE:
 else:
     WINOGRAD_SCHEMAS_FILE = './data/processed/english_wsc.json'
     WINOGRAD_HTML_SCHEMAS_FILE = ''
-    WIKI_PT_TXT_DIR_NAME = 'data/interim/english-wikitext-2'
+    WIKI_TXT_DIR_NAME = 'data/interim/english-wikitext-2'
     PROCESSED_DATA_DIR_NAME = 'data/interim/english-wikitext-2'
     TEST_SET_FILE_NAME = 'data/interim/english-wikitext-2/test.txt'
     TRAIN_SET_FILE_NAME = 'data/interim/english-wikitext-2/train.txt'

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from src.data.text_manipulations import Corpus
-from src.logger import Logger
+from src.helpers.logger import Logger
 
 logger = Logger()
 

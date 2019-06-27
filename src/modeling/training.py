@@ -9,8 +9,8 @@ from src.consts import (
     BATCH_SIZE, SEQUENCE_LENGTH, EVAL_BATCH_SIZE, INITIAL_LEARNING_RATE, EPOCHS, GRADIENT_CLIPPING,
     LOG_INTERVAL, MODEL_FILE_NAME, MODEL_RESULTS_FILE_NAME
 )
-from src.logger import Logger
-from src.utils import (
+from src.helpers.logger import Logger
+from src.helpers.utils import (
     batchify, get_batch, repackage_hidden, permute_for_parallelization, get_results_from_data_parallelized_forward
 )
 

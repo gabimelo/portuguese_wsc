@@ -3,7 +3,8 @@ notebooks/pytorch_example/wiki_pt.txt
 notebooks/pytorch_example/data/NILC_corpus/*
 models/*
 data/external/*
-data/interim/*
+data/interim/english-wikitext-2/*
+data/interim/wiki_pt_splits/*
 data/raw/*
 data/processed/train.txt
 data/processed/test.txt

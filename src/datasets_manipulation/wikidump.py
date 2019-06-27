@@ -1,15 +1,15 @@
 from gensim.corpora import WikiCorpus
 from nltk.tokenize import word_tokenize
 
-from src.logger import Logger
-from src.consts import WIKI_PT_TXT_FILE_NAME
+from src.helpers.logger import Logger
+from src.consts import WIKI_PT_TXT_FILE_BASE_NAME
 
 logger = Logger()
 
 
 def next_output_file_name(output_dir, num):
     """Get the next filename to use for writing new articles."""
-    output_file_name = output_dir + '/' + WIKI_PT_TXT_FILE_NAME + '{:>02d}'.format(num) + '.txt'
+    output_file_name = output_dir + '/' + WIKI_PT_TXT_FILE_BASE_NAME + '{:>02d}'.format(num) + '.txt'
     return output_file_name
 
 
