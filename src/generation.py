@@ -1,9 +1,9 @@
 import torch
 import torch.nn.functional as F
 
-from src.logger import Logger
+from src.helpers.logger import Logger
 from src.consts import WORDS_TO_GENERATE, TEMPERATURE
-from src.utils import permute_for_parallelization, get_results_from_data_parallelized_forward
+from src.helpers.utils import permute_for_parallelization, get_results_from_data_parallelized_forward
 
 logger = Logger()
 

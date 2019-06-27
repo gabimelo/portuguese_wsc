@@ -43,7 +43,7 @@ class Dictionary(object):
     def generate_full_dir_dictionary(self):
         file_token_count_dict = {}
         for file_name in ['wiki_pt00.txt', 'wiki_pt01.txt', 'wiki_pt02.txt']:
-            file_token_count = self.generate_corpus_dictionary(consts.WIKI_PT_TXT_DIR_NAME + '/' + file_name)
+            file_token_count = self.generate_corpus_dictionary(consts.WIKI_TXT_DIR_NAME + '/' + file_name)
             file_token_count_dict[file_name] = file_token_count
 
         if consts.FILTER_WORDS:

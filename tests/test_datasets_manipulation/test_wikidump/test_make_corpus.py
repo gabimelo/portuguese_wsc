@@ -3,13 +3,13 @@ import shutil
 
 from unittest import mock
 
-from src.wikidump import make_corpus_files
-from src.consts import WIKI_PT_TXT_FILE_NAME
+from src.datasets_manipulation.wikidump import make_corpus_files
+from src.consts import WIKI_PT_TXT_FILE_BASE_NAME
 
 
 class TestMakeCorpus(object):
     def test_make_corpus(self):
-        test_data_dir = 'tests/test_make_dataset/mock_data'
+        test_data_dir = 'tests/test_datasets_manipulation/test_wikidump/mock_data'
         if os.path.exists(test_data_dir):
             shutil.rmtree(test_data_dir)
         os.makedirs(test_data_dir)
@@ -21,15 +21,15 @@ class TestMakeCorpus(object):
                                                                ['text3.1', 'text3.2'],
                                                                ['text4.1', 'text4.2'],
                                                                ['text5.1', 'text5.2']]
-        with mock.patch('src.wikidump.WikiCorpus', mock_WikiCorpus):
+        with mock.patch('src.datasets_manipulation.wikidump.WikiCorpus', mock_WikiCorpus):
             make_corpus_files('', test_data_dir, size=2)
 
         assert len(os.listdir(test_data_dir)) == 3
-        with open(test_data_dir + '/' + WIKI_PT_TXT_FILE_NAME + '00.txt') as f:
+        with open(test_data_dir + '/' + WIKI_PT_TXT_FILE_BASE_NAME + '00.txt') as f:
             assert f.read() == 'text1.1 text1.2\ntext2.1 text2.2\n'
 
     def test_make_corpus_without_split(self):
-        test_data_dir = 'tests/test_make_dataset/mock_data'
+        test_data_dir = 'tests/test_datasets_manipulation/test_wikidump/mock_data'
         if os.path.exists(test_data_dir):
             shutil.rmtree(test_data_dir)
         os.makedirs(test_data_dir)
@@ -41,9 +41,9 @@ class TestMakeCorpus(object):
                                                                ['text3.1', 'text3.2'],
                                                                ['text4.1', 'text4.2'],
                                                                ['text5.1', 'text5.2']]
-        with mock.patch('src.wikidump.WikiCorpus', mock_WikiCorpus):
+        with mock.patch('src.datasets_manipulation.wikidump.WikiCorpus', mock_WikiCorpus):
             make_corpus_files('', test_data_dir, split=False, size=2)
 
         assert len(os.listdir(test_data_dir)) == 1
-        with open(test_data_dir + '/' + WIKI_PT_TXT_FILE_NAME + '00.txt') as f:
+        with open(test_data_dir + '/' + WIKI_PT_TXT_FILE_BASE_NAME + '00.txt') as f:
             assert f.read() == 'text1.1 text1.2\ntext2.1 text2.2\ntext3.1 text3.2\ntext4.1 text4.2\ntext5.1 text5.2\n'

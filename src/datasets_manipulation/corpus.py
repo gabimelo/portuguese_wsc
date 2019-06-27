@@ -8,7 +8,7 @@ import torch
 from src.consts import (
     PROCESSED_DATA_DIR_NAME, FILE_TOKEN_COUNT_DICT_FILE_NAME, CORPUS_DICTIONARY_FILE_NAME, CORPUS_FILE_NAME
 )
-from src.dictionary import Dictionary
+from src.datasets_manipulation.dictionary import Dictionary
 
 
 class Corpus(object):
