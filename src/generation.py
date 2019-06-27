@@ -12,7 +12,7 @@ def generate(model_file_name, corpus, ntokens, device, input_wsc=None):
     with open(model_file_name, 'rb') as f:
         # TODO remove these two lines!!
         import sys
-        sys.path.insert(0, './src/modeling')
+        sys.path.insert(0, '../pytorch_examples/word_language_model')
 
         model = torch.load(f).to(device)
     use_data_paralellization = True if type(model).__name__ == 'CustomDataParallel' else False
