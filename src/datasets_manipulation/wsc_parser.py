@@ -4,7 +4,7 @@ import re
 import pandas as pd
 from bs4 import BeautifulSoup
 
-from src.consts import WINOGRAD_SCHEMAS_FILE, WINOGRAD_HTML_SCHEMAS_FILE
+from src.consts import WINOGRAD_SCHEMAS_FILE, WINOGRAD_PT_HTML_SCHEMAS_FILE
 
 
 def join_content(item):
@@ -42,7 +42,7 @@ def get_schema_and_snippet_texts(item):
 
 
 def generate_df_from_html(full_english_text):
-    with open(WINOGRAD_HTML_SCHEMAS_FILE, 'r') as f:
+    with open(WINOGRAD_PT_HTML_SCHEMAS_FILE, 'r') as f:
         soup = BeautifulSoup(f, 'html5lib')
 
     rows = []

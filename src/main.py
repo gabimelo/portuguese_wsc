@@ -58,9 +58,6 @@ def main(training, generating, model_file_name, verbose):
     corpus = get_corpus()
     ntokens = len(corpus.dictionary)
 
-    # TODO remove these two lines
-    # assert ntokens == 111550
-    # assert corpus.valid.size()[0] == 11606861
     assert corpus.train.max() < ntokens
     assert corpus.valid.max() < ntokens
     assert corpus.test.max() < ntokens
@@ -96,8 +93,8 @@ def main(training, generating, model_file_name, verbose):
             df = winograd_test(df, corpus, model_file_name, ntokens, device, english=not PORTUGUESE)
         else:
             logger.info('Generating text, using model: {}'.format(model_file_name))
-            words, words_probs = generate(model_file_name, corpus, ntokens, device, is_wsc=False)
-            logger.info('Generated text: ', (' ').join(words))
+            words, words_probs = generate(model_file_name, corpus, ntokens, device)
+            logger.info('Generated text: {}'.format((' ').join(words)))
 
 
 if __name__ == '__main__':
