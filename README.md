@@ -27,13 +27,19 @@ Solver for Winograd Schema Challenge in Portuguese. Portuguese translations for 
 
 ----
 
-Makefile contains some of the commands used to run the code. When project is finalized reproduction instructions will be made available here.
-
-----
-
 ### Project Setup
 
 - To create the environment for running the project: `conda env create -f environment.yml`
+
+- Makefile contains some of the commands used to run the code. These commands must be run from inside the environment.
+
+    - `make processed_data` prepares needed data to run code
+    - running `make corpus` will speed up first run of code (but is not necessary)
+    - `make train` trains a model
+    - `make winograd_test` runs evaluation of Winograd Schema Challenge
+    - `make generate` runs language model for generation of text
+    
+- Code runs for both English and Portuguese cases, and this setting is controlled by the variable `PORTUGUESE` in `src.consts`
 
 - Run tests with `pytest --cov=src tests/`. Use `pytest --cov=src --cov-report=html tests/` for generation of HTML test report. Needs pytest and pytest-cov packages. If there are import errors, should run `pip install -e .` to locally install package from source code.
 
