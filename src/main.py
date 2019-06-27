@@ -43,13 +43,13 @@ def get_corpus():
 
 
 @click.command()
-@click.option('--training', default=False)
-@click.option('--wsc', default=True)
+@click.option('--training', is_flag=True)
+@click.option('--generating', is_flag=True)
 @click.option('--model_file_name', default=None)
-@click.option('--verbose', default=False)
-def main(training, wsc, model_file_name, verbose):
+@click.option('--verbose', is_flag=True)
+def main(training, generating, model_file_name, verbose):
     '''
-     if training is set to True, wsc param will be ignored
+     if train is set to True, wsc param will be ignored
     '''
 
     setup_torch()
@@ -90,7 +90,7 @@ def main(training, wsc, model_file_name, verbose):
         if model_file_name is None:
             model_file_name = get_latest_model_file()
 
-        if wsc:
+        if not generating:
             logger.info('Generating WSC set, using model: {}'.format(model_file_name))
             df = generate_df_from_json()
             df = winograd_test(df, corpus, model_file_name, ntokens, device, english=not PORTUGUESE)

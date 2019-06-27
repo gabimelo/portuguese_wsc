@@ -17,13 +17,13 @@ tests:
 ## Run Code
 
 train:
-	python -m src.main --training True
+	python -m src.main --training
 
 winograd_test:
 	python -m src.main
 
 generate:
-	python -m src.main --wsc False
+	python -m src.main --generating
 
 ## Make Dataset
 
