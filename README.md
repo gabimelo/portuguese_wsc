@@ -29,11 +29,18 @@ Solver for Winograd Schema Challenge in Portuguese. Portuguese translations for 
 
 ### Project Setup
 
-- To create the environment for running the project: `conda env create -f environment.yml`
+- This project has not been tested in machines without CUDA GPUs available.
+
+- A Dockerfile is available, and may be used with `docker build -t wsc_port  .` followed by `nvidia-docker run -it -v $PWD/models:/code/models wsc_port`.
+
+- The Dockerfile contains a few different options for running, which can be selected by commenting and uncommenting the final sections of it.
+
+- For running outside of Docker container, Conda is required
+
+- To create the environment for running the project: `make dev_init`. This command also makes sure `make processed_data` is run, which prepares data needed to train model
 
 - Makefile contains some of the commands used to run the code. These commands must be run from inside the environment.
 
-    - `make processed_data` prepares needed data to run code
     - running `make corpus` will speed up first run of code (but is not necessary)
     - `make train` trains a model
     - `make winograd_test` runs evaluation of Winograd Schema Challenge
@@ -41,7 +48,7 @@ Solver for Winograd Schema Challenge in Portuguese. Portuguese translations for 
     
 - Code runs for both English and Portuguese cases, and this setting is controlled by the variable `PORTUGUESE` in `src.consts`
 
-- Run tests with `pytest --cov=src tests/`. Use `pytest --cov=src --cov-report=html tests/` for generation of HTML test report. Needs pytest and pytest-cov packages. If there are import errors, should run `pip install -e .` to locally install package from source code.
+- Run tests with `make tests`, which is equivalent to `pytest --cov=src tests/`. Use `pytest --cov=src --cov-report=html tests/` for generation of HTML test report. Needs pytest and pytest-cov packages. If there are import errors, should run `pip install -e .` to locally install package from source code.
 
 ----
 

@@ -1,16 +1,16 @@
 WIKI_PT_XML_FILE_NAME = 'data/external/ptwiki-latest-pages-articles.xml.bz2'
 WIKI_PT_TXT_FILE_BASE_NAME = 'wiki_pt'
+WIKI_PT_TXT_DIR_NAME = 'data/interim/wiki_pt_splits'
+WINOGRAD_PT_HTML_SCHEMAS_FILE = './data/processed/portuguese_wsc.html'
 
 PORTUGUESE = False
 
 if PORTUGUESE:
     WINOGRAD_SCHEMAS_FILE = './data/processed/portuguese_wsc.json'
-    WINOGRAD_HTML_SCHEMAS_FILE = './data/processed/portuguese_wsc.html'
-    WIKI_TXT_DIR_NAME = 'data/interim/wiki_pt_splits'
     PROCESSED_DATA_DIR_NAME = 'data/processed'
     TEST_SET_FILE_NAME = 'data/processed/test.txt'
     TRAIN_SET_FILE_NAME = 'data/processed/train.txt'
-    VAL_SET_FILE_NAME = 'data/processed/val.txt'
+    VAL_SET_FILE_NAME = 'data/processed/valid.txt'
     MODEL_FILE_NAME = 'models/trained_models/model-{}.pt'
     MODEL_RESULTS_FILE_NAME = 'models/trained_models/model-results-{}.txt'
     CORPUS_DICTIONARY_FILE_NAME = 'models/corpus_dictionary_vocab_from_first_three_files.pkl'
@@ -19,12 +19,10 @@ if PORTUGUESE:
     FILTER_WORDS = True
 else:
     WINOGRAD_SCHEMAS_FILE = './data/processed/english_wsc.json'
-    WINOGRAD_HTML_SCHEMAS_FILE = ''
-    WIKI_TXT_DIR_NAME = 'data/interim/english-wikitext-2'
-    PROCESSED_DATA_DIR_NAME = 'data/interim/english-wikitext-2'
-    TEST_SET_FILE_NAME = 'data/interim/english-wikitext-2/test.txt'
-    TRAIN_SET_FILE_NAME = 'data/interim/english-wikitext-2/train.txt'
-    VAL_SET_FILE_NAME = 'data/interim/english-wikitext-2/val.txt'
+    PROCESSED_DATA_DIR_NAME = 'data/processed/english-wikitext-2'
+    TEST_SET_FILE_NAME = 'data/processed/english-wikitext-2/test.txt'
+    TRAIN_SET_FILE_NAME = 'data/processed/english-wikitext-2/train.txt'
+    VAL_SET_FILE_NAME = 'data/processed/english-wikitext-2/valid.txt'
     MODEL_FILE_NAME = 'models/english-wikitext-2/trained_models/model-{}.pt'
     MODEL_RESULTS_FILE_NAME = 'models/english-wikitext-2/trained_models/model-results-{}.txt'
     CORPUS_DICTIONARY_FILE_NAME = 'models/english-wikitext-2/corpus_dictionary.pkl'
