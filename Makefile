@@ -10,16 +10,11 @@ config_githooks:
 download_nltk_data:
 	python -c "import nltk; nltk.download('punkt')"
 
-create_conda_env:
-	if [[ $(conda env list) != *$(awk '/name/ {print $2}' environment.yml)* ]]; then
-		conda env create -f environment.yml;
-	fi
-
 create_required_dirs:
 	mkdir -p models/english-wikitext-2/trained_models
 	mkdir -p models/trained_models
 
-dev_init: config_githooks create_conda_env install_flake8 download_nltk_data create_required_dirs processed_data
+dev_init: config_githooks install_flake8 download_nltk_data create_required_dirs processed_data
 
 ## Code Testing
 
