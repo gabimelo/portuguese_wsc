@@ -21,20 +21,20 @@ def generate(model_file_name, corpus, ntokens, device, input_wsc=None):
 
     batch_size = 1
     hidden = model.init_hidden(batch_size)
-    # TODO test this new generation of first word
-    # if hasattr(corpus.dictionary, 'word_count'):
-    #     input_word_id = torch.multinomial(corpus.dictionary.word_count, 1)[0]
-    # else:
-    input_word_id = torch.randint(ntokens, (1, 1), dtype=torch.long).to(device)
+
+    word_frequency = torch.tensor(list(corpus.dictionary.word_count.values()), dtype=torch.float)
+
+    if hasattr(corpus.dictionary, 'word_count'):
+        input_word_id = torch.tensor([[torch.multinomial(word_frequency, 1)[0]]]).to(device)
+    else:
+        input_word_id = torch.randint(ntokens, (1, 1), dtype=torch.long).to(device)
 
     if input_wsc is not None:
         input_wsc_words = input_wsc.split()
         input_word_id.fill_(corpus.dictionary.word2idx[input_wsc_words[0]])
 
     input_words = [corpus.dictionary.idx2word[input_word_id]]
-    # TODO this initial prob should be obtained from distribution (frequency
-    #  count of word) instead of being 1
-    input_words_probs = [1]
+    input_words_probs = [corpus.dictionary.word_count[corpus.dictionary.idx2word[input_word_id]] / word_frequency.sum()]
 
     number_of_words = WORDS_TO_GENERATE if input_wsc is None else len(input_wsc_words) - 1
 
@@ -49,7 +49,6 @@ def generate(model_file_name, corpus, ntokens, device, input_wsc=None):
             else:
                 output, hidden = model(input_word_id, hidden)
 
-#             word_weights = output.squeeze().div(TEMPERATURE).exp().cpu()
             word_probs = F.softmax(output.squeeze().div(TEMPERATURE), dim=0)
 
             if input_wsc is None:
