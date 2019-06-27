@@ -37,10 +37,11 @@ Solver for Winograd Schema Challenge in Portuguese. Portuguese translations for 
 
 - For running outside of Docker container, Conda is required
 
-- To create the environment for running the project: `make dev_init`. This command also makes sure `make processed_data` is run, which prepares data needed to train model
+- To create the conda environment: `conda env create -f environment.yml`
 
 - Makefile contains some of the commands used to run the code. These commands must be run from inside the environment.
 
+    - to setup the environment for running the project: `make dev_init`. This command also makes sure `make processed_data` is run, which prepares data needed to train model
     - running `make corpus` will speed up first run of code (but is not necessary)
     - `make train` trains a model
     - `make winograd_test` runs evaluation of Winograd Schema Challenge
