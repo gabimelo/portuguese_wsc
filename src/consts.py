@@ -2,6 +2,7 @@ WIKI_PT_XML_FILE_NAME = 'data/external/ptwiki-latest-pages-articles.xml.bz2'
 WIKI_PT_TXT_FILE_BASE_NAME = 'wiki_pt'
 WIKI_PT_TXT_DIR_NAME = 'data/interim/wiki_pt_splits'
 WINOGRAD_PT_HTML_SCHEMAS_FILE = './data/raw/portuguese_wsc.html'
+MISSING_TRANSLATION_INDEXES = [60, 61, 62, 63, 72, 73, 86, 87]
 
 PORTUGUESE = False
 
