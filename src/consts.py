@@ -6,9 +6,9 @@ MISSING_TRANSLATION_INDEXES = [60, 61, 62, 63, 72, 73, 86, 87]
 WINOGRAD_ASSOCIATIVE_LABEL_FILE = 'data/raw/WSC_associative_label.json'
 WINOGRAD_SWITCHED_LABEL_FILE = 'data/raw/WSC_switched_label.json'
 CAPITALIZED_WORD_LIST_FILE = 'data/processed/capitalized_words.txt'
-MANUAL_PT_FIXES_FILE = 'data/processed/manual_fixes_portuguese.json'
+MANUAL_PT_FIXES_FILE = 'data/interim/manual_fixes_portuguese.json'
 
-PORTUGUESE = False
+PORTUGUESE = True
 
 if PORTUGUESE:
     WINOGRAD_SCHEMAS_ORIGINAL_FILE = ''
