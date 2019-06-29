@@ -58,6 +58,6 @@ def generate(model_file_name, corpus, ntokens, device, input_wsc=None):
 
             input_word_id.fill_(new_word_id)
             input_words.append(corpus.dictionary.idx2word[new_word_id])
-            input_words_probs.append(word_probs[new_word_id])
+            input_words_probs.append(word_probs[new_word_id].item())
 
     return input_words, input_words_probs

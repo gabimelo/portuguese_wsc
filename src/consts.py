@@ -3,6 +3,10 @@ WIKI_PT_TXT_FILE_BASE_NAME = 'wiki_pt'
 WIKI_PT_TXT_DIR_NAME = 'data/interim/wiki_pt_splits'
 WINOGRAD_PT_HTML_SCHEMAS_FILE = './data/raw/portuguese_wsc.html'
 MISSING_TRANSLATION_INDEXES = [60, 61, 62, 63, 72, 73, 86, 87]
+WINOGRAD_ASSOCIATIVE_LABEL_FILE = 'data/raw/WSC_associative_label.json'
+WINOGRAD_SWITCHED_LABEL_FILE = 'data/raw/WSC_switched_label.json'
+CAPITALIZED_WORD_LIST_FILE = 'data/processed/capitalized_words.txt'
+MANUAL_PT_FIXES_FILE = 'data/processed/manual_fixes_portuguese.json'
 
 PORTUGUESE = False
 

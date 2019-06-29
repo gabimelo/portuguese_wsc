@@ -1,5 +1,4 @@
 import numpy as np
-from nltk.tokenize import word_tokenize
 
 from src.generation import generate
 from src.helpers.logger import Logger
@@ -8,13 +7,7 @@ logger = Logger()
 
 
 def send_array_of_tensors_to_cpu(array_of_tensors):
-    array_in_cpu = []
-    for item in array_of_tensors:
-        try:
-            array_in_cpu.append(item.cpu())
-        except AttributeError:
-            array_in_cpu.append(item)
-    return array_in_cpu
+    raise Exception('Check that this is not needed anymore!')
 
 
 def analyse_single_wsc(model_file_name, corpus, ntokens, device, correct_sentence, wrong_sentence, partial=False):
@@ -39,59 +32,12 @@ def analyse_single_wsc(model_file_name, corpus, ntokens, device, correct_sentenc
         return False
 
 
-def clean_quotes(word_list):
-    while "''" in word_list:
-        i = word_list.index("''")
-        word_list[i] = '"'
-    while "``" in word_list:
-        i = word_list.index("``")
-        word_list[i] = '"'
-
-    return word_list
-
-
-def clean_at_marks(word_list):
-    "For merging things like ['@', '-', '@'] into ['@-@']"
-    start = 0
-    while '@' in word_list[start:]:
-        i = word_list.index('@')
-        if word_list[i + 2] == '@':
-            middle = word_list.pop(i + 1)
-            word_list.pop(i + 1)
-            word_list[i] = '@' + middle + '@'
-        start = i
-
-    return word_list
-
-
-def get_word_list(sentence, english):
-    if not english:
-        word_list = word_tokenize(sentence, language='portuguese')
-    else:
-        sentence = sentence.replace("n't", "n 't")
-        word_list = word_tokenize(sentence, language='english')
-        word_list = clean_quotes(word_list)
-        word_list = clean_at_marks(word_list)
-
-    return word_list
-
-
-def get_vocab_list(sentence_list, english):
-    return [word for sentence in sentence_list
-            for word in get_word_list(sentence, english)]
-
-
 def find_missing_wsc_words_in_corpus_vocab(df, corpus, english=False):
-    correct_sentences_vocab = get_vocab_list(df.correct_sentence.values, english)
-    incorrect_sentences_vocab = get_vocab_list(df.incorrect_sentence.values, english)
-    manually_fixed_correct_sentences_vocab = get_vocab_list(df.manually_fixed_correct_sentence.values, english)
-    manually_fixed_incorrect_sentences_vocab = get_vocab_list(df.manually_fixed_incorrect_sentence.values, english)
-    correct_switched_vocab = get_vocab_list(df.correct_switched.values, english)
-    incorrect_switched_vocab = get_vocab_list(df.incorrect_switched.values, english)
-
-    wsc_vocab = set(correct_sentences_vocab + incorrect_sentences_vocab +
-                    manually_fixed_correct_sentences_vocab + manually_fixed_incorrect_sentences_vocab +
-                    correct_switched_vocab + incorrect_switched_vocab)
+    # TODO check this is working
+    wsc_vocab = set()
+    for col in df.select_dtypes(include='str').columns:
+        vocab = get_vocab_list(df.correct_sentence.values, english)
+        wsc_vocab += vocab
 
     missing_words = []
     for word in wsc_vocab:
