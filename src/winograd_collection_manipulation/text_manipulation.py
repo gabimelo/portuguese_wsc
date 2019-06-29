@@ -50,6 +50,6 @@ def custom_tokenizer(sentence, english, for_model=False):
     return word_list
 
 
-def get_vocab_list(sentence_list, english):
+def get_vocab_list(sentence_list, english, for_model=False):
     return [word for sentence in sentence_list
-            for word in custom_tokenizer(sentence, english)]
+            for word in custom_tokenizer(sentence, english, for_model)]

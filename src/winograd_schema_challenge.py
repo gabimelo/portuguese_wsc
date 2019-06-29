@@ -2,6 +2,7 @@ import numpy as np
 
 from src.generation import generate
 from src.helpers.logger import Logger
+from src.winograd_collection_manipulation.text_manipulation import get_vocab_list, custom_tokenizer
 
 logger = Logger()
 
@@ -32,19 +33,11 @@ def analyse_single_wsc(model_file_name, corpus, ntokens, device, correct_sentenc
         return False
 
 
-def get_word_list():
-    raise Exception('Should be importing from its new location')
-
-
-def get_vocab_list():
-    raise Exception('Should be importing from its new location')
-
-
 def find_missing_wsc_words_in_corpus_vocab(df, corpus, english=False):
     # TODO check this is working
     wsc_vocab = set()
     for col in df.select_dtypes(include='str').columns:
-        vocab = get_vocab_list(df.correct_sentence.values, english)
+        vocab = get_vocab_list(df.correct_sentence.values, english, for_model=True)
         wsc_vocab += vocab
 
     missing_words = []
@@ -60,7 +53,7 @@ def winograd_test(df, corpus, model_file_name, ntokens, device, english=False):
         df.drop(df[~df.translated].index, inplace=True)
 
     def sentence_to_word_list(sentence):
-        word_list = get_word_list(sentence, english)
+        word_list = custom_tokenizer(sentence, english, for_model=True)
         unknown_word = '<unk>' if '<unk>' in corpus.dictionary.word2idx else '<UNK>'
         word_list = [word if word not in missing_words else unknown_word for word in word_list]
 
