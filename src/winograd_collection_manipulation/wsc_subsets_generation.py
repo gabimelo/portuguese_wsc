@@ -6,7 +6,7 @@ from consts import (
     PORTUGUESE, MANUAL_PT_FIXES_FILE
 )
 from src.winograd_collection_manipulation.wsc_html_parser import generate_df
-from src.winograd_collection_manipulation.wsc_json_parser import generate_df_from_json, generate_json
+from src.winograd_collection_manipulation.wsc_json_parser import generate_df_from_original_json, generate_json
 from src.winograd_collection_manipulation.text_manipulation import custom_tokenizer
 
 
@@ -198,7 +198,7 @@ def prepare_full_json():
     if not english:
         df = generate_df()
     else:
-        df = generate_df_from_json()
+        df = generate_df_from_original_json()
 
     df = generate_is_switchable_column(generate_is_associative_column(df))
 
