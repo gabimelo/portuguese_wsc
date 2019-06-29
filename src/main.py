@@ -18,7 +18,7 @@ from src.modeling.training import train
 from src.generation import generate
 from src.helpers.utils import get_latest_model_file, summary
 from src.modeling.parallel import DataParallelCriterion
-from src.datasets_manipulation.wsc_parser import generate_df_from_json
+from src.winograd_collection_manipulation.wsc_json_handler import generate_df_from_json
 from src.winograd_schema_challenge import winograd_test
 from src.consts import PORTUGUESE, MAIN_GPU_INDEX
 

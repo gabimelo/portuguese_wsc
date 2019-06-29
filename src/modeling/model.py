@@ -1,7 +1,7 @@
 import torch.nn as nn
 
 from src.consts import LAYER_COUNT
-from src.helpers.utils import permute_for_parallelization
+from src.modeling.utils import permute_for_parallelization
 
 
 class RNNModel(nn.Module):

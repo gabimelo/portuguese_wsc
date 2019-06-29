@@ -10,7 +10,7 @@ from src.consts import (
     LOG_INTERVAL, MODEL_FILE_NAME, MODEL_RESULTS_FILE_NAME
 )
 from src.helpers.logger import Logger
-from src.helpers.utils import (
+from src.modeling.utils import (
     batchify, get_batch, repackage_hidden, permute_for_parallelization, get_results_from_data_parallelized_forward
 )
 

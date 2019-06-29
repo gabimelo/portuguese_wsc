@@ -1,12 +1,18 @@
 WIKI_PT_XML_FILE_NAME = 'data/external/ptwiki-latest-pages-articles.xml.bz2'
 WIKI_PT_TXT_FILE_BASE_NAME = 'wiki_pt'
 WIKI_PT_TXT_DIR_NAME = 'data/interim/wiki_pt_splits'
-WINOGRAD_PT_HTML_SCHEMAS_FILE = './data/raw/portuguese_wsc.html'
+WINOGRAD_PT_HTML_SCHEMAS_FILE = 'data/raw/portuguese_wsc.html'
+MISSING_TRANSLATION_INDEXES = [60, 61, 62, 63, 72, 73, 86, 87]
+WINOGRAD_ASSOCIATIVE_LABEL_FILE = 'data/raw/WSC_associative_label.json'
+WINOGRAD_SWITCHED_LABEL_FILE = 'data/raw/WSC_switched_label.json'
+CAPITALIZED_WORD_LIST_FILE = 'data/processed/capitalized_words.txt'
+MANUAL_PT_FIXES_FILE = 'data/interim/manual_fixes_portuguese.json'
 
-PORTUGUESE = False
+PORTUGUESE = True
 
 if PORTUGUESE:
-    WINOGRAD_SCHEMAS_FILE = './data/processed/portuguese_wsc.json'
+    WINOGRAD_SCHEMAS_ORIGINAL_FILE = ''
+    WINOGRAD_SCHEMAS_FILE = 'data/processed/portuguese_wsc.json'
     PROCESSED_DATA_DIR_NAME = 'data/processed'
     TEST_SET_FILE_NAME = 'data/processed/test.txt'
     TRAIN_SET_FILE_NAME = 'data/processed/train.txt'
@@ -18,7 +24,8 @@ if PORTUGUESE:
     FILE_TOKEN_COUNT_DICT_FILE_NAME = 'models/file_token_count_dict_vocab_from_first_three_files.json'
     FILTER_WORDS = True
 else:
-    WINOGRAD_SCHEMAS_FILE = './data/processed/english_wsc.json'
+    WINOGRAD_SCHEMAS_ORIGINAL_FILE = 'data/raw/english_wsc.json'
+    WINOGRAD_SCHEMAS_FILE = 'data/processed/english_wsc.json'
     PROCESSED_DATA_DIR_NAME = 'data/processed/english-wikitext-2'
     TEST_SET_FILE_NAME = 'data/processed/english-wikitext-2/test.txt'
     TRAIN_SET_FILE_NAME = 'data/processed/english-wikitext-2/train.txt'
