@@ -32,6 +32,14 @@ def analyse_single_wsc(model_file_name, corpus, ntokens, device, correct_sentenc
         return False
 
 
+def get_word_list():
+    raise Exception('Should be importing from its new location')
+
+
+def get_vocab_list():
+    raise Exception('Should be importing from its new location')
+
+
 def find_missing_wsc_words_in_corpus_vocab(df, corpus, english=False):
     # TODO check this is working
     wsc_vocab = set()

@@ -1,6 +1,8 @@
 import os
 import glob
 
+import torch
+
 from src.consts import MODEL_FILE_NAME
 
 
