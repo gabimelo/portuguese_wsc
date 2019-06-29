@@ -5,7 +5,6 @@ models/*
 data/external/*
 data/interim/english-wikitext-2/*
 data/interim/wiki_pt_splits/*
-data/raw/*
 data/processed/train.txt
 data/processed/test.txt
 data/processed/val.txt
