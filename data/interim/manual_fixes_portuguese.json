@@ -142,15 +142,15 @@
     "question_id": 188,
     "manually_fixed_correct_sentence": "Todo mundo adorou os biscoitos de aveia; apenas algumas pessoas gostaram do biscoito com gotas de chocolate. Da próxima vez, nós deveríamos fazer mais biscoitos de aveia.",
     "manually_fixed_incorrect_sentence": "Todo mundo adorou os biscoitos de aveia; apenas algumas pessoas gostaram do biscoito com gotas de chocolate. Da próxima vez, nós deveríamos fazer mais biscoitos com gotas de chocolate.",
-    "manually_fixed_correct_switched": "Todo mundo adorou os biscoitos com gotas de chocolate; apenas algumas pessoas gostaram do biscoito com gotas de chocolate. Da próxima vez, nós deveríamos fazer mais biscoitos com gotas de chocolate.",
-    "manually_fixed_incorrect_switched": "Todo mundo adorou os biscoitos com gotas de chocolate; apenas algumas pessoas gostaram do biscoito com gotas de chocolate. Da próxima vez, nós deveríamos fazer mais biscoitos de aveia."
+    "manually_fixed_correct_switched": "Todo mundo adorou os biscoitos com gotas de chocolate; apenas algumas pessoas gostaram do biscoito de aveia. Da próxima vez, nós deveríamos fazer mais biscoitos com gotas de chocolate.",
+    "manually_fixed_incorrect_switched": "Todo mundo adorou os biscoitos com gotas de chocolate; apenas algumas pessoas gostaram do biscoito de aveia. Da próxima vez, nós deveríamos fazer mais biscoitos de aveia."
   },
   {
     "question_id": 189,
     "manually_fixed_correct_sentence": "Todo mundo adorou os biscoitos de aveia; apenas algumas pessoas gostaram do biscoito com gotas de chocolate. Da próxima vez, nós deveríamos fazer menos biscoitos com gotas de chocolate.",
     "manually_fixed_incorrect_sentence": "Todo mundo adorou os biscoitos de aveia; apenas algumas pessoas gostaram do biscoito com gotas de chocolate. Da próxima vez, nós deveríamos fazer menos biscoitos de aveia.",
-    "manually_fixed_correct_switched": "Todo mundo adorou os biscoitos com gotas de chocolate; apenas algumas pessoas gostaram do biscoito com gotas de chocolate. Da próxima vez, nós deveríamos fazer menos biscoitos de aveia.",
-    "manually_fixed_incorrect_switched": "Todo mundo adorou os biscoitos com gotas de chocolate; apenas algumas pessoas gostaram do biscoito com gotas de chocolate. Da próxima vez, nós deveríamos fazer menos biscoitos com gotas de chocolate."
+    "manually_fixed_correct_switched": "Todo mundo adorou os biscoitos com gotas de chocolate; apenas algumas pessoas gostaram do biscoito de aveia. Da próxima vez, nós deveríamos fazer menos biscoitos de aveia.",
+    "manually_fixed_incorrect_switched": "Todo mundo adorou os biscoitos com gotas de chocolate; apenas algumas pessoas gostaram do biscoito de aveia. Da próxima vez, nós deveríamos fazer menos biscoitos com gotas de chocolate."
   },
   {
     "question_id": 190,
