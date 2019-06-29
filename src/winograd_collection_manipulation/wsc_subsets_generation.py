@@ -97,8 +97,8 @@ def apply_substitution_exceptions(subs_a, subs_b):
     if subs_a == 'o homem' and subs_b == 'o filho':
         subs_a = 'homem'
         subs_b = 'filho'
-    if subs_a == 'Goodman':
-        subs_a = 'Sam Goodman'
+    if subs_a == 'goodman':
+        subs_a = 'sam goodman'
 
     return subs_a, subs_b
 
