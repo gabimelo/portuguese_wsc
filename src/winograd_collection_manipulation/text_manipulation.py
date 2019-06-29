@@ -1,3 +1,5 @@
+import string
+
 from nltk.tokenize import word_tokenize
 
 
@@ -26,15 +28,24 @@ def clean_at_marks(word_list):
     return word_list
 
 
-# old get_word_list
-def custom_tokenizer(sentence, english):
+def add_at_marks(word_list):
+    for i, word in enumerate(word_list):
+        if '@' not in word and len(word) > 1:
+            for punct in string.punctuation:
+                if punct != "'":
+                    word_list[i] = word.replace(punct, '@' + punct + '@')
+    return word_list
+
+
+def custom_tokenizer(sentence, english, for_model=False):
     if not english:
         word_list = word_tokenize(sentence, language='portuguese')
     else:
         sentence = sentence.replace("n't", "n 't")
         word_list = word_tokenize(sentence, language='english')
         word_list = clean_quotes(word_list)
-        word_list = clean_at_marks(word_list)
+        if for_model:
+            word_list = add_at_marks(word_list)
 
     return word_list
 

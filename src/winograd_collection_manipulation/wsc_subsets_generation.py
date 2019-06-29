@@ -1,12 +1,12 @@
 import re
 import json
 
-from consts import (
+from src.consts import (
     WINOGRAD_ASSOCIATIVE_LABEL_FILE, WINOGRAD_SWITCHED_LABEL_FILE, CAPITALIZED_WORD_LIST_FILE,
     PORTUGUESE, MANUAL_PT_FIXES_FILE
 )
-from src.winograd_collection_manipulation.wsc_html_parser import generate_df
-from src.winograd_collection_manipulation.wsc_json_parser import generate_df_from_original_json, generate_json
+from src.winograd_collection_manipulation.wsc_html_parser import generate_df_from_html
+from src.winograd_collection_manipulation.wsc_json_handler import generate_df_from_original_json, generate_json
 from src.winograd_collection_manipulation.text_manipulation import custom_tokenizer
 
 
@@ -67,8 +67,9 @@ def generate_is_switchable_column(df):
 
     # these questions were not present in english switchable label file
     extra_switchable_indexes = [277, 278, 279, 280]
-    for index in extra_switchable_indexes:
-        df.loc[index, 'is_switchable'] = True
+    if len(df) >= 277:
+        for index in extra_switchable_indexes:
+            df.loc[index, 'is_switchable'] = True
 
     return df
 
@@ -123,8 +124,6 @@ def manually_generate_switched_sentence(row):
                        .replace('<PLACEHOLDER>', subs_b)\
                        .replace('seu homem', 'o homem')
 
-    switched = capitalize_each_sentence(switched)
-
     return switched
 
 
@@ -139,7 +138,10 @@ def fill_df_from_english_switched_json(df):
         pronoun = re.findall(r'\[(.*?)\]', item['sentence_switched'])
         df.loc[item['index'], 'pronoun'] = pronoun
         df.loc[item['index'], 'snippet'] = '[' + pronoun[0] + ']'
-        df.loc[item['index'], 'switched'] = item['sentence_switched']
+        if df.loc[item['index'], 'is_switchable']:
+            df.loc[item['index'], 'switched'] = item['sentence_switched']
+        else:
+            df.loc[item['index'], 'switched'] = ''
 
     return df
 
@@ -159,11 +161,17 @@ def capitalize_words(sentence, capitalized_words, english):
     words = []
 
     for word in custom_tokenizer(sentence, english):
+        word = word.lower()
         if word.capitalize() in capitalized_words or (len(words) >= 1 and words[-1][-1] in ['.', '!', '?']):
             word = word.capitalize()
-        if len(words) >= 1 and words[-1] == '``':
+        if len(words) >= 1 and (words[-1] == '``' or words[-1] == '"'):
             words[-1] = '"' + word
-        elif word in ['.', ',', '!', '?', ';', "''"]:
+        elif word == '"':
+            if words[-1][0] == '"':
+                words[-1] += word
+            else:
+                words += [word]
+        elif word in ['.', ',', '!', '?', ';', "''", "'t"]:
             if word == "''":
                 word = '"'
             words[-1] += word
@@ -174,6 +182,8 @@ def capitalize_words(sentence, capitalized_words, english):
     sentence = sentence.replace('" Eu primeiro! "', '"Eu primeiro"!')
     sentence = sentence.replace('tv', 'TV')
     sentence = sentence.replace('tv.', 'TV.')
+
+    sentence = capitalize_each_sentence(sentence)
 
     return sentence
 
@@ -196,7 +206,7 @@ def prepare_full_json():
     english = False if PORTUGUESE else True
 
     if not english:
-        df = generate_df()
+        df = generate_df_from_html()
     else:
         df = generate_df_from_original_json()
 
@@ -211,16 +221,25 @@ def prepare_full_json():
         df['correct_sentence'], df['incorrect_sentence'], df['correct_switched'], df['incorrect_switched'] = \
             zip(*df.apply(generate_full_sentences, axis=1))
 
-    df['correct_sentence'] = df['correct_sentence'].apply(capitalize_words)
-    df['incorrect_sentence'] = df['incorrect_sentence'].apply(capitalize_words)
-    df['correct_switched'] = df['correct_switched'].apply(capitalize_words)
-    df['incorrect_switched'] = df['incorrect_switched'].apply(capitalize_words)
+    capitalized_words = load_capitalized_words()
 
-    df['manually_fixed_correct_sentence'], df['manually_fixed_incorrect_sentence'], \
-        df['manually_fixed_correct_switched'], df['manually_fixed_incorrect_switched'] = \
-        df['correct_sentence'], df['incorrect_sentence'], df['correct_switched'], df['incorrect_switched']
+    for sentence_type in ['correct_sentence', 'incorrect_sentence', 'correct_switched', 'incorrect_switched']:
+        df[sentence_type] = df[sentence_type].apply(lambda sentence: capitalize_words(sentence,
+                                                                                      capitalized_words,
+                                                                                      english))
 
     if not english:
+        df['manually_fixed_correct_sentence'], df['manually_fixed_incorrect_sentence'], \
+            df['manually_fixed_correct_switched'], df['manually_fixed_incorrect_switched'] = \
+            df['correct_sentence'], df['incorrect_sentence'], df['correct_switched'], df['incorrect_switched']
         df = add_manual_fixes(df)
+    else:
+        df['manually_fixed_correct_sentence'], df['manually_fixed_incorrect_sentence'], \
+            df['manually_fixed_correct_switched'], df['manually_fixed_incorrect_switched'] = \
+            '', '', '', ''
 
     generate_json(df)
+
+
+if __name__ == "__main__":
+    prepare_full_json()

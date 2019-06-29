@@ -15,6 +15,8 @@ def generate_df_from_original_json():
             else wsc_json[i+1]['substitution']  # noqa E226
         incorrect_sentence = wsc_json[i]['substitution'] if not wsc_json[i]['correctness'] \
             else wsc_json[i+1]['substitution'] # noqa E226
+        correct_sentence = correct_sentence.replace('recieved', 'received')
+        incorrect_sentence = incorrect_sentence.replace('recieved', 'received')
         rows.append([correct_sentence, incorrect_sentence])
 
     df = pd.DataFrame(rows, columns=['correct_sentence', 'incorrect_sentence'])
