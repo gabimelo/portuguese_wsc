@@ -24,8 +24,6 @@ from src.consts import PORTUGUESE, MAIN_GPU_INDEX
 
 logger = Logger()
 
-
-
 def setup_torch():
     torch.manual_seed(RANDOM_SEED)
     if torch.cuda.is_available():
