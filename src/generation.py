@@ -10,10 +10,6 @@ logger = Logger()
 
 def generate(model_file_name, corpus, ntokens, device, input_wsc=None):
     with open(model_file_name, 'rb') as f:
-        # TODO remove these two lines!!
-        import sys
-        sys.path.insert(0, '../pytorch_examples/word_language_model')
-
         model = torch.load(f).to(device)
     use_data_paralellization = True if type(model).__name__ == 'CustomDataParallel' else False
 
@@ -34,7 +30,8 @@ def generate(model_file_name, corpus, ntokens, device, input_wsc=None):
         input_word_id.fill_(corpus.dictionary.word2idx[input_wsc_words[0]])
 
     input_words = [corpus.dictionary.idx2word[input_word_id]]
-    input_words_probs = [corpus.dictionary.word_count[corpus.dictionary.idx2word[input_word_id]] / word_frequency.sum()]
+    input_words_probs = [(corpus.dictionary.word_count[corpus.dictionary.idx2word[input_word_id]] /
+                         word_frequency.sum()).item()]
 
     number_of_words = WORDS_TO_GENERATE if input_wsc is None else len(input_wsc_words) - 1
 

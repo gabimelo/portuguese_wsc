@@ -7,10 +7,6 @@ from src.winograd_collection_manipulation.text_manipulation import get_vocab_lis
 logger = Logger()
 
 
-def send_array_of_tensors_to_cpu(array_of_tensors):
-    raise Exception('Check that this is not needed anymore!')
-
-
 def analyse_single_wsc(model_file_name, corpus, ntokens, device, correct_sentence, wrong_sentence, partial=False):
     _, correct_words_probs = generate(model_file_name, corpus, ntokens, device, input_wsc=correct_sentence)
     _, wrong_words_probs = generate(model_file_name, corpus, ntokens, device, input_wsc=wrong_sentence)
@@ -22,23 +18,19 @@ def analyse_single_wsc(model_file_name, corpus, ntokens, device, correct_sentenc
         correct_words_probs = correct_words_probs[-i:]
         wrong_words_probs = wrong_words_probs[-i:]
 
-    correct_words_probs_cpu = send_array_of_tensors_to_cpu(correct_words_probs)
-    wrong_words_probs_cpu = send_array_of_tensors_to_cpu(wrong_words_probs)
-
-    if np.prod(correct_words_probs_cpu) > np.prod(wrong_words_probs_cpu):
+    if np.prod(correct_words_probs) > np.prod(wrong_words_probs):
         return True
-    elif np.prod(correct_words_probs_cpu) == np.prod(wrong_words_probs_cpu):
+    elif np.prod(correct_words_probs) == np.prod(wrong_words_probs):
         return False
     else:
         return False
 
 
 def find_missing_wsc_words_in_corpus_vocab(df, corpus, english=False):
-    # TODO check this is working
     wsc_vocab = set()
-    for col in df.select_dtypes(include='str').columns:
+    for col in df.loc[:, (df.applymap(type) == str).all(0)].columns:
         vocab = get_vocab_list(df.correct_sentence.values, english, for_model=True)
-        wsc_vocab += vocab
+        wsc_vocab.update(vocab)
 
     missing_words = []
     for word in wsc_vocab:
