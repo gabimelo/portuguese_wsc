@@ -3,8 +3,21 @@
 from src.consts import WINOGRAD_SCHEMAS_FILE, WINOGRAD_PT_HTML_SCHEMAS_FILE
 
 # Path to each file whose English names will be replaced
-paths_to_files = [WINOGRAD_PT_HTML_SCHEMAS_FILE.replace('.html', '_portuguese_names.html'),
-                  WINOGRAD_SCHEMAS_FILE.replace('.json', '_portuguese_names.json')]
+new_paths_to_files = []
+
+# Create files from the ones without name translations
+paths_to_files = [WINOGRAD_PT_HTML_SCHEMAS_FILE, WINOGRAD_SCHEMAS_FILE]
+
+for path in paths_to_files:
+    # Read in the file
+    with open(path, 'r') as file:
+        filedata = file.read()
+
+    new_path = path.replace('.html', '_portuguese_names.html').replace('.json', '_portuguese_names.json')
+    new_paths_to_files.append(new_path)
+
+    with open(new_path, 'w') as file:
+        file.write(filedata)
 
 # Dict with a Portuguese name for each English name
 dict_names = {
@@ -74,7 +87,7 @@ dict_names = {
     "Tommy":   "Vitor"
 }
 
-for path in paths_to_files:
+for path in new_paths_to_files:
     # Read in the file
     with open(path, 'r') as file:
         filedata = file.read()
