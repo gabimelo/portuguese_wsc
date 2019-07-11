@@ -58,6 +58,9 @@ def generate_json(df):
 
         dic['is_associative'] = False if 'is_associative' not in row else row.is_associative
         dic['is_switchable'] = False if 'is_switchable' not in row else row.is_switchable
+        if dic['is_switchable'] and dic['correct_switched'] == '':
+            dic['correct_switched'] = row.correct_switched
+            dic['incorrect_switched'] = row.incorrect_switched
         dic['translated'] = row.translated
 
         json_rows.append(dic)

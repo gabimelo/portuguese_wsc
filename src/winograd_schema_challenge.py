@@ -79,7 +79,7 @@ def winograd_test(df, corpus, model_file_name, ntokens, device, english=False):
         test_full_and_partial('Test on full set', df, 'correct_sentence',
                               'incorrect_sentence', result_column)
 
-        if 'manually_fixed_correct_sentence' in df.columns:
+        if 'manually_fixed_correct_sentence' in df.columns and df.iloc[0]['manually_fixed_correct_sentence'] != '':
             result_column = 'test_result_manually_fixed'
             df[result_column + '_full'] = df[result_column + '_partial'] = False
             test_full_and_partial('Test on full set, with substitutions manually fixed',
@@ -112,7 +112,8 @@ def winograd_test(df, corpus, model_file_name, ntokens, device, english=False):
                                   df[~df.is_associative], 'correct_sentence', 'incorrect_sentence',
                                   result_column)
 
-            if 'manually_fixed_correct_sentence' in df.columns:
+            if 'manually_fixed_correct_sentence' in df.columns and \
+               df.iloc[0]['manually_fixed_correct_sentence'] != '':
                 result_column = 'manually_fixed_test_result_associative'
                 df[result_column + '_full'] = df[result_column + '_partial'] = False
                 test_full_and_partial('Test on associative set, with substitutions manually fixed',
