@@ -9,6 +9,11 @@ data/processed/train.txt
 data/processed/test.txt
 data/processed/val.txt
 data/processed/valid.txt
+data/processed/train_bkp.txt
+data/processed/test_bkp.txt
+data/processed/val_bkp.txt
+data/processed/valid_bkp.txt
+data/processed/splits/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
