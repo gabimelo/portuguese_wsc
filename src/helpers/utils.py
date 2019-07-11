@@ -14,13 +14,15 @@ def get_latest_model_file():
     return latest_file_path
 
 
-def summary(model, criterion):
+def summary(model, criterion=None):
     print(model, end="\n\n")
 
     for key, value in model.state_dict().items():
         print(key, value.size())
 
-    params = list(model.parameters()) + list(criterion.parameters())
+    params = list(model.parameters())
+    if criterion is not None:
+        params += list(criterion.parameters())
     total_params = sum(x.size()[0] * x.size()[1] if len(x.size()) > 1 else x.size()[0] for x in params if x.size())
 
     print("\nTotal Parameters: {:,}".format(total_params))
