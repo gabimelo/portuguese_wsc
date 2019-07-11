@@ -1,8 +1,27 @@
+# flake8: noqa
+
+from src.consts import WINOGRAD_SCHEMAS_FILE, WINOGRAD_PT_HTML_SCHEMAS_FILE
+
 # Path to each file whose English names will be replaced
-paths_to_files = ['portuguese_wsc.json', 'portuguese_wsc.html']
+new_paths_to_files = []
+
+# Create files from the ones without name translations
+paths_to_files = [WINOGRAD_PT_HTML_SCHEMAS_FILE, WINOGRAD_SCHEMAS_FILE]
+
+for path in paths_to_files:
+    # Read in the file
+    with open(path, 'r') as file:
+        filedata = file.read()
+
+    new_path = path.replace('.html', '_portuguese_names.html').replace('.json', '_portuguese_names.json')
+    new_paths_to_files.append(new_path)
+
+    with open(new_path, 'w') as file:
+        file.write(filedata)
 
 # Dict with a Portuguese name for each English name
 dict_names = {
+    # feminine names
     "Adams":   "Larissa",
     "Alice":   "Aline",
     "Amy":     "Camila",
@@ -27,7 +46,7 @@ dict_names = {
     "Sally":   "Marcia",
     "Sue":     "Sandra",
     "Susan":   "Vanessa",
-    
+    # masculine names
     "Adam":    "Antonio",
     "Bill":    "André",
     "Billy":   "Arthur",
@@ -68,19 +87,21 @@ dict_names = {
     "Tommy":   "Vitor"
 }
 
-for path in paths_to_files:
+for path in new_paths_to_files:
     # Read in the file
     with open(path, 'r') as file:
         filedata = file.read()
     
     # Replace all names
     print("At", path, ":")
+    count = 0
     for english_name in reversed(sorted(dict_names.keys())):  # It will not replace "Ann" in "Anne" or "Anna", for instance
-        if dict_names[english_name] not in filedata:
-            print(english_name, "was replaced by", dict_names[english_name])
-            filedata = filedata.replace(english_name, dict_names[english_name])
+#        if dict_names[english_name] not in filedata:
+        print(english_name, "was replaced by", dict_names[english_name])
+        filedata = filedata.replace(english_name, dict_names[english_name])
+        count += 1
 
-    print()
+    print('{} names were replaced. Expected {} substitutions.'.format(count, len(dict_names)))
     # Write the file out again
     with open(path, 'w') as file:
         file.write(filedata)

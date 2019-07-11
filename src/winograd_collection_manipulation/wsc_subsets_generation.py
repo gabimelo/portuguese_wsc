@@ -13,9 +13,10 @@ from src.winograd_collection_manipulation.text_manipulation import custom_tokeni
 def generate_full_sentences(row):
     subs_a = row.substitution_a.lower()
     subs_b = row.substitution_b.lower()
+    snippet = row.snippet.lower()
 
-    new_snippet_a = re.sub(r"\b%s\b" % row.pronoun, subs_a, row.snippet)
-    new_snippet_b = re.sub(r"\b%s\b" % row.pronoun, subs_b, row.snippet)
+    new_snippet_a = re.sub(r"\b%s\b" % row.pronoun.lower(), subs_a, snippet)
+    new_snippet_b = re.sub(r"\b%s\b" % row.pronoun.lower(), subs_b, snippet)
 
     if new_snippet_a[0] == '[' and new_snippet_a[-1] == ']':
         new_snippet_a = new_snippet_a[1:-1]
@@ -23,12 +24,14 @@ def generate_full_sentences(row):
         new_snippet_b = new_snippet_b[1:-1]
 
     if 'schema' in row.index:
-        new_schema_a = row.schema.replace(row.snippet, new_snippet_a).strip()
-        new_schema_b = row.schema.replace(row.snippet, new_snippet_b).strip()
+        schema = row.schema.lower()
+        new_schema_a = schema.replace(snippet, new_snippet_a).strip()
+        new_schema_b = schema.replace(snippet, new_snippet_b).strip()
 
     if 'switched' in row.index:
-        new_switched_a = row.switched.replace(row.snippet, new_snippet_a).strip()
-        new_switched_b = row.switched.replace(row.snippet, new_snippet_b).strip()
+        switched = row.switched.lower()
+        new_switched_a = switched.replace(snippet, new_snippet_a).strip()
+        new_switched_b = switched.replace(snippet, new_snippet_b).strip()
 
     if 'schema' in row.index and 'switched' in row.index:
         if row.correct_answer.lower() == 'a':
