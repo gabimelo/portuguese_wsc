@@ -29,7 +29,7 @@ def analyse_single_wsc(model_file_name, corpus, ntokens, device, correct_sentenc
 def find_missing_wsc_words_in_corpus_vocab(df, corpus, english=False):
     wsc_vocab = set()
     for col in df.loc[:, (df.applymap(type) == str).all(0)].columns:
-        vocab = get_vocab_list(df.correct_sentence.values, english, for_model=True)
+        vocab = get_vocab_list(df[col].values, english, for_model=True)
         wsc_vocab.update(vocab)
 
     missing_words = []
