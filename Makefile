@@ -44,7 +44,7 @@ processed_data: interim_data
 	python -m src.datasets_manipulation_scripts.make_processed_dataset
 
 recuced_processed_data: processed_data
-        ./src/datasets_manipulation_scripts/make_reduced_processed_dataset.sh
+	./src/datasets_manipulation_scripts/make_reduced_processed_dataset.sh
 
 interim_data: download_dev_data
 	python -m src.datasets_manipulation_scripts.make_interim_dataset
