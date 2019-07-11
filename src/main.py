@@ -46,7 +46,7 @@ def get_corpus():
 @click.option('--training', is_flag=True)
 @click.option('--generating', is_flag=True)
 @click.option('--model_file_name', default=None)
-@click.option('--verbose', is_flag=True)
+@click.option('--verbose', is_flag=True, default=True)
 def main(training, generating, model_file_name, verbose):
     '''
      if train is set to True, wsc param will be ignored
@@ -86,6 +86,16 @@ def main(training, generating, model_file_name, verbose):
     else:
         if model_file_name is None:
             model_file_name = get_latest_model_file()
+
+        if verbose:
+            with open(model_file_name, 'rb') as f:
+                model = torch.load(f).to(device)
+            summary(model)
+
+            logger.info('Model training results:')
+            with open(model_file_name.replace('model-', 'model-results-').replace('.pt', '.txt'), 'r') as file:
+                model_training_results = file.read()
+                logger.info(model_training_results)
 
         if not generating:
             logger.info('Generating WSC set, using model: {}'.format(model_file_name))
