@@ -1,3 +1,5 @@
+# flake8: noqa
+
 # Path to each file whose English names will be replaced
 paths_to_files = ['portuguese_wsc.json', 'portuguese_wsc.html']
 
