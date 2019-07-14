@@ -19,9 +19,9 @@ if PORTUGUESE:
     VAL_SET_FILE_NAME = 'data/processed/valid.txt'
     MODEL_FILE_NAME = 'models/trained_models/model-{}.pt'
     MODEL_RESULTS_FILE_NAME = 'models/trained_models/model-results-{}.txt'
-    CORPUS_DICTIONARY_FILE_NAME = 'models/corpus_dictionary_vocab_from_first_three_reduced_files.pkl'
-    CORPUS_FILE_NAME = 'models/corpus_vocab_from_first_three_reduced_files.pkl'
-    FILE_TOKEN_COUNT_DICT_FILE_NAME = 'models/file_token_count_dict_vocab_from_first_three_reduced_files.json'
+    CORPUS_DICTIONARY_FILE_NAME = 'models/corpus_dictionary_vocab_from_first_three_reduced_files_keep_5.pkl'
+    CORPUS_FILE_NAME = 'models/corpus_vocab_from_first_three_reduced_files_keep_5.pkl'
+    FILE_TOKEN_COUNT_DICT_FILE_NAME = 'models/file_token_count_dict_vocab_from_first_three_reduced_files_keep_5.json'
     FILTER_WORDS = True
 else:
     WINOGRAD_SCHEMAS_ORIGINAL_FILE = 'data/raw/english_wsc.json'

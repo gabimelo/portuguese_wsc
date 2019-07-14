@@ -3,7 +3,7 @@ import pickle
 
 from src import consts
 
-MIN_APPEARANCES_FOR_WORD_IN_VOCAB = 10
+MIN_APPEARANCES_FOR_WORD_IN_VOCAB = 5
 
 
 class Dictionary(object):

@@ -5,13 +5,8 @@ models/*
 data/external/*
 data/interim/english-wikitext-2/*
 data/interim/wiki_pt_splits/*
-data/processed/train.txt
-data/processed/test.txt
-data/processed/val.txt
-data/processed/valid.txt
 data/processed/train_bkp.txt
 data/processed/test_bkp.txt
-data/processed/val_bkp.txt
 data/processed/valid_bkp.txt
 data/processed/splits/*
 
