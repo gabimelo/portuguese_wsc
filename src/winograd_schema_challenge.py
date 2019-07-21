@@ -57,21 +57,39 @@ def winograd_test(df, corpus, model_file_name, ntokens, device, english=False):
         return analyse_single_wsc(model_file_name, corpus, ntokens, device,
                                   winograd_sentences[0], winograd_sentences[1], partial)
 
-    def test_set(subset_of_df, correct_sentence_column, incorrect_sentence_column, result_column, partial):
-        subset_of_df[result_column] = subset_of_df.apply(lambda x: test_row(x[correct_sentence_column],
-                                                                            x[incorrect_sentence_column],
-                                                                            partial), axis=1)
-        accuracy = sum(subset_of_df[result_column]) / len(subset_of_df)
-        logger.info('Accuracy: {} for test run on {} examples'.format(accuracy, len(subset_of_df)))
+    def test_set(df, correct_sentence_column, incorrect_sentence_column, result_column, partial, subset_key):
+        if subset_key is not None and subset_key[0] != '~':
+            df.loc[df[subset_key], result_column] = df[df[subset_key]].apply(lambda x:
+                                                                             test_row(x[correct_sentence_column],
+                                                                                      x[incorrect_sentence_column],
+                                                                                      partial),
+                                                                             axis=1)
+            accuracy = (df[df[subset_key]][result_column]).sum() / len(df[df[subset_key]])
+            logger.info('Accuracy: {} for test run on {} examples'.format(accuracy, len(df[df[subset_key]])))
+        elif subset_key is not None:
+            subset_key = subset_key[1:]
+            df.loc[~df[subset_key], result_column] = df[~df[subset_key]].apply(lambda x:
+                                                                               test_row(x[correct_sentence_column],
+                                                                                        x[incorrect_sentence_column],
+                                                                                        partial),
+                                                                               axis=1)
+            accuracy = (df[~df[subset_key]][result_column]).sum() / len(df[~df[subset_key]])
+            logger.info('Accuracy: {} for test run on {} examples'.format(accuracy, len(df[~df[subset_key]])))
+        else:
+            df[result_column] = df.apply(lambda x: test_row(x[correct_sentence_column],
+                                                            x[incorrect_sentence_column],
+                                                            partial), axis=1)
+            accuracy = (df[result_column]).sum() / len(df)
+            logger.info('Accuracy: {} for test run on {} examples'.format(accuracy, len(df)))
 
-    def test_full_and_partial(test_name, subset_of_df, correct_sentence_column,
-                              incorrect_sentence_column, result_column):
+    def test_full_and_partial(test_name, df, correct_sentence_column,
+                              incorrect_sentence_column, result_column, subset_key=None):
         logger.info(test_name + ', full scoring')
-        test_set(subset_of_df, correct_sentence_column, incorrect_sentence_column,
-                 result_column + '_full', False)
+        test_set(df, correct_sentence_column, incorrect_sentence_column,
+                 result_column + '_full', False, subset_key)
         logger.info(test_name + ', partial scoring')
-        test_set(subset_of_df, correct_sentence_column, incorrect_sentence_column,
-                 result_column + '_partial', True)
+        test_set(df, correct_sentence_column, incorrect_sentence_column,
+                 result_column + '_partial', True, subset_key)
 
     def run_full_set_of_tests():
         result_column = 'test_result'
@@ -90,43 +108,52 @@ def winograd_test(df, corpus, model_file_name, ntokens, device, english=False):
             result_column = 'test_result_switchable_switched'
             df[result_column + '_full'] = df[result_column + '_partial'] = False
             test_full_and_partial('Test on switchable set, switched',
-                                  df[df.is_switchable], 'correct_switched', 'incorrect_switched',
-                                  result_column)
+                                  df, 'correct_switched', 'incorrect_switched',
+                                  result_column, 'is_switchable')
 
-            result_column = 'test_result_switchable_switched'
+            result_column = 'test_result_switchable_unswitched'
             df[result_column + '_full'] = df[result_column + '_partial'] = False
             test_full_and_partial('Test on switchable set, unswitched',
-                                  df[df.is_switchable], 'correct_sentence', 'incorrect_sentence',
-                                  result_column)
+                                  df, 'correct_sentence', 'incorrect_sentence',
+                                  result_column, 'is_switchable')
+
+            consistency_full = (df[df.is_switchable]['test_result_switchable_switched_full'] ==
+                                df[df.is_switchable]['test_result_switchable_unswitched_full']) \
+                               .sum() / len(df.is_switchable)  # noqa E127
+            logger.info('Consistency for full scoring: {}'.format(consistency_full))
+            consistency_partial = (df[df.is_switchable]['test_result_switchable_switched_partial'] ==
+                                   df[df.is_switchable]['test_result_switchable_unswitched_partial']) \
+                                  .sum() / len(df.is_switchable)  # noqa E127
+            logger.info('Consistency for partial scoring: {}'.format(consistency_partial))
 
         if 'is_associative' in df.columns:
             result_column = 'test_result_associative'
             df[result_column + '_full'] = df[result_column + '_partial'] = False
             test_full_and_partial('Test on associative set',
-                                  df[df.is_associative], 'correct_sentence', 'incorrect_sentence',
-                                  result_column)
+                                  df, 'correct_sentence', 'incorrect_sentence',
+                                  result_column, 'is_associative')
 
             result_column = 'test_result_non_associative'
             df[result_column + '_full'] = df[result_column + '_partial'] = False
             test_full_and_partial('Test on non-associative set',
-                                  df[~df.is_associative], 'correct_sentence', 'incorrect_sentence',
-                                  result_column)
+                                  df, 'correct_sentence', 'incorrect_sentence',
+                                  result_column, '~is_associative')
 
             if 'manually_fixed_correct_sentence' in df.columns and \
                df.iloc[0]['manually_fixed_correct_sentence'] != '':
                 result_column = 'manually_fixed_test_result_associative'
                 df[result_column + '_full'] = df[result_column + '_partial'] = False
                 test_full_and_partial('Test on associative set, with substitutions manually fixed',
-                                      df[df.is_associative], 'manually_fixed_correct_sentence',
+                                      df, 'manually_fixed_correct_sentence',
                                       'manually_fixed_incorrect_sentence',
-                                      result_column)
+                                      result_column, 'is_associative')
 
                 result_column = 'manually_fixed_test_result_non_associative'
                 df[result_column + '_full'] = df[result_column + '_partial'] = False
                 test_full_and_partial('Test on non-associative set, with substitutions manually fixed',
-                                      df[~df.is_associative], 'manually_fixed_correct_sentence',
+                                      df, 'manually_fixed_correct_sentence',
                                       'manually_fixed_incorrect_sentence',
-                                      result_column)
+                                      result_column, '~is_associative')
 
     missing_words = find_missing_wsc_words_in_corpus_vocab(df, corpus, english)
     run_full_set_of_tests()
