@@ -29,6 +29,8 @@ Solver for Winograd Schema Challenge in Portuguese. Portuguese translations for 
 
 ### Project Setup
 
+![Python 3.7](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Blue_Python_3.7_Shield_Badge.svg/76px-Blue_Python_3.7_Shield_Badge.svg.png)
+
 - This project has not been tested in machines without CUDA GPUs available.
 
 - A Dockerfile is available, and may be used with `docker build -t wsc_port  .` followed by `nvidia-docker run -it -v $PWD/models:/code/models wsc_port`.
