@@ -46,11 +46,12 @@ def get_corpus():
 @click.option('--training', is_flag=True)
 @click.option('--generating', is_flag=True)
 @click.option('--model_file_name', default=None)
-@click.option('--verbose', is_flag=True, default=True)
-def main(training, generating, model_file_name, verbose):
+@click.option('--quiet', is_flag=True)
+def main(training, generating, model_file_name, quiet):
     '''
      if train is set to True, wsc param will be ignored
     '''
+    verbose = not quiet
 
     setup_torch()
     # code seems to run slower (~90ms/batch, with batch_size=40) when default GPU is not cuda:0
