@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 from src.datasets_manipulation.corpus import Corpus
 from src.helpers.logger import Logger
+from src.helpers.consts import CORPUS_DICTIONARY_FILE_NAME
 
 logger = Logger()
 
 
 def main():
-    Corpus()
+    if not os.path.exists(CORPUS_DICTIONARY_FILE_NAME):
+        dictionary = Dictionary()
+        dictionary.generate_full_dir_dictionary()
     logger.info('Finished generating Corpus Dictionary pickle')
 
 

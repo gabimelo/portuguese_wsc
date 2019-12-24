@@ -3,7 +3,7 @@ import os
 import click
 
 from src.helpers.logger import Logger
-from src.consts import WIKI_PT_TXT_DIR_NAME, WIKI_PT_XML_FILE_NAME
+from src.helpers.consts import WIKI_PT_TXT_DIR_NAME, WIKI_PT_XML_FILE_NAME
 from src.datasets_manipulation.wikidump import make_corpus_files
 
 logger = Logger()

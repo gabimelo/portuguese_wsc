@@ -1,7 +1,7 @@
 import pandas as pd
 from bs4 import BeautifulSoup
 
-from src.consts import WINOGRAD_PT_HTML_SCHEMAS_FILE, MISSING_TRANSLATION_INDEXES
+from src.helpers.consts import WINOGRAD_PT_HTML_SCHEMAS_FILE, MISSING_TRANSLATION_INDEXES
 
 
 def join_content(item):

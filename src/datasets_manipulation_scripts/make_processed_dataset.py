@@ -2,7 +2,7 @@
 import shutil
 
 from src.helpers.logger import Logger
-from src.consts import (
+from src.helpers.consts import (
     WIKI_PT_TXT_FILE_BASE_NAME, WIKI_PT_TXT_DIR_NAME, TEST_SET_FILE_NAME, TRAIN_SET_FILE_NAME, VAL_SET_FILE_NAME
 )
 

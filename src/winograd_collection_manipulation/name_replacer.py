@@ -1,6 +1,6 @@
 # flake8: noqa
 
-from src.consts import WINOGRAD_SCHEMAS_FILE, WINOGRAD_PT_HTML_SCHEMAS_FILE
+from src.helpers.consts import WINOGRAD_SCHEMAS_FILE, WINOGRAD_PT_HTML_SCHEMAS_FILE
 
 # Path to each file whose English names will be replaced
 new_paths_to_files = []
@@ -91,7 +91,7 @@ for path in new_paths_to_files:
     # Read in the file
     with open(path, 'r') as file:
         filedata = file.read()
-    
+
     # Replace all names
     print("At", path, ":")
     count = 0

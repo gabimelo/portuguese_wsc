@@ -2,7 +2,7 @@ import torch
 import torch.nn.functional as F
 
 from src.helpers.logger import Logger
-from src.consts import WORDS_TO_GENERATE, TEMPERATURE
+from src.helpers.consts import WORDS_TO_GENERATE, TEMPERATURE
 from src.modeling.utils import permute_for_parallelization, get_results_from_data_parallelized_forward
 
 logger = Logger()
@@ -18,20 +18,22 @@ def generate(model_file_name, corpus, ntokens, device, input_wsc=None):
     batch_size = 1
     hidden = model.init_hidden(batch_size)
 
-    word_frequency = torch.tensor(list(corpus.dictionary.word_count.values()), dtype=torch.float)
+    if input_wsc is not None or hasattr(corpus.dictionary, 'word_count'):
+        word_frequency = torch.tensor(list(corpus.dictionary.word_count.values()), dtype=torch.float)
 
-    if hasattr(corpus.dictionary, 'word_count'):
-        input_word_id = torch.tensor([[torch.multinomial(word_frequency, 1)[0]]]).to(device)
+        if input_wsc is not None:
+            input_wsc_words = input_wsc.split()
+            input_word_id = torch.tensor([[corpus.dictionary.word2idx[input_wsc_words[0]]]).to(device)
+        else hasattr(corpus.dictionary, 'word_count'):
+            input_word_id = torch.tensor([[torch.multinomial(word_frequency, 1)[0]]]).to(device)
+
+        input_words_probs = [(corpus.dictionary.word_count[corpus.dictionary.idx2word[input_word_id]] /
+                            word_frequency.sum()).item()]
     else:
         input_word_id = torch.randint(ntokens, (1, 1), dtype=torch.long).to(device)
-
-    if input_wsc is not None:
-        input_wsc_words = input_wsc.split()
-        input_word_id.fill_(corpus.dictionary.word2idx[input_wsc_words[0]])
+        input_words_probs = []
 
     input_words = [corpus.dictionary.idx2word[input_word_id]]
-    input_words_probs = [(corpus.dictionary.word_count[corpus.dictionary.idx2word[input_word_id]] /
-                         word_frequency.sum()).item()]
 
     number_of_words = WORDS_TO_GENERATE if input_wsc is None else len(input_wsc_words) - 1
 

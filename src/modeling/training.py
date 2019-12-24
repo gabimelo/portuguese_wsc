@@ -5,7 +5,7 @@ import math
 from tqdm import tqdm
 import torch
 
-from src.consts import (
+from src.helpers.consts import (
     BATCH_SIZE, SEQUENCE_LENGTH, EVAL_BATCH_SIZE, INITIAL_LEARNING_RATE, EPOCHS, GRADIENT_CLIPPING,
     LOG_INTERVAL, MODEL_FILE_NAME, MODEL_RESULTS_FILE_NAME
 )

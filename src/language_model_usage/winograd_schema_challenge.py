@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.generation import generate
+from src.language_model_usage.generation import generate
 from src.helpers.logger import Logger
 from src.winograd_collection_manipulation.text_manipulation import get_vocab_list, custom_tokenizer
 

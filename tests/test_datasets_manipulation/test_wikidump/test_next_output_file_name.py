@@ -1,5 +1,5 @@
 from src.datasets_manipulation.wikidump import next_output_file_name
-from src.consts import WIKI_PT_TXT_DIR_NAME, WIKI_PT_TXT_FILE_BASE_NAME
+from src.helpers.consts import WIKI_PT_TXT_DIR_NAME, WIKI_PT_TXT_FILE_BASE_NAME
 
 
 class TestNextOutputFileName(object):

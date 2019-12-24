@@ -20,17 +20,22 @@ Preliminary results were presented on a conference paper: [Melo, Gabriela Souza 
 - The Dockerfile contains a few different options for running the code, which can be selected by commenting and uncommenting the final sections of it.
 
 - For running outside of the Docker container, Conda is required.
-    
+
     - To create the conda environment: `conda env create -f environment.yml`
 
 - Makefile contains some of the commands used to run the code. These commands must be run from inside the environment.
 
-    - to setup the environment for running the project: `make dev_init`. This command also makes sure `make processed_data` is run, which prepares data needed to train model
+    - to setup the environment for running the project: `make dev-init`. This command also makes sure `make processed-data` is run, which prepares data needed to train model
+        - The data corresponding to the Corpus being used is organized as follows:
+            - External data: the compressed XML file, as downloaded from Wikipedia's dump archive
+            - Interim data: TXT files extracted from the above. May or may not be split between different, smalle files
+            - Processed data: TXT files, containing text split between train, test and validation splits
+                - Additionally, `make recuced-processed-data` reduces size of each of these splits
     - running `make corpus` will speed up first run of code (but is not necessary)
     - `make train` trains a model
-    - `make winograd_test` runs evaluation of Winograd Schema Challenge
+    - `make winograd-test` runs evaluation of Winograd Schema Challenge
     - `make generate` runs language model for generation of text
-    
+
 - Code runs for both English and Portuguese cases, and this setting is controlled by the variable `PORTUGUESE` in `src.consts`.
 
 - Run tests with `make tests`, which is equivalent to `pytest --cov=src tests/`. Use `pytest --cov=src --cov-report=html tests/` for generation of HTML test report. Needs pytest and pytest-cov packages. If there are import errors, should run `pip install -e .` to locally install package from source code.
@@ -59,7 +64,7 @@ Preliminary results were presented on a conference paper: [Melo, Gabriela Souza 
     ├── notebooks          <- Jupyter notebooks, used during experimentation and testing.
     │
     ├── src                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module. 
+    │   ├── __init__.py    <- Makes src a Python module.
     └── tests              <- Tests module, using Pytest.
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
