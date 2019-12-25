@@ -1,16 +1,18 @@
 PROCESSED_DATA_DIR_NAME = 'data/processed'
+INTERIM_DATA_DIR_NAME = 'data/interim'
+RAW_DATA_DIR_NAME = 'data/raw'
 MODEL_DIR = 'models'
 
 WIKI_PT_XML_FILE_NAME = 'data/external/ptwiki-latest-pages-articles.xml.bz2'
 WIKI_PT_TXT_FILE_BASE_NAME = 'wiki_pt'
 WIKI_PT_TXT_DIR_NAME = 'data/interim/wiki_pt_splits'
 
-WINOGRAD_PT_HTML_SCHEMAS_FILE = 'data/raw/portuguese_wsc.html'
 MISSING_TRANSLATION_INDEXES = [60, 61, 62, 63, 72, 73, 86, 87]
-WINOGRAD_ASSOCIATIVE_LABEL_FILE = 'data/raw/WSC_associative_label.json'
-WINOGRAD_SWITCHED_LABEL_FILE = 'data/raw/WSC_switched_label.json'
-CAPITALIZED_WORD_LIST_FILE = f'{PROCESSED_DATA_DIR_NAME}/capitalized_words.txt'
-MANUAL_PT_FIXES_FILE = 'data/interim/manual_fixes_portuguese.json'
+WINOGRAD_PT_HTML_SCHEMAS_FILE = f'{RAW_DATA_DIR_NAME}/portuguese_wsc.html'
+WINOGRAD_ASSOCIATIVE_LABEL_FILE = f'{RAW_DATA_DIR_NAME}/WSC_associative_label.json'
+WINOGRAD_SWITCHED_LABEL_FILE = f'{RAW_DATA_DIR_NAME}/WSC_switched_label.json'
+MANUAL_PT_FIXES_FILE = f'{RAW_DATA_DIR_NAME}/manual_fixes_portuguese.json'
+CAPITALIZED_WORD_LIST_FILE = f'{RAW_DATA_DIR_NAME}/capitalized_words.txt'
 
 PORTUGUESE = True
 
@@ -19,7 +21,7 @@ if PORTUGUESE:
     WINOGRAD_SCHEMAS_FILE = f'{PROCESSED_DATA_DIR_NAME}/portuguese_wsc.json'
     FILTER_WORDS = 5
 else:
-    WINOGRAD_SCHEMAS_ORIGINAL_FILE = 'data/raw/english_wsc.json'
+    WINOGRAD_SCHEMAS_ORIGINAL_FILE = f'{RAW_DATA_DIR_NAME}/english_wsc.json'
     WINOGRAD_SCHEMAS_FILE = f'{PROCESSED_DATA_DIR_NAME}/english_wsc.json'
     PROCESSED_DATA_DIR_NAME = f'{PROCESSED_DATA_DIR_NAME}/english-wikitext-2'
     MODEL_DIR = f'{MODEL_DIR}/english-wikitext-2'
