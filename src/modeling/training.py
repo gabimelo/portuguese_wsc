@@ -35,7 +35,8 @@ def train(model, corpus, criterion, optimizer, device, use_data_paralellization)
 
             logger.info('-' * 89)
             logger.info(
-                f'| end of epoch {epoch:3d} | time: {(time.time() - epoch_start_time):5.2f}s | valid loss {val_loss:5.2f} '
+                f'| end of epoch {epoch:3d} | time: {(time.time() - epoch_start_time):5.2f}s '
+                f'| valid loss {val_loss:5.2f} '
                 f'| valid ppl {math.exp(val_loss):8.2f}')
             logger.info('-' * 89)
             # Save the model if the validation loss is the best we've seen so far.
@@ -58,7 +59,8 @@ def train(model, corpus, criterion, optimizer, device, use_data_paralellization)
     with open(MODEL_RESULTS_FILE_NAME.format(timestamp), 'w') as f:
         f.write(
             f'final lr: {lr}\ntest loss: {test_loss:5.2f}\ntest ppl: {math.exp(test_loss):8.2f}\n'
-            f'best val loss: {best_val_loss:5.2f}\nepochs: {epoch}\ntime to run: {(time.time() - epoch_start_time):5.2f}s'
+            f'best val loss: {best_val_loss:5.2f}\nepochs: {epoch}\n'
+            f'time to run: {(time.time() - epoch_start_time):5.2f}s'
         )
 
 
@@ -114,14 +116,14 @@ def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_
             cur_loss = total_loss / LOG_INTERVAL
             elapsed = time.time() - start_time
             try:
-                cur_ppl = math.exp(cur_loss)
+                cur_ppl = f'{math.exp(cur_loss):8.2f}'
             except OverflowError:
                 cur_ppl = 'OVERFLOW'
 
             logger.info(
                 f'| epoch {epoch:3d} | {i:5d}/{(len(train_data) // SEQUENCE_LENGTH):5d} batches '
                 f'| lr {lr:02.2f} | ms/batch {(elapsed * 1000 / LOG_INTERVAL):5.2f} '
-                f'| loss {cur_loss:5.2f} | ppl {cur_ppl):8.2f}'
+                f'| loss {cur_loss:5.2f} | ppl {cur_ppl}'
             )
             total_loss = 0
             start_time = time.time()
@@ -162,7 +164,8 @@ def evaluate(model, corpus, criterion, device, use_test_data=False, use_train_da
             total_loss += len(data) * criterion(output, targets.to(device)).item()
             hidden = repackage_hidden(hidden)
 
-    return total_loss / (len(data_source) - 1)  # TODO shouldn't this take in consideration splits with remainders due to seq len?
+    # TODO shouldn't this take in consideration splits with remainders due to seq len?
+    return total_loss / (len(data_source) - 1)
 
 
 def get_training_results(model, corpus, criterion, device, timestamp, use_data_paralellization=False):

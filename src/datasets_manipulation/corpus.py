@@ -36,12 +36,12 @@ class Corpus(object):
         pickle.dump(self, open(CORPUS_FILE_NAME, "wb"))
 
     def tokenize(self, file_token_count_dict, file_path):
-    '''
-        Tokenizes a text file, that is: returns a LongTensor where each element represents the
-        token index for the token that was present at that text sequence.
-        The manner of reading from the file to generate word sequences must be the same that is
-        utilized in the dictionary generating code.
-    '''
+        '''
+            Tokenizes a text file, that is: returns a LongTensor where each element represents the
+            token index for the token that was present at that text sequence.
+            The manner of reading from the file to generate word sequences must be the same that is
+            utilized in the dictionary generating code.
+        '''
         # TODO check if this really needs to be a torch tensor
         tokens = torch.LongTensor(file_token_count_dict[file_path])
 

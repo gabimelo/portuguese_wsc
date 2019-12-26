@@ -7,7 +7,7 @@ from src.datasets_manipulation.wikidump import make_corpus_files
 from src.helpers.consts import WIKI_PT_TXT_FILE_BASE_NAME
 
 
-class TestMakeCorpus(object):
+class TestMakeCorpus():
     def test_make_corpus(self):
         test_data_dir = 'tests/test_datasets_manipulation/test_wikidump/mock_data'
         if os.path.exists(test_data_dir):
@@ -27,6 +27,10 @@ class TestMakeCorpus(object):
         assert len(os.listdir(test_data_dir)) == 3
         with open(test_data_dir + '/' + WIKI_PT_TXT_FILE_BASE_NAME + '00.txt') as f:
             assert f.read() == 'text1.1 text1.2\ntext2.1 text2.2\n'
+        with open(test_data_dir + '/' + WIKI_PT_TXT_FILE_BASE_NAME + '01.txt') as f:
+            assert f.read() == 'text3.1 text3.2\ntext4.1 text4.2\n'
+        with open(test_data_dir + '/' + WIKI_PT_TXT_FILE_BASE_NAME + '02.txt') as f:
+            assert f.read() == 'text5.1 text5.2\n'
 
     def test_make_corpus_without_split(self):
         test_data_dir = 'tests/test_datasets_manipulation/test_wikidump/mock_data'

@@ -15,9 +15,9 @@ Preliminary results were presented on a conference paper: [Melo, Gabriela Souza 
 
 - This project has not been tested in machines without CUDA GPUs available.
 
-- A Dockerfile is available, and may be used with `docker build -t wsc_port  .` followed by `nvidia-docker run -it -v $PWD/models:/code/models wsc_port`.
+- A Dockerfile is available, and may be used with `docker build -t wsc_port  .` followed by `nvidia-docker run -it -v $PWD/models:/code/models wsc_port <desired_command>` (ie `nvidia-docker run -it -v $PWD/models:/code/models wsc_port python -m src.main`).
 
-- The Dockerfile contains a few different options for running the code, which can be selected by commenting and uncommenting the final sections of it.
+- The docker-compose file contains a few different options for running the code, which can be run with commands such as: `docker-compose run <service_name>` (ie `docker-compose run train`)
 
 - For running outside of the Docker container, Conda is required.
 

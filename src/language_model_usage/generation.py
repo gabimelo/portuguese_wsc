@@ -23,9 +23,17 @@ def generate(model_file_name, corpus, ntokens, device, input_wsc=None):
 
         if input_wsc is not None:
             input_wsc_words = input_wsc.split()
-            input_word_id = torch.tensor([[corpus.dictionary.word2idx[input_wsc_words[0]]]).to(device)
+            input_word_id = (
+                torch.tensor([[
+                    corpus.dictionary.word2idx[input_wsc_words[0]]
+                ]]).to(device)
+            )
         else hasattr(corpus.dictionary, 'word_count'):
-            input_word_id = torch.tensor([[torch.multinomial(word_frequency, 1)[0]]]).to(device)
+            input_word_id = (
+                torch.tensor([[
+                    torch.multinomial(word_frequency, 1)[0]
+                ]]).to(device)
+            )
 
         input_words_probs = [(corpus.dictionary.word_count[corpus.dictionary.idx2word[input_word_id]] /
                             word_frequency.sum()).item()]

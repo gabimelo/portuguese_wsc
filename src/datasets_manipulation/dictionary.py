@@ -46,7 +46,7 @@ class Dictionary(object):
         if consts.FILTER_WORDS > 0:
             self.filter_words(consts.FILTER_WORDS)
 
-        self.dictionary.save_dictionary(file_token_count_dict)
+        self.save_dictionary(file_token_count_dict)
 
     def save_dictionary(self, file_token_count_dict):
         with open(consts.FILE_TOKEN_COUNT_DICT_FILE_NAME, 'w') as outfile:

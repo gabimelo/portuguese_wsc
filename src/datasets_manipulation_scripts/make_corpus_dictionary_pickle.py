@@ -1,5 +1,6 @@
-# -*- coding: utf-8 -*-
-from src.datasets_manipulation.corpus import Corpus
+import os
+
+from src.datasets_manipulation.dictionary import Dictionary
 from src.helpers.logger import Logger
 from src.helpers.consts import CORPUS_DICTIONARY_FILE_NAME
 

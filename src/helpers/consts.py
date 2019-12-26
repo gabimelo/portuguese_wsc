@@ -41,7 +41,8 @@ FILE_TOKEN_COUNT_DICT_FILE_NAME = f'{MODEL_DIR}/file_token_count_dict.json'
 if PORTUGUESE:
     CORPUS_DICTIONARY_FILE_NAME = f'{MODEL_DIR}/corpus_dictionary_vocab_from_first_three_reduced_files_keep_5.pkl'
     CORPUS_FILE_NAME = f'{MODEL_DIR}/corpus_vocab_from_first_three_reduced_files_keep_5.pkl'
-    FILE_TOKEN_COUNT_DICT_FILE_NAME = f'{MODEL_DIR}/file_token_count_dict_vocab_from_first_three_reduced_files_keep_5.json'
+    FILE_TOKEN_COUNT_DICT_FILE_NAME = \
+        f'{MODEL_DIR}/file_token_count_dict_vocab_from_first_three_reduced_files_keep_5.json'
 
 RANDOM_SEED = 1111
 USE_CUDA = True

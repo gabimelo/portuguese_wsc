@@ -23,6 +23,9 @@ docker-build:
 tests:
 	pytest --cov=src tests/
 
+docker-tests: docker-build
+	docker run -it wsc_port pytest --cov=src tests/
+
 ## Run Code
 
 train:
@@ -71,10 +74,12 @@ clean-ipynb-checkpoints:
 	find . -type d -name ".ipynb_checkpoints" -exec rm -rv {} +
 
 ## Lint using flake8
-lint: lint-src lint-tests
+lint: docker-build lint-src lint-tests
 
 lint-src:
-	flake8 src
+	# flake8 src
+	docker run -it wsc_port flake8 src
 
 lint-tests:
-	flake8 tests
+	# flake8 tests
+	docker run -it wsc_port flake8 tests
