@@ -35,8 +35,15 @@ def generate(model_file_name, corpus, ntokens, device, input_wsc=None):
                 ]]).to(device)
             )
 
-        input_words_probs = [(corpus.dictionary.word_count[corpus.dictionary.idx2word[input_word_id]] /
-                            word_frequency.sum()).item()]
+        input_words_probs = [
+            (
+                corpus.dictionary.word_count[
+                    corpus.dictionary.idx2word[input_word_id]
+                ] /
+                word_frequency.sum()
+            ).
+            item()
+        ]
     else:
         input_word_id = torch.randint(ntokens, (1, 1), dtype=torch.long).to(device)
         input_words_probs = []
