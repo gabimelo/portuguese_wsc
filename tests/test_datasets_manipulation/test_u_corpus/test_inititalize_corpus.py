@@ -18,7 +18,7 @@ DIR_TEST_DATA = 'tests/test_datasets_manipulation/test_u_corpus/mock_data/'
     'src.datasets_manipulation.corpus.FILE_TOKEN_COUNT_DICT_FILE_NAME',
     DIR_TEST_DATA + 'file_token_count.json'
 )
-class TestCorpus():
+class TestInitializeCorpus():
     @mock.patch('src.datasets_manipulation.corpus.CORPUS_DICTIONARY_FILE_NAME', DIR_TEST_DATA + 'another_dict.pkl')
     @mock.patch(
         'src.datasets_manipulation.dictionary.consts.CORPUS_DICTIONARY_FILE_NAME',

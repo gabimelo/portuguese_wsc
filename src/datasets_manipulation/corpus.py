@@ -25,7 +25,7 @@ class Corpus(object):
         with open(FILE_TOKEN_COUNT_DICT_FILE_NAME, 'r', encoding='utf-8') as fp:
             file_token_count_dict = json.load(fp)
 
-        tokenize = partial(self.tokenizer, file_token_count_dict)
+        tokenize = partial(self.tokenize, file_token_count_dict)
 
         self.train = tokenize(TRAIN_SET_FILE_NAME)
         self.test = tokenize(TEST_SET_FILE_NAME)
