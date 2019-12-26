@@ -8,7 +8,7 @@ from src.modeling.utils import permute_for_parallelization, get_results_from_dat
 logger = Logger()
 
 
-def generate(model_file_name, corpus, ntokens, device, input_wsc=None):
+def generate(model_file_name, corpus, device, input_wsc=None):
     with open(model_file_name, 'rb') as f:
         model = torch.load(f).to(device)
     use_data_paralellization = True if type(model).__name__ == 'CustomDataParallel' else False
@@ -28,7 +28,7 @@ def generate(model_file_name, corpus, ntokens, device, input_wsc=None):
                     corpus.dictionary.word2idx[input_wsc_words[0]]
                 ]]).to(device)
             )
-        else hasattr(corpus.dictionary, 'word_count'):
+        else:
             input_word_id = (
                 torch.tensor([[
                     torch.multinomial(word_frequency, 1)[0]
@@ -45,7 +45,7 @@ def generate(model_file_name, corpus, ntokens, device, input_wsc=None):
             item()
         ]
     else:
-        input_word_id = torch.randint(ntokens, (1, 1), dtype=torch.long).to(device)
+        input_word_id = torch.randint(len(corpus.dictionary), (1, 1), dtype=torch.long).to(device)
         input_words_probs = []
 
     input_words = [corpus.dictionary.idx2word[input_word_id]]

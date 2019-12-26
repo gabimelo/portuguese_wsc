@@ -7,9 +7,9 @@ from src.winograd_collection_manipulation.text_manipulation import get_vocab_lis
 logger = Logger()
 
 
-def analyse_single_wsc(model_file_name, corpus, ntokens, device, correct_sentence, wrong_sentence, partial=False):
-    _, correct_words_probs = generate(model_file_name, corpus, ntokens, device, input_wsc=correct_sentence)
-    _, wrong_words_probs = generate(model_file_name, corpus, ntokens, device, input_wsc=wrong_sentence)
+def analyse_single_wsc(model_file_name, corpus, device, correct_sentence, wrong_sentence, partial=False):
+    _, correct_words_probs = generate(model_file_name, corpus, device, input_wsc=correct_sentence)
+    _, wrong_words_probs = generate(model_file_name, corpus, device, input_wsc=wrong_sentence)
 
     if partial:
         for i in range(len(correct_sentence.split())):
@@ -40,7 +40,7 @@ def find_missing_wsc_words_in_corpus_vocab(df, corpus, english=False):
     return missing_words
 
 
-def winograd_test(df, corpus, model_file_name, ntokens, device, english=False):
+def winograd_test(df, corpus, model_file_name, device, english=False):
     if 'translated' in df:
         df.drop(df[~df.translated].index, inplace=True)
 
@@ -54,7 +54,7 @@ def winograd_test(df, corpus, model_file_name, ntokens, device, english=False):
     def test_row(correct_sentence, incorrect_sentence, partial):
         winograd_sentences = ((' ').join(sentence_to_word_list(correct_sentence)).strip(),
                               (' ').join(sentence_to_word_list(incorrect_sentence)).strip())
-        return analyse_single_wsc(model_file_name, corpus, ntokens, device,
+        return analyse_single_wsc(model_file_name, corpus, device,
                                   winograd_sentences[0], winograd_sentences[1], partial)
 
     def test_set(df, correct_sentence_column, incorrect_sentence_column, result_column, partial, subset_key):
