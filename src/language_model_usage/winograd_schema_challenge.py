@@ -41,9 +41,6 @@ def find_missing_wsc_words_in_corpus_vocab(df, corpus, english=False):
 
 
 def winograd_test(df, corpus, model_file_name, device, english=False):
-    if 'translated' in df:
-        df.drop(df[~df.translated].index, inplace=True)
-
     def sentence_to_word_list(sentence):
         word_list = custom_tokenizer(sentence, english, for_model=True)
         unknown_word = '<unk>' if '<unk>' in corpus.dictionary.word2idx else '<UNK>'
