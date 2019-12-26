@@ -3,7 +3,7 @@ from unittest import mock
 
 from src.datasets_manipulation.corpus import Corpus
 
-DIR_TEST_DATA = 'tests/test_datasets_manipulation/test_my_tests/mock_data/'
+DIR_TEST_DATA = 'tests/test_datasets_manipulation/test_u_corpus/mock_data/'
 
 
 @mock.patch('src.datasets_manipulation.dictionary.consts.TEST_SET_FILE_NAME', DIR_TEST_DATA + 'test.txt')
