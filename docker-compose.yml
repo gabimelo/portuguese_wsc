@@ -9,7 +9,7 @@ services:
       - "./notebooks/:/code/notebooks/"
     ports:
       - "8888:8888"
-    command: bash "jupyter lab --allow-root --ip=0.0.0.0 --port=8888 --no-browser"
+    command: bash -c "jupyter lab --allow-root --ip=0.0.0.0 --port=8888 --no-browser"
   train:
     image: wsc_port
     build:
@@ -17,16 +17,16 @@ services:
       dockerfile: Dockerfile
     volumes:
       - "./models/:/code/models/"
-    command: bash "source activate wsc_port && exec make train"
+    command: bash -c "source activate wsc_port && exec make train"
   generate:
     image: wsc_port
     build:
       context: .
       dockerfile: Dockerfile
-    command: bash "source activate wsc_port && exec make generate"
+    command: bash -c "source activate wsc_port && exec make generate"
   winograd_test:
     image: wsc_port
     build:
       context: .
       dockerfile: Dockerfile
-    command: bash "source activate wsc_port && exec make winograd_test"
+    command: bash -c "source activate wsc_port && exec make winograd_test"

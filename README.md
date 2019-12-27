@@ -17,7 +17,7 @@ Preliminary results were presented on a conference paper: [Melo, Gabriela Souza 
 
 - A Dockerfile is available, and may be used with `docker build -t wsc_port  .` followed by `nvidia-docker run -it -v $PWD/models:/code/models wsc_port <desired_command>` (ie `nvidia-docker run -it -v $PWD/models:/code/models wsc_port python -m src.main`).
 
-- The docker-compose file contains a few different options for running the code, which can be run with commands such as: `docker-compose run <service_name>` (ie `docker-compose run train`)
+- The docker-compose file contains a few different options for running the code, which can be run with commands such as: `docker-compose run <service_name>` (ie `docker-compose run train`). For the jupyter-server, run with `docker-compose run --service-ports jupyter-server`.
 
 - For running outside of the Docker container, Conda is required.
 
