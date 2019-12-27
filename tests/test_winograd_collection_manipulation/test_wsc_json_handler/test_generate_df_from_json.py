@@ -13,7 +13,7 @@ class TestGenerateDfFromJson:
     def test_portuguese_df(self):
         df = generate_df_from_json()
 
-        assert_array_equal(df.columns.values,  [
+        assert_array_equal(df.columns.values, [
             'correct_sentence', 'incorrect_sentence',
             'manually_fixed_correct_sentence', 'manually_fixed_incorrect_sentence',
             'correct_switched', 'incorrect_switched', 'is_switchable',
@@ -31,7 +31,7 @@ class TestGenerateDfFromJson:
     )
     def test_english_df(self):
         df = generate_df_from_json()
-        assert_array_equal(df.columns.values,  [
+        assert_array_equal(df.columns.values, [
             'correct_sentence', 'incorrect_sentence',
             'manually_fixed_correct_sentence', 'manually_fixed_incorrect_sentence',
             'correct_switched', 'incorrect_switched', 'is_switchable',
