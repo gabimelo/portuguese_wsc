@@ -164,7 +164,6 @@ def evaluate(model, corpus, criterion, device, use_test_data=False, use_train_da
             total_loss += len(data) * criterion(output, targets.to(device)).item()
             hidden = repackage_hidden(hidden)
 
-    # TODO shouldn't this take in consideration splits with remainders due to seq len?
     return total_loss / (len(data_source) - 1)
 
 
