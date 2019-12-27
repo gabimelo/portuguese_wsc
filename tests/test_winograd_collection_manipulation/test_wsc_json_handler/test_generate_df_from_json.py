@@ -20,7 +20,7 @@ class TestGenerateDfFromJson:
             'is_associative', 'translated'
         ])
 
-        assert len(df) == 284
+        assert len(df) == 285
         assert df.translated.sum() == 277
         assert df.is_associative.sum() == 37
         assert df.is_switchable.sum() == 135

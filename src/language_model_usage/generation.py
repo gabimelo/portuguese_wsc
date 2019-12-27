@@ -18,39 +18,35 @@ def generate(model_file_name, corpus, device, input_wsc=None):
     batch_size = 1
     hidden = model.init_hidden(batch_size)
 
-    if input_wsc is not None or hasattr(corpus.dictionary, 'word_count'):
-        word_frequency = torch.tensor(list(corpus.dictionary.word_count.values()), dtype=torch.float)
+    word_frequency = torch.tensor(list(corpus.dictionary.word_count.values()), dtype=torch.float)
 
-        if input_wsc is not None:
-            input_wsc_words = input_wsc.split()
-            input_word_id = (
-                torch.tensor([[
-                    corpus.dictionary.word2idx[input_wsc_words[0]]
-                ]]).to(device)
-            )
-        else:
-            input_word_id = (
-                torch.tensor([[
-                    torch.multinomial(word_frequency, 1)[0]
-                ]]).to(device)
-            )
-
-        input_words_probs = [
-            (
-                corpus.dictionary.word_count[
-                    corpus.dictionary.idx2word[input_word_id]
-                ] /
-                word_frequency.sum()
-            ).
-            item()
-        ]
+    if input_wsc is not None:
+        input_wsc_words = input_wsc.split()
+        input_word_id = (
+            torch.tensor([[
+                corpus.dictionary.word2idx[input_wsc_words[0]]
+            ]]).to(device)
+        )
     else:
-        input_word_id = torch.randint(len(corpus.dictionary), (1, 1), dtype=torch.long).to(device)
-        input_words_probs = []
+        input_word_id = (
+            torch.tensor([[
+                torch.multinomial(word_frequency, 1)[0]
+            ]]).to(device)
+        )
+
+    input_words_probs = [
+        (
+            corpus.dictionary.word_count[
+                corpus.dictionary.idx2word[input_word_id]
+            ] /
+            word_frequency.sum()
+        ).
+        item()
+    ]
 
     input_words = [corpus.dictionary.idx2word[input_word_id]]
 
-    number_of_words = WORDS_TO_GENERATE if input_wsc is None else len(input_wsc_words) - 1
+    number_of_words = (WORDS_TO_GENERATE if input_wsc is None else len(input_wsc_words)) - 1
 
     with torch.no_grad():  # no tracking history
         for i in range(number_of_words):
