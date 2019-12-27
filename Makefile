@@ -18,24 +18,26 @@ dev-init: config-githooks install-flake8 download-nltk-data create-required-dirs
 docker-build:
 	docker build -t wsc_port .
 
+docker-run = docker run -it wsc_port
+
 ## Code Testing
 
 tests:
 	pytest --cov=src tests/
 
 docker-tests: docker-build
-	docker run -it wsc_port pytest --cov=src tests/
+	$(docker-run) pytest --cov=src tests/
 
 ## Run Code
 
-train:
-	python -m src.main --training
+train: docker-build
+	$(docker-run) python -m src.main --training
 
-winograd-test:
-	python -m src.main
+winograd-test: docker-build
+	$(docker-run) python -m src.main
 
-generate:
-	python -m src.main --generating
+generate: docker-build
+	$(docker-run) python -m src.main --generating
 
 ## Make Dataset
 
