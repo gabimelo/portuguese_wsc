@@ -14,20 +14,6 @@ def clean_quotes(word_list):
     return word_list
 
 
-def clean_at_marks(word_list):
-    "For merging things like ['@', '-', '@'] into ['@-@']"
-    start = 0
-    while '@' in word_list[start:]:
-        i = word_list.index('@')
-        if word_list[i + 2] == '@':
-            middle = word_list.pop(i + 1)
-            word_list.pop(i + 1)
-            word_list[i] = '@' + middle + '@'
-        start = i
-
-    return word_list
-
-
 def add_at_marks(word_list):
     for i, word in enumerate(word_list):
         if '@' not in word and len(word) > 1:

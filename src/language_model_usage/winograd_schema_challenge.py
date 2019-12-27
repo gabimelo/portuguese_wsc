@@ -116,11 +116,11 @@ def winograd_test(df, corpus, model_file_name, device, english=False):
 
             consistency_full = (df[df.is_switchable]['test_result_switchable_switched_full'] ==
                                 df[df.is_switchable]['test_result_switchable_unswitched_full']) \
-                               .sum() / len(df.is_switchable)  # noqa E127
+                               .sum() / len(df[df.is_switchable])  # noqa E127
             logger.info('Consistency for full scoring: {}'.format(consistency_full))
             consistency_partial = (df[df.is_switchable]['test_result_switchable_switched_partial'] ==
                                    df[df.is_switchable]['test_result_switchable_unswitched_partial']) \
-                                  .sum() / len(df.is_switchable)  # noqa E127
+                                  .sum() / len(df[df.is_switchable])  # noqa E127
             logger.info('Consistency for partial scoring: {}'.format(consistency_partial))
 
         if 'is_associative' in df.columns:
