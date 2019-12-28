@@ -24,9 +24,9 @@ services:
       context: .
       dockerfile: Dockerfile
     command: bash -c "source activate wsc_port && exec make generate"
-  winograd_test:
+  winograd-test:
     image: wsc_port
     build:
       context: .
       dockerfile: Dockerfile
-    command: bash -c "source activate wsc_port && exec make winograd_test"
+    command: bash -c "source activate wsc_port && exec make winograd-test"
