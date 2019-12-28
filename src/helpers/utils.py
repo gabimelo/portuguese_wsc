@@ -17,6 +17,13 @@ def get_latest_model_file():
     return latest_file_path
 
 
+def load_model(model_file_name, device):
+    with open(model_file_name, 'rb') as f:
+        model = torch.load(f).to(device)
+
+    return model
+
+
 def summary(model, criterion=None):
     logger.info(model, end="\n\n")
 
@@ -36,9 +43,7 @@ def check_cuda_mem(device):
     logger.info('Mem', torch.cuda.memory_allocated(device=device))
 
 
-def log_loaded_model_info(model_file_name, device):
-    with open(model_file_name, 'rb') as f:
-        model = torch.load(f).to(device)
+def log_loaded_model_info(model_file_name, model, device):
     summary(model)
 
     logger.info('Model training results:')

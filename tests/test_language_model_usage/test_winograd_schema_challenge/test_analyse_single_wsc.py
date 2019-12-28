@@ -6,12 +6,11 @@ import pytest
 from src.language_model_usage.winograd_schema_challenge import analyse_single_wsc
 
 
-def mock_generate(model_file_name, corpus, device, input_wsc):
+def mock_generate(model_file_name, corpus, device, input_wsc, model):
     possible_values = {
         28: [1, 0.3, 0.2, 0.1, 0.7],  # what gets returned when called with correct_sentence
         26: [1, 0.3, 0.2, 0.1, 0.5]  # what gets returned when called with wrong_sentence
     }
-    print(f'passing through here with {input_wsc}')
 
     return None, possible_values[len(input_wsc)]
 
@@ -41,43 +40,25 @@ def wrong_sentence():
 @mock.patch('src.language_model_usage.winograd_schema_challenge.generate', side_effect=mock_generate)
 class TestAnalyseSingleWsc:
     def test_correct(self, mocked_generate, correct_sentence, wrong_sentence, corpus):
-        result = analyse_single_wsc(
-            'dummy_model_file_name', corpus, 'mock_device', correct_sentence, wrong_sentence, partial=False
+        result_full, result_partial = analyse_single_wsc(
+            'dummy_model', 'dummy_model_file_name', corpus, 'mock_device', correct_sentence, wrong_sentence
         )
 
-        assert result
+        assert result_full
+        assert result_partial
 
     def test_same_sentences(self, mocked_generate, correct_sentence, wrong_sentence, corpus):
-        result = analyse_single_wsc(
-            'dummy_model_file_name', corpus, 'mock_device', correct_sentence, correct_sentence, partial=False
+        result_full, result_partial = analyse_single_wsc(
+            'dummy_model', 'dummy_model_file_name', corpus, 'mock_device', correct_sentence, correct_sentence
         )
 
-        assert not result
+        assert not result_full
+        assert not result_partial
 
     def test_inverted_sentences(self, mocked_generate, correct_sentence, wrong_sentence, corpus):
-        result = analyse_single_wsc(
-            'dummy_model_file_name', corpus, 'mock_device', wrong_sentence, correct_sentence, partial=False
+        result_full, result_partial = analyse_single_wsc(
+            'dummy_model', 'dummy_model_file_name', corpus, 'mock_device', wrong_sentence, correct_sentence
         )
 
-        assert not result
-
-    def test_partial(self, mocked_generate, correct_sentence, wrong_sentence, corpus):
-        result = analyse_single_wsc(
-            'dummy_model_file_name', corpus, 'mock_device', correct_sentence, wrong_sentence, partial=True
-        )
-
-        assert result
-
-    def test_partial_same_sentences(self, mocked_generate, correct_sentence, wrong_sentence, corpus):
-        result = analyse_single_wsc(
-            'dummy_model_file_name', corpus, 'mock_device', correct_sentence, correct_sentence, partial=True
-        )
-
-        assert not result
-
-    def test_partial_inverted_sentences(self, mocked_generate, correct_sentence, wrong_sentence, corpus):
-        result = analyse_single_wsc(
-            'dummy_model_file_name', corpus, 'mock_device', wrong_sentence, correct_sentence, partial=True
-        )
-
-        assert not result
+        assert not result_full
+        assert not result_partial

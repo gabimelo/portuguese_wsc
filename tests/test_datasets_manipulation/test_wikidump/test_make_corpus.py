@@ -16,21 +16,21 @@ class TestMakeCorpus():
         assert len(os.listdir(test_data_dir)) == 0
 
         mock_WikiCorpus = mock.Mock()
-        mock_WikiCorpus.return_value.get_texts.return_value = [['text1.1', 'text1.2'],
-                                                               ['text2.1', 'text2.2'],
-                                                               ['text3.1', 'text3.2'],
-                                                               ['text4.1', 'text4.2'],
-                                                               ['text5.1', 'text5.2']]
+        mock_WikiCorpus.return_value.get_texts.return_value = [['text11', 'text12'],
+                                                               ['text21', 'text22'],
+                                                               ['text31', 'text32'],
+                                                               ['text41', 'text42'],
+                                                               ['text51', 'text52']]
         with mock.patch('src.datasets_manipulation.wikidump.WikiCorpus', mock_WikiCorpus):
             make_corpus_files('', test_data_dir, size=2)
 
         assert len(os.listdir(test_data_dir)) == 3
         with open(test_data_dir + '/' + WIKI_PT_TXT_FILE_BASE_NAME + '00.txt') as f:
-            assert f.read() == 'text1.1 text1.2\ntext2.1 text2.2\n'
+            assert f.read() == 'text11 text12\ntext21 text22\n'
         with open(test_data_dir + '/' + WIKI_PT_TXT_FILE_BASE_NAME + '01.txt') as f:
-            assert f.read() == 'text3.1 text3.2\ntext4.1 text4.2\n'
+            assert f.read() == 'text31 text32\ntext41 text42\n'
         with open(test_data_dir + '/' + WIKI_PT_TXT_FILE_BASE_NAME + '02.txt') as f:
-            assert f.read() == 'text5.1 text5.2\n'
+            assert f.read() == 'text51 text52\n'
 
     def test_make_corpus_without_split(self):
         test_data_dir = 'tests/test_datasets_manipulation/test_wikidump/mock_data'
@@ -40,14 +40,14 @@ class TestMakeCorpus():
         assert len(os.listdir(test_data_dir)) == 0
 
         mock_WikiCorpus = mock.Mock()
-        mock_WikiCorpus.return_value.get_texts.return_value = [['text1.1', 'text1.2'],
-                                                               ['text2.1', 'text2.2'],
-                                                               ['text3.1', 'text3.2'],
-                                                               ['text4.1', 'text4.2'],
-                                                               ['text5.1', 'text5.2']]
+        mock_WikiCorpus.return_value.get_texts.return_value = [['text11', 'text12'],
+                                                               ['text21', 'text22'],
+                                                               ['text31', 'text32'],
+                                                               ['text41', 'text42'],
+                                                               ['text51', 'text52']]
         with mock.patch('src.datasets_manipulation.wikidump.WikiCorpus', mock_WikiCorpus):
             make_corpus_files('', test_data_dir, split=False, size=2)
 
         assert len(os.listdir(test_data_dir)) == 1
         with open(test_data_dir + '/' + WIKI_PT_TXT_FILE_BASE_NAME + '00.txt') as f:
-            assert f.read() == 'text1.1 text1.2\ntext2.1 text2.2\ntext3.1 text3.2\ntext4.1 text4.2\ntext5.1 text5.2\n'
+            assert f.read() == 'text11 text12\ntext21 text22\ntext31 text32\ntext41 text42\ntext51 text52\n'

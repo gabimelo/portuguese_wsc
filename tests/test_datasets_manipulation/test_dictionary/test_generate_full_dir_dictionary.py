@@ -41,8 +41,8 @@ class TestGenerateFullDirDictionary():
         expected_word2idx = {}
         expected_word_count = {}
         expected_idx2word = [
-            '<unk>', 'text5.1', 'text5.2', '<eos>', 'text1.1', 'text1.2',
-            'text2.1', 'text2.2', 'text3.1', 'text3.2', 'text4.1', 'text4.2'
+            '<unk>', 'text51', 'text52', '<eos>', 'text11', 'text12',
+            'text21', 'text22', 'text31', 'text32', 'text41', 'text42'
         ]
         for i, item in enumerate(expected_idx2word):
             expected_word2idx[item] = i

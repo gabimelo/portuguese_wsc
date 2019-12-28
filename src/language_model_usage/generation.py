@@ -3,14 +3,15 @@ import torch.nn.functional as F
 
 from src.helpers.logger import Logger
 from src.helpers.consts import WORDS_TO_GENERATE, TEMPERATURE
+from src.helpers.utils import load_model
 from src.modeling.utils import permute_for_parallelization, get_results_from_data_parallelized_forward
 
 logger = Logger()
 
 
-def generate(model_file_name, corpus, device, input_wsc=None):
-    with open(model_file_name, 'rb') as f:
-        model = torch.load(f).to(device)
+def generate(model_file_name, corpus, device, input_wsc=None, model=None):
+    model = model or load_model(model_file_name, device)
+
     use_data_paralellization = True if type(model).__name__ == 'CustomDataParallel' else False
 
     model.eval()

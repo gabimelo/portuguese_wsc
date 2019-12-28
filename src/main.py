@@ -16,7 +16,7 @@ from src.helpers.logger import Logger
 from src.modeling.custom_data_parallel import CustomDataParallel
 from src.modeling.training import train
 from src.language_model_usage.generation import generate
-from src.helpers.utils import get_latest_model_file, summary, log_loaded_model_info
+from src.helpers.utils import get_latest_model_file, summary, log_loaded_model_info, load_model
 from src.modeling.parallel import DataParallelCriterion
 from src.winograd_collection_manipulation.wsc_json_handler import generate_df_from_json
 from src.language_model_usage.winograd_schema_challenge import winograd_test
@@ -98,16 +98,18 @@ def main(training, generating, model_file_name, quiet):
         if model_file_name is None:
             model_file_name = get_latest_model_file()
 
+        model = load_model(model_file_name, device)
+
         if verbose:
-            log_loaded_model_info(model_file_name, device)
+            log_loaded_model_info(model_file_name, model, device)
 
         if not generating:
             logger.info('Generating WSC set, using model: {}'.format(model_file_name))
             df = generate_df_from_json()
-            df = winograd_test(df, corpus, model_file_name, ntokens, device, english=not PORTUGUESE)
+            df = winograd_test(df, corpus, model_file_name, ntokens, device, model, english=not PORTUGUESE)
         else:
             logger.info('Generating text, using model: {}'.format(model_file_name))
-            words, words_probs = generate(model_file_name, corpus, ntokens, device)
+            words, words_probs = generate(model_file_name, corpus, ntokens, device, model=model)
             logger.info('Generated text: {}'.format((' ').join(words)))
 
 

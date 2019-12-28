@@ -31,10 +31,10 @@ def mocked_model_return(*args):
 
 class TestGenerate():
     def test_wsc_generation(self, corpus, dummy_model_file_name):
-        input_wsc = 'text5.1 text5.2 text1.1 text3.2'
+        input_wsc = 'text51 text52 text11 text32'
         input_words, input_words_probs, mocked_multinominal = self.base_test(corpus, dummy_model_file_name, input_wsc)
 
-        assert input_words == ['text5.1', 'text5.2', 'text1.1', 'text3.2']
+        assert input_words == ['text51', 'text52', 'text11', 'text32']
         assert len(input_words_probs) == len(input_words)
         assert_array_almost_equal(input_words_probs, [0.0666667, 7.8010e-05, 5.7642e-04, 8.5549e-02], decimal=6)
         assert not mocked_multinominal.called
