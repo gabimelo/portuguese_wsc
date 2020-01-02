@@ -72,7 +72,7 @@ def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_
     batch_size = BATCH_SIZE
 
     if use_data_paralellization:
-        batch_size *= torch.cuda.device_count()  # TODO maybe this should also be done at eval time?
+        batch_size *= torch.cuda.device_count()
 
     hidden = model.init_hidden(batch_size)
     train_data = batchify(corpus.train, batch_size)
@@ -138,6 +138,9 @@ def evaluate(model, corpus, criterion, device, use_test_data=False, use_train_da
     # Turn on evaluation mode which disables dropout.
     model.eval()
     total_loss = 0.
+
+    if use_data_paralellization:
+        batch_size *= torch.cuda.device_count()
 
     if use_train_data:
         hidden = model.init_hidden(BATCH_SIZE)
