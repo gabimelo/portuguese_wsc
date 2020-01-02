@@ -43,7 +43,8 @@ class Corpus(object):
             utilized in the dictionary generating code.
         '''
         # TODO check if this really needs to be a torch tensor
-        tokens = torch.LongTensor(file_token_count_dict[file_path])
+        # tokens = torch.LongTensor(file_token_count_dict[file_path])
+        tokens = []
 
         with open(file_path, 'r', encoding="utf8") as f:
             file_token_count = 0
@@ -53,12 +54,15 @@ class Corpus(object):
                 words = line.strip().split() + ['<eos>']
                 for word in words:
                     if word in self.dictionary.word2idx:
-                        tokens[file_token_count] = self.dictionary.word2idx[word]
+                        # tokens[file_token_count] = self.dictionary.word2idx[word]
+                        tokens.append(self.dictionary.word2idx[word])
                     else:
                         try:
-                            tokens[file_token_count] = self.dictionary.word2idx['<unk>']
+                            # tokens[file_token_count] = self.dictionary.word2idx['<unk>']
+                            tokens.append(self.dictionary.word2idx['<unk>'])
                         except KeyError:
-                            tokens[file_token_count] = self.dictionary.word2idx['<UNK>']
+                            # tokens[file_token_count] = self.dictionary.word2idx['<UNK>']
+                            tokens.append(self.dictionary.word2idx['<UNK>'])
                     file_token_count += 1
 
         return tokens
