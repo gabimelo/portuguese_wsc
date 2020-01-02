@@ -147,10 +147,10 @@ def generate_report(metrics):
             metric_type = 'Accuracy'
             metric_key = 'accuracy'
         logger.info(
-            f'{metric_type}: \n'
+            f'{metric_type} for {metric_name} test on {metric["number_of_examples"]} examples: \n'
             f'full: {metric[f"{metric_key}_full"]} \n'
             f'partial: {metric[f"{metric_key}_partial"]} \n'
-            f'for {metric_name} test on {metric["number_of_examples"]} examples')
+        )
 
 
 def add_results_columns(df):
