@@ -162,7 +162,7 @@ def add_results_columns(df):
 
 
 def winograd_test(df, corpus, model_file_name, device, model, english=False):
-    df = df[df.translated]
+    df = df[df.translated].copy()
     df = prepare_text_cols(df, corpus, english)
     df = add_results_columns(df)
 
