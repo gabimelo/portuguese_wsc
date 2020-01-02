@@ -9,14 +9,14 @@ from src.language_model_usage.winograd_schema_challenge import (
 @pytest.fixture()
 def df():
     df = pd.DataFrame({
-        'is_associative':                [True,  True,   True,  True,  True,  False, False],
-        'is_switchable':                 [True,  True,   False, False, True,  False, True],
-        'original_result_full':          [False, True,   False, True,  False, True,  False],
-        'original_result_partial':       [False, True,   True,  False, True,  False, True],
-        'switched_result_full':          [False, False,  False, True,  False, True,  False],
-        'switched_result_partial':       [False, False,  True,  False, True,  True,  False],
-        'manually_fixed_result_full':    [False, False,  False, True,  False, True,  False],
-        'manually_fixed_result_partial': [False, False,  True,  False, True,  False, True],
+        'is_associative':                [True,  True,   True,  True,  True,  False, False],  # noqa: E241
+        'is_switchable':                 [True,  True,   False, False, True,  False, True],  # noqa: E241
+        'original_result_full':          [False, True,   False, True,  False, True,  False],  # noqa: E241
+        'original_result_partial':       [False, True,   True,  False, True,  False, True],  # noqa: E241
+        'switched_result_full':          [False, False,  False, True,  False, True,  False],  # noqa: E241
+        'switched_result_partial':       [False, False,  True,  False, True,  True,  False],  # noqa: E241
+        'manually_fixed_result_full':    [False, False,  False, True,  False, True,  False],  # noqa: E241
+        'manually_fixed_result_partial': [False, False,  True,  False, True,  False, True],  # noqa: E241
     })
 
     return df
@@ -41,13 +41,13 @@ class TestMetrics:
             full_key = 'consistency_full'
             partial_key = 'consistency_partial'
         assert metrics_dict[full_key] == full / examples
-        assert metrics_dict[partial_key] == partial /examples
+        assert metrics_dict[partial_key] == partial / examples
         assert metrics_dict['number_of_examples'] == examples
 
     def test_calculate_single_accuracy(self, df):
         actual_accuracy = calculate_single_accuracy(df, 'original_result_full')
 
-        assert actual_accuracy == 3/7
+        assert actual_accuracy == 3 / 7
 
     def test_calculate_accuracy(self, df):
         actual_acc_dict = calculate_accuracy(df, '', 'original')
@@ -106,7 +106,6 @@ class TestMetrics:
         self.assert_metrics_values(actual_metrics['manually_fixed_associative'], 1, 2, 5)
         self.assert_metric_keys(actual_metrics['manually_fixed_non_associative'])
         self.assert_metrics_values(actual_metrics['manually_fixed_non_associative'], 1, 1, 2)
-
 
     def test_metrics_without_manually_fixed(self, df):
         actual_metrics = calculate_metrics(df, test_on_manually_fixed=False)

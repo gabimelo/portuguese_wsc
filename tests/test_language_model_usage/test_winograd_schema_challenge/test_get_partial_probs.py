@@ -16,6 +16,7 @@ def wrong_sentence():
 
     return wrong_sentence
 
+
 class TestGetPartialProbs:
     def test_get_partial_probs(self, correct_sentence, wrong_sentence):
         correct_words_probs, wrong_words_probs = \

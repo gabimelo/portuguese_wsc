@@ -80,8 +80,8 @@ lint: docker-build lint-src lint-tests
 
 lint-src:
 	# flake8 src
-	docker run -it wsc_port flake8 src
+	$(docker-run) flake8 src
 
 lint-tests:
 	# flake8 tests
-	docker run -it wsc_port flake8 tests
+	$(docker-run) flake8 tests
