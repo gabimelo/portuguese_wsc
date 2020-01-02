@@ -31,7 +31,7 @@ Preliminary results were presented on a conference paper: [Melo, Gabriela Souza 
             - External data: the compressed XML file, as downloaded from Wikipedia's dump archive
             - Interim data: TXT files extracted from the above. May or may not be split between different, smalle files
             - Processed data: TXT files, containing text split between train, test and validation splits. It also contains the generated Winograd Schema Challenge schema collection JSONs.
-                - Additionally, `make recuced-processed-data` reduces size of each of these splits
+                - Additionally, `make reduced-processed-data` reduces size of each of these splits
     - running `make corpus` will speed up first run of code (but is not necessary)
     - `make train` trains a model
     - `make winograd-test` runs evaluation of Winograd Schema Challenge
