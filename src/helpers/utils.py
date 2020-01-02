@@ -28,14 +28,14 @@ def summary(model, criterion=None):
     logger.info(model)
 
     for key, value in model.state_dict().items():
-        logger.info(key, value.size())
+        logger.info(f'{key}: {value.size()}')
 
     params = list(model.parameters())
     if criterion is not None:
         params += list(criterion.parameters())
     total_params = sum(x.size()[0] * x.size()[1] if len(x.size()) > 1 else x.size()[0] for x in params if x.size())
 
-    logger.info("\nTotal Parameters: {:,}".format(total_params))
+    logger.info(f'\nTotal Parameters: {total_params:,}')
 
 
 def check_cuda_mem(device):
