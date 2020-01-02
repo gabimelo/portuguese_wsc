@@ -25,7 +25,7 @@ def load_model(model_file_name, device):
 
 
 def summary(model, criterion=None):
-    logger.info(model, end="\n\n")
+    logger.info(model)
 
     for key, value in model.state_dict().items():
         logger.info(key, value.size())
