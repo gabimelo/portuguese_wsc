@@ -106,7 +106,7 @@ def main(training, generating, model_file_name, quiet):
         if not generating:
             logger.info('Generating WSC set, using model: {}'.format(model_file_name))
             df = generate_df_from_json()
-            df = winograd_test(df, corpus, model_file_name, ntokens, device, model, english=not PORTUGUESE)
+            df = winograd_test(df, corpus, model_file_name, device, model, english=not PORTUGUESE)
         else:
             logger.info('Generating text, using model: {}'.format(model_file_name))
             words, words_probs = generate(model_file_name, corpus, ntokens, device, model=model)
