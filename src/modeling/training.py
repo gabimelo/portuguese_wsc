@@ -139,18 +139,21 @@ def evaluate(model, corpus, criterion, device, use_test_data=False, use_train_da
     model.eval()
     total_loss = 0.
 
+    if use_train_data:
+        batch_size = BATCH_SIZE
+        selected_corpus = corpus.train
+    elif not use_test_data:
+        batch_size = EVAL_BATCH_SIZE
+        selected_corpus = corpus.valid
+    else:
+        batch_size = EVAL_BATCH_SIZE
+        selected_corpus = corpus.test
+
     if use_data_paralellization:
         batch_size *= torch.cuda.device_count()
 
-    if use_train_data:
-        hidden = model.init_hidden(BATCH_SIZE)
-        data_source = batchify(corpus.train, BATCH_SIZE)
-    elif not use_test_data:
-        hidden = model.init_hidden(EVAL_BATCH_SIZE)
-        data_source = batchify(corpus.valid, EVAL_BATCH_SIZE)
-    else:
-        hidden = model.init_hidden(EVAL_BATCH_SIZE)
-        data_source = batchify(corpus.test, EVAL_BATCH_SIZE)
+    hidden = model.init_hidden(batch_size)
+    data_source = batchify(selected_corpus, batch_size)
 
     with torch.no_grad():
         for i in tqdm(range(0, data_source.size(0) - 1, SEQUENCE_LENGTH)):
