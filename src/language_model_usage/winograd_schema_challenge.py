@@ -44,8 +44,6 @@ def find_missing_wsc_words_in_corpus_vocab(df, text_columns, corpus, english=Fal
 
 def prepare_text(unknown_word_token, missing_words, english, input_text):
     word_list = custom_tokenizer(input_text, english, for_model=True)
-    print('word_list')
-    print(word_list)
     word_list = [word if word not in missing_words else unknown_word_token for word in word_list]
     updated_text = (' ').join(word_list).strip()
 
