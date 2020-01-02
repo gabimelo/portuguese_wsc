@@ -142,12 +142,16 @@ def calculate_metrics(df, test_on_manually_fixed):
 def generate_report(metrics):
     for metric_name, metric in metrics.items():
         if 'consistency' in metric_name:
-            metric_type = 'Accuracy'
-            metric_value = metric["accuracy"]
-        else:
             metric_type = 'Consistency'
-            metric_value = metric["consistency"]
-        logger.info(f'{metric_type}: {metric_value} for {metric_name} test on {metric["number_of_examples"]} examples')
+            metric_key = 'consistency'
+        else:
+            metric_type = 'Accuracy'
+            metric_key = 'accuracy'
+        logger.info(
+            f'{metric_type}: \n'
+            f'full: {metric[f'{metric_key}_full']} \n'
+            f'partial: {metric[f'{metric_key}_partial']} \n'
+            f'for {metric_name} test on {metric["number_of_examples"]} examples')
 
 
 def add_results_columns(df):
