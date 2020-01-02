@@ -121,7 +121,7 @@ def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_
                 cur_ppl = 'OVERFLOW'
 
             logger.info(
-                f'| epoch {epoch:3d} | {(i // SEQUENCE_LENGTH):5d} /{(len(train_data) // SEQUENCE_LENGTH):5d} batches '
+                f'| epoch {epoch:3d} | batch {(i // SEQUENCE_LENGTH):5d} /{(len(train_data) // SEQUENCE_LENGTH):5d} '
                 f'| lr {lr:02.2f} | ms/batch {(elapsed * 1000 / LOG_INTERVAL):5.2f} '
                 f'| loss {cur_loss:5.2f} | ppl {cur_ppl}'
             )
