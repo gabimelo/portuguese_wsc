@@ -21,7 +21,7 @@ def get_partial_probs(correct_sentence, wrong_sentence, correct_words_probs, wro
 
 def analyse_single_wsc(model, model_file_name, corpus, device, correct_sentence, wrong_sentence):
     if correct_sentence == '' or wrong_sentence == '':
-        return False
+        return False, False
 
     _, correct_words_probs = generate(model_file_name, corpus, device, input_wsc=correct_sentence, model=model)
     _, wrong_words_probs = generate(model_file_name, corpus, device, input_wsc=wrong_sentence, model=model)
