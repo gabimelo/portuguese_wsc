@@ -6,8 +6,12 @@ data/external/*
 data/interim/english-wikitext-2/*
 data/interim/wiki_pt_splits/*
 data/processed/train_bkp.txt
+data/processed/train_full.txt
+data/processed/train_22m.txt
 data/processed/test_bkp.txt
+data/processed/test_full.txt
 data/processed/valid_bkp.txt
+data/processed/valid_full.txt
 data/processed/splits/*
 
 # Byte-compiled / optimized / DLL files
