@@ -1,58 +1,65 @@
 .PHONY: clean data lint requirements sync_data_to_s3 sync_data_from_s3 tests
 
-install_flake8:
+install-flake8:
 	python3 -m pip install flake8
 
-config_githooks:
+config-githooks:
 	git config core.hooksPath githooks
-	chmod +x githooks/pre-commit
 
-download_nltk_data:
+download-nltk-data:
 	python -c "import nltk; nltk.download('punkt')"
 
-create_required_dirs:
+create-required-dirs:
 	mkdir -p models/english-wikitext-2/trained_models
 	mkdir -p models/trained_models
 
-dev_init: config_githooks install_flake8 download_nltk_data create_required_dirs processed_data
+dev-init: config-githooks install-flake8 download-nltk-data create-required-dirs processed-data
+
+docker-build:
+	docker build -t wsc_port .
+
+docker-run = docker run -it wsc_port
 
 ## Code Testing
 
-tests:
-	pytest --cov=src tests/
+tests: docker-build
+	$(docker-run) pytest --cov=src tests/
+
+docker-tests: docker-build
+	$(docker-run) pytest --cov=src tests/
 
 ## Run Code
 
-train:
-	python -m src.main --training
+train: docker-build
+	$(docker-run) python -m src.main --training
 
-winograd_test:
-	python -m src.main
+winograd-test: docker-build
+	$(docker-run) python -m src.main
 
-generate:
-	python -m src.main --generating
+generate: docker-build
+	$(docker-run) python -m src.main --generating
 
 ## Make Dataset
 
-corpus: corpus_dictionary
+corpus: corpus-dictionary
 	python -m src.datasets_manipulation_scripts.make_corpus_pickle
 
-corpus_dictionary: processed_data
+corpus-dictionary: processed-data
 	python -m src.datasets_manipulation_scripts.make_corpus_dictionary_pickle
 
-processed_data: interim_data
+processed-data: interim-data
 	python -m src.datasets_manipulation_scripts.make_processed_dataset
 
-recuced_processed_data: processed_data
+recuced-processed-data: processed-data
 	./src/datasets_manipulation_scripts/make_reduced_processed_dataset.sh
 
-interim_data: download_dev_data
+interim-data: download-dev-data
 	python -m src.datasets_manipulation_scripts.make_interim_dataset
 
-interim_data_without_splits: download_dev_data
+interim-data-without-splits: download-dev-data
 	python -m src.datasets_manipulation_scripts.make_interim_dataset --split False
 
-download_dev_data: wikidump
+download-dev-data: wikidump
 
 wikidump:
 	./get_wikidump.sh
@@ -65,14 +72,16 @@ clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
 
-clean_ipynb_checkpoints:
+clean-ipynb-checkpoints:
 	find . -type d -name ".ipynb_checkpoints" -exec rm -rv {} +
 
 ## Lint using flake8
-lint: lint_src lint_tests
+lint: docker-build lint-src lint-tests
 
-lint_src:
-	flake8 src
+lint-src:
+	# flake8 src
+	$(docker-run) flake8 src
 
-lint_tests:
-	flake8 tests
+lint-tests:
+	# flake8 tests
+	$(docker-run) flake8 tests

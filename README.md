@@ -15,25 +15,36 @@ Preliminary results were presented on a conference paper: [Melo, Gabriela Souza 
 
 - This project has not been tested in machines without CUDA GPUs available.
 
-- A Dockerfile is available, and may be used with `docker build -t wsc_port  .` followed by `nvidia-docker run -it -v $PWD/models:/code/models wsc_port`.
+- A Dockerfile is available, and may be used with `docker build -t wsc_port  .` followed by `nvidia-docker run -it -v $PWD/models:/code/models wsc_port <desired_command>` (ie `nvidia-docker run -it -v $PWD/models:/code/models wsc_port python -m src.main`).
 
-- The Dockerfile contains a few different options for running the code, which can be selected by commenting and uncommenting the final sections of it.
+- The docker-compose file contains a few different options for running the code, which can be run with commands such as: `docker-compose run <service_name>` (ie `docker-compose run train`). For the jupyter-server, run with `docker-compose run --service-ports jupyter-server` (password for accessing the webpage for it is `root`).
 
 - For running outside of the Docker container, Conda is required.
-    
+
     - To create the conda environment: `conda env create -f environment.yml`
 
 - Makefile contains some of the commands used to run the code. These commands must be run from inside the environment.
 
-    - to setup the environment for running the project: `make dev_init`. This command also makes sure `make processed_data` is run, which prepares data needed to train model
+    - to setup the environment for running the project: `make dev-init`. This command also makes sure `make processed-data` is run, which prepares data needed to train model
+        - The data corresponding to the Corpus being used is organized as follows:
+            - Raw data: files used to generate the final Winograd Schema Challenge schema collection JSONs
+            - External data: the compressed XML file, as downloaded from Wikipedia's dump archive
+            - Interim data: TXT files extracted from the above. May or may not be split between different, smalle files
+            - Processed data: TXT files, containing text split between train, test and validation splits. It also contains the generated Winograd Schema Challenge schema collection JSONs.
+                - Additionally, `make reduced-processed-data` reduces size of each of these splits
     - running `make corpus` will speed up first run of code (but is not necessary)
     - `make train` trains a model
-    - `make winograd_test` runs evaluation of Winograd Schema Challenge
+    - `make winograd-test` runs evaluation of Winograd Schema Challenge
     - `make generate` runs language model for generation of text
-    
+
 - Code runs for both English and Portuguese cases, and this setting is controlled by the variable `PORTUGUESE` in `src.consts`.
 
 - Run tests with `make tests`, which is equivalent to `pytest --cov=src tests/`. Use `pytest --cov=src --cov-report=html tests/` for generation of HTML test report. Needs pytest and pytest-cov packages. If there are import errors, should run `pip install -e .` to locally install package from source code.
+
+
+### Winograd Collection Generation
+
+There is also code in this repository for generation the Winograd Schema Collection JSON, from the original HTML file, to be ready to be used by the solver. This generation happens by executing `python -m src.winograd_collection_manipulation.wsc_subsets_generation`. To generate the version with translated names, after that first command, simply run `python -m src.winograd_collection_manipulation.name_replacer`. These commands don't need to be called to be able to run the solver, given that the JSON file is already present in this repository. However, this code is being made available, in case it can help with translations for the Challenge to other languages.
 
 ----
 
@@ -59,7 +70,7 @@ Preliminary results were presented on a conference paper: [Melo, Gabriela Souza 
     ├── notebooks          <- Jupyter notebooks, used during experimentation and testing.
     │
     ├── src                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module. 
+    │   ├── __init__.py    <- Makes src a Python module.
     └── tests              <- Tests module, using Pytest.
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>

@@ -6,7 +6,7 @@ import click
 import torch
 import torch.nn as nn
 
-from src.consts import (
+from src.helpers.consts import (
     RANDOM_SEED, USE_CUDA, MODEL_TYPE, EMBEDDINGS_SIZE, HIDDEN_UNIT_COUNT,
     LAYER_COUNT, DROPOUT_PROB, TIED, CORPUS_FILE_NAME, USE_DATA_PARALLELIZATION
 )
@@ -15,12 +15,12 @@ from src.modeling.model import RNNModel
 from src.helpers.logger import Logger
 from src.modeling.custom_data_parallel import CustomDataParallel
 from src.modeling.training import train
-from src.generation import generate
-from src.helpers.utils import get_latest_model_file, summary
+from src.language_model_usage.generation import generate
+from src.helpers.utils import get_latest_model_file, summary, log_loaded_model_info, load_model
 from src.modeling.parallel import DataParallelCriterion
 from src.winograd_collection_manipulation.wsc_json_handler import generate_df_from_json
-from src.winograd_schema_challenge import winograd_test
-from src.consts import PORTUGUESE, MAIN_GPU_INDEX
+from src.language_model_usage.winograd_schema_challenge import winograd_test
+from src.helpers.consts import PORTUGUESE, MAIN_GPU_INDEX
 
 logger = Logger()
 
@@ -42,15 +42,18 @@ def get_corpus():
     return corpus
 
 
+def sanity_checks(corpus, ntokens):
+    assert corpus.train.max() < ntokens
+    assert corpus.valid.max() < ntokens
+    assert corpus.test.max() < ntokens
+
+
 @click.command()
 @click.option('--training', is_flag=True)
 @click.option('--generating', is_flag=True)
 @click.option('--model_file_name', default=None)
 @click.option('--quiet', is_flag=True)
 def main(training, generating, model_file_name, quiet):
-    '''
-     if train is set to True, wsc param will be ignored
-    '''
     verbose = not quiet
 
     setup_torch()
@@ -59,13 +62,20 @@ def main(training, generating, model_file_name, quiet):
     corpus = get_corpus()
     ntokens = len(corpus.dictionary)
 
-    assert corpus.train.max() < ntokens
-    assert corpus.valid.max() < ntokens
-    assert corpus.test.max() < ntokens
+    sanity_checks(corpus, ntokens)
 
     if training:
-        model = RNNModel(MODEL_TYPE, ntokens, EMBEDDINGS_SIZE, HIDDEN_UNIT_COUNT, LAYER_COUNT, DROPOUT_PROB,
-                         TIED).to(device)
+        model = (
+            RNNModel(
+                MODEL_TYPE,
+                ntokens,
+                EMBEDDINGS_SIZE,
+                HIDDEN_UNIT_COUNT,
+                LAYER_COUNT,
+                DROPOUT_PROB,
+                TIED
+            ).to(device)
+        )
         criterion = nn.CrossEntropyLoss()
 
         if USE_DATA_PARALLELIZATION:
@@ -88,23 +98,17 @@ def main(training, generating, model_file_name, quiet):
         if model_file_name is None:
             model_file_name = get_latest_model_file()
 
+        model = load_model(model_file_name, device)
+
         if verbose:
-            with open(model_file_name, 'rb') as f:
-                model = torch.load(f).to(device)
-            summary(model)
-
-            logger.info('Model training results:')
-            with open(model_file_name.replace('model-', 'model-results-').replace('.pt', '.txt'), 'r') as file:
-                model_training_results = file.read()
-                logger.info(model_training_results)
-
+            log_loaded_model_info(model_file_name, model, device)
         if not generating:
             logger.info('Generating WSC set, using model: {}'.format(model_file_name))
             df = generate_df_from_json()
-            df = winograd_test(df, corpus, model_file_name, ntokens, device, english=not PORTUGUESE)
+            df = winograd_test(df, corpus, model_file_name, device, model, english=not PORTUGUESE)
         else:
             logger.info('Generating text, using model: {}'.format(model_file_name))
-            words, words_probs = generate(model_file_name, corpus, ntokens, device)
+            words, words_probs = generate(model_file_name, corpus, device, model=model)
             logger.info('Generated text: {}'.format((' ').join(words)))
 
 

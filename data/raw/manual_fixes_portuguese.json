@@ -60,13 +60,13 @@
   },
   {
     "question_id": 120,
-    "manually_fixed_correct_sentence": "Mary sacou sua flauta e tocou uma de suas peças favoritas. Ela tem a flauta desde criança.",
-    "manually_fixed_incorrect_sentence": "Mary sacou sua flauta e tocou uma de suas peças favoritas. Ela tem a peça desde criança."
+    "manually_fixed_correct_sentence": "Mary pegou sua flauta e tocou uma de suas peças favoritas. Ela tem a flauta desde criança.",
+    "manually_fixed_incorrect_sentence": "Mary pegou sua flauta e tocou uma de suas peças favoritas. Ela tem a peça desde criança."
   },
   {
     "question_id": 121,
-    "manually_fixed_correct_sentence": "Mary sacou sua flauta e tocou uma de suas peças favoritas. Ela ama a peça desde criança.",
-    "manually_fixed_incorrect_sentence": "Mary sacou sua flauta e tocou uma de suas peças favoritas. Ela ama a flauta desde criança."
+    "manually_fixed_correct_sentence": "Mary pegou sua flauta e tocou uma de suas peças favoritas. Ela ama a peça desde criança.",
+    "manually_fixed_incorrect_sentence": "Mary pegou sua flauta e tocou uma de suas peças favoritas. Ela ama a flauta desde criança."
   },
   {
     "question_id": 124,

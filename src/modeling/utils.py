@@ -1,6 +1,6 @@
 import torch
 
-from src.consts import SEQUENCE_LENGTH
+from src.helpers.consts import SEQUENCE_LENGTH
 
 
 def repackage_hidden(h):

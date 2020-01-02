@@ -2,7 +2,7 @@ import json
 
 import pandas as pd
 
-from src.consts import WINOGRAD_SCHEMAS_FILE, WINOGRAD_SCHEMAS_ORIGINAL_FILE
+from src.helpers.consts import WINOGRAD_SCHEMAS_FILE, WINOGRAD_SCHEMAS_ORIGINAL_FILE
 
 
 def generate_df_from_original_json():

@@ -2,14 +2,14 @@ from gensim.corpora import WikiCorpus
 from nltk.tokenize import word_tokenize
 
 from src.helpers.logger import Logger
-from src.consts import WIKI_PT_TXT_FILE_BASE_NAME
+from src.helpers.consts import WIKI_PT_TXT_FILE_BASE_NAME
 
 logger = Logger()
 
 
-def next_output_file_name(output_dir, num):
-    """Get the next filename to use for writing new articles."""
-    output_file_name = output_dir + '/' + WIKI_PT_TXT_FILE_BASE_NAME + '{:>02d}'.format(num) + '.txt'
+def get_output_file_name(output_dir, num):
+    """Get the filename to use for writing new articles."""
+    output_file_name = f'{output_dir}/{WIKI_PT_TXT_FILE_BASE_NAME}{num:>02d}.txt'
     return output_file_name
 
 
@@ -23,7 +23,7 @@ def make_corpus_files(input_file, output_dir, split=True, size=10000):
     wiki = WikiCorpus(input_file, tokenizer_func=tokenize)
 
     count = num = 0
-    output_file_name = next_output_file_name(output_dir, num)
+    output_file_name = get_output_file_name(output_dir, num)
     output_file = open(output_file_name, 'w')
 
     for text in wiki.get_texts():
@@ -34,7 +34,7 @@ def make_corpus_files(input_file, output_dir, split=True, size=10000):
             if split:
                 logger.info('%s Done.' % output_file_name)
                 output_file.close()
-                output_file_name = next_output_file_name(output_dir, num)
+                output_file_name = get_output_file_name(output_dir, num)
                 output_file = open(output_file_name, 'w')
             else:
                 logger.info('Processed ' + str(count * num) + ' articles')

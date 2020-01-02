@@ -23,27 +23,12 @@ ENV PATH /opt/conda/envs/wsc_port/bin:$PATH
 
 RUN python -c "import nltk; nltk.download('punkt')"
 
+RUN python -m ipykernel install --user --name jupyter_env --display-name "Python (jupyter_env)"
+RUN jupyter notebook --generate-config --allow-root
+RUN echo "c.NotebookApp.password = u'sha1:6a3f528eec40:6e896b6e4828f525a6e20e5411cd1c8075d68619'" >> /root/.jupyter/jupyter_notebook_config.py
+
+EXPOSE 8888
+
 COPY . /code
 
 WORKDIR "/code"
-
-ENTRYPOINT ["/bin/bash", "-c"]
-
-#CMD [ "source activate wsc_port && exec make train" ]
-#CMD [ "source activate wsc_port && exec make winograd_test" ]
-CMD [ "source activate wsc_port && exec make generate" ]
-
-# Following lines could be uncommented if desiring to use this container for serving Jupyter Lab
-#
-#RUN python -m ipykernel install --user --name jupyter_env --display-name "Python (jupyter_env)"
-#
-#WORKDIR "/notebooks"
-#
-#RUN jupyter notebook --generate-config --allow-root
-#RUN echo "c.NotebookApp.password = u'sha1:6a3f528eec40:6e896b6e4828f525a6e20e5411cd1c8075d68619'" >> /root/.jupyter/jupyter_notebook_config.py
-#
-## Jupyter listens port: 8888
-#EXPOSE 8888
-#
-## Run Jupyter Lab as Docker main process
-#CMD ["jupyter", "lab", "--allow-root", "--ip=0.0.0.0", "--port=8888", "--no-browser"]

@@ -1,7 +1,7 @@
 import re
 import json
 
-from src.consts import (
+from src.helpers.consts import (
     WINOGRAD_ASSOCIATIVE_LABEL_FILE, WINOGRAD_SWITCHED_LABEL_FILE, CAPITALIZED_WORD_LIST_FILE,
     PORTUGUESE, MANUAL_PT_FIXES_FILE
 )

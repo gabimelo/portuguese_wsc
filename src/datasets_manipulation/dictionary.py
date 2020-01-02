@@ -1,9 +1,7 @@
 import json
 import pickle
 
-from src import consts
-
-MIN_APPEARANCES_FOR_WORD_IN_VOCAB = 5
+from src.helpers import consts
 
 
 class Dictionary(object):
@@ -27,12 +25,12 @@ class Dictionary(object):
     def word2idx_from_idx2word(self):
         self.word2idx = dict(zip(self.idx2word, list(range(len(self.idx2word)))))
 
-    def filter_words(self):
+    def filter_words(self, min_appearances_for_word_in_vocab):
         del self.word2idx
 
         # we don't want to remove word at index 0, which is <UNK>, and for now has not been present in data
         for index in range(len(self.idx2word) - 1, 0, -1):
-            if self.word_count[self.idx2word[index]] < MIN_APPEARANCES_FOR_WORD_IN_VOCAB:
+            if self.word_count[self.idx2word[index]] < min_appearances_for_word_in_vocab:
                 self.word_count['<unk>'] += self.word_count[self.idx2word[index]]
                 del self.word_count[self.idx2word[index]]
                 del self.idx2word[index]
@@ -45,10 +43,10 @@ class Dictionary(object):
             file_token_count = self.generate_corpus_dictionary(file_name)
             file_token_count_dict[file_name] = file_token_count
 
-        if consts.FILTER_WORDS:
-            self.filter_words()
+        if consts.FILTER_WORDS > 0:
+            self.filter_words(consts.FILTER_WORDS)
 
-        return file_token_count_dict
+        self.save_dictionary(file_token_count_dict)
 
     def save_dictionary(self, file_token_count_dict):
         with open(consts.FILE_TOKEN_COUNT_DICT_FILE_NAME, 'w') as outfile:
@@ -57,7 +55,6 @@ class Dictionary(object):
         pickle.dump(self, open(consts.CORPUS_DICTIONARY_FILE_NAME, "wb"))
 
     def generate_corpus_dictionary(self, file_name):
-        # Add words to the dictionary
         with open(file_name, 'r', encoding="utf8") as f:
             file_token_count = 0
             for line in f:
