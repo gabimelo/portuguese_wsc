@@ -73,9 +73,11 @@ def run_test_for_col(df, model, model_file_name, corpus, device, result_col):
         correct_column = 'manually_fixed_correct_sentence'
         incorrect_column = 'manually_fixed_incorrect_sentence'
 
+    partial_analyse_single_wsc = partial(analyse_single_wsc, model, model_file_name, corpus, device)
+
     for i, row in df.iterrows():
         df.loc[i, f'{result_col}_result_full'], df.loc[i, f'{result_col}_result_partial'] = \
-            analyse_single_wsc(model, model_file_name, corpus, device, row[correct_column], row[incorrect_column])
+            partial_analyse_single_wsc(row[correct_column], row[incorrect_column])
 
     return df
 
