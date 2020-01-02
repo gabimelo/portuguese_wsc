@@ -149,8 +149,8 @@ def generate_report(metrics):
             metric_key = 'accuracy'
         logger.info(
             f'{metric_type}: \n'
-            f'full: {metric[f'{metric_key}_full']} \n'
-            f'partial: {metric[f'{metric_key}_partial']} \n'
+            f'full: {metric[f"{metric_key}_full"]} \n'
+            f'partial: {metric[f"{metric_key}_partial"]} \n'
             f'for {metric_name} test on {metric["number_of_examples"]} examples')
 
 
