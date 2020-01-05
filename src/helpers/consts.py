@@ -44,8 +44,8 @@ BATCH_SIZE = 20
 # TODO maybe should have TEST_BATCH_SIZE as well, and set it to 1
 EVAL_BATCH_SIZE = 10
 MODEL_TYPE = 'LSTM'  # other options: RNN_TANH, RNN_RELU, LSTM, GRU
-EMBEDDINGS_SIZE = 200
-HIDDEN_UNIT_COUNT = 200
+EMBEDDINGS_SIZE = 400
+HIDDEN_UNIT_COUNT = 400
 LAYER_COUNT = 4
 DROPOUT_PROB = 0.2
 TIED = True  # tie the word embedding and softmax weights
