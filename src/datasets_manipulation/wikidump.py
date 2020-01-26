@@ -58,7 +58,7 @@ def make_corpus_files(input_file, output_dir, split=True, size=10000):
                 logger.info('Processed ' + str(count * num) + ' articles')
             count = 0
 
-    logger.info('Processed a total of' + str((size * num) + count) + ' articles')
+    logger.info('Processed a total of ' + str((size * num) + count) + ' articles')
     output_file.close()
 
     logger.info('Completed.')

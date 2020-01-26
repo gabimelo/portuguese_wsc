@@ -3,9 +3,8 @@ notebooks/pytorch_example/wiki_pt.txt
 notebooks/pytorch_example/data/NILC_corpus/*
 models/*
 data/external/*
-data/interim/bkp/*
 data/interim/english-wikitext-2/*
-wiki_pt_splits/*
+**/wiki_pt_splits/*
 **/train_bkp.txt
 **/train_full.txt
 **/train_22m.txt
