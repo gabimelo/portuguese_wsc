@@ -12,7 +12,7 @@ logger = Logger()
 @click.command()
 @click.option('--split', default=True)
 def main(split):
-    if len(os.listdir(WIKI_PT_TXT_DIR_NAME)) != 0:
+    if os.path.exists(WIKI_PT_TXT_DIR_NAME) and len(os.listdir(WIKI_PT_TXT_DIR_NAME)) != 0:
         logger.info("Directory for interim data not empty, skipping this process.")
     else:
         if not os.path.exists(INTERIM_DATA_DIR_NAME):
