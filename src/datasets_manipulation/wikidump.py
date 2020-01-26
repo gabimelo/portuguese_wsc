@@ -1,3 +1,5 @@
+import re
+
 from gensim.corpora import WikiCorpus
 from nltk.tokenize import word_tokenize
 
@@ -5,6 +7,18 @@ from src.helpers.logger import Logger
 from src.helpers.consts import WIKI_PT_TXT_FILE_BASE_NAME
 
 logger = Logger()
+
+
+def filter_good_and_featured_articles(elem, text, *args, **kwargs):
+    regex_pt_good = re.compile(r'.*\{\{(artigo bom.*?)\}\}[\s]*', flags=re.DOTALL)
+    regex_pt_featured = re.compile(r'.*\{\{(artigo destacado.*?)\}\}[\s]*', flags=re.DOTALL)
+
+    if text is None:
+        return False
+    if regex_pt_good.match(text) or regex_pt_featured.match(text):
+        return True
+    else:
+        return False
 
 
 def get_output_file_name(output_dir, num):
@@ -20,7 +34,11 @@ def tokenize(content, token_min_len=2, token_max_len=15, lower=True):
 
 def make_corpus_files(input_file, output_dir, split=True, size=10000):
     """Convert Wikipedia xml dump file to text corpus"""
-    wiki = WikiCorpus(input_file, tokenizer_func=tokenize)
+    wiki = WikiCorpus(
+        input_file,
+        tokenizer_func=tokenize,
+        filter_articles=filter_good_and_featured_articles
+    )
 
     count = num = 0
     output_file_name = get_output_file_name(output_dir, num)
@@ -40,6 +58,7 @@ def make_corpus_files(input_file, output_dir, split=True, size=10000):
                 logger.info('Processed ' + str(count * num) + ' articles')
             count = 0
 
+    logger.info('Processed a total of' + str((size * num) + count) + ' articles')
     output_file.close()
 
     logger.info('Completed.')
