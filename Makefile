@@ -48,7 +48,7 @@ corpus-dictionary: processed-data
 	python -m src.datasets_manipulation_scripts.make_corpus_dictionary_pickle
 
 processed-data: interim-data
-	python -m src.datasets_manipulation_scripts.make_processed_dataset
+	./src/datasets_manipulation_scripts/make_processed_dataset.sh
 
 recuced-processed-data: processed-data
 	./src/datasets_manipulation_scripts/make_reduced_processed_dataset.sh
