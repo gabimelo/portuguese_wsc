@@ -3,16 +3,17 @@ notebooks/pytorch_example/wiki_pt.txt
 notebooks/pytorch_example/data/NILC_corpus/*
 models/*
 data/external/*
+data/interim/bkp/*
 data/interim/english-wikitext-2/*
-data/interim/wiki_pt_splits/*
-data/processed/train_bkp.txt
-data/processed/train_full.txt
-data/processed/train_22m.txt
-data/processed/test_bkp.txt
-data/processed/test_full.txt
-data/processed/valid_bkp.txt
-data/processed/valid_full.txt
-data/processed/splits/*
+wiki_pt_splits/*
+**/train_bkp.txt
+**/train_full.txt
+**/train_22m.txt
+**/test_bkp.txt
+**/test_full.txt
+**/valid_bkp.txt
+**/valid_full.txt
+**/splits/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
