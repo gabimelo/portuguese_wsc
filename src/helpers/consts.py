@@ -19,6 +19,7 @@ PORTUGUESE = True
 if PORTUGUESE:
     WINOGRAD_SCHEMAS_ORIGINAL_FILE = ''
     WINOGRAD_SCHEMAS_FILE = f'{PROCESSED_DATA_DIR_NAME}/portuguese_wsc.json'
+    # WINOGRAD_SCHEMAS_FILE = f'{PROCESSED_DATA_DIR_NAME}/portuguese_wsc_portuguese_names.json'
     FILTER_WORDS = 3
 else:
     WINOGRAD_SCHEMAS_ORIGINAL_FILE = f'{RAW_DATA_DIR_NAME}/english_wsc.json'
