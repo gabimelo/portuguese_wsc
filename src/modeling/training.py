@@ -34,7 +34,7 @@ def train(model, corpus, criterion, optimizer, device, use_data_paralellization)
 
             logger.info('-' * 89)
             logger.info(
-                f'| end of epoch {epoch:3d} | time: {(datetime.utcnow() - epoch_start_time):5.2f}s '
+                f'| end of epoch {epoch:3d} | time: {str(datetime.utcnow() - epoch_start_time)}s '
                 f'| valid loss {val_loss:5.2f} '
                 f'| valid ppl {math.exp(val_loss):8.2f}')
             logger.info('-' * 89)
@@ -59,7 +59,7 @@ def train(model, corpus, criterion, optimizer, device, use_data_paralellization)
         f.write(
             f'final lr: {lr}\ntest loss: {test_loss:5.2f}\ntest ppl: {math.exp(test_loss):8.2f}\n'
             f'best val loss: {best_val_loss:5.2f}\nepochs: {epoch}\n'
-            f'time to run: {(datetime.utcnow() - epoch_start_time):5.2f}s'
+            f'time to run: {str(datetime.utcnow() - epoch_start_time)}s'
         )
 
 
@@ -121,7 +121,7 @@ def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_
 
             logger.info(
                 f'| epoch {epoch:3d} | batch {(i // SEQUENCE_LENGTH):5d} /{(len(train_data) // SEQUENCE_LENGTH):5d} '
-                f'| lr {lr:02.2f} | ms/batch {(elapsed * 1000 / LOG_INTERVAL):5.2f} '
+                f'| lr {lr:02.2f} | ms/batch {(elapsed.microseconds / LOG_INTERVAL):5.2f} '
                 f'| loss {cur_loss:5.2f} | ppl {cur_ppl}'
             )
             total_loss = 0
