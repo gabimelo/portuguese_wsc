@@ -1,5 +1,4 @@
-import datetime
-import time
+from datetime import datetime
 import math
 
 from tqdm import tqdm
@@ -18,7 +17,7 @@ logger = Logger()
 
 
 def train(model, corpus, criterion, optimizer, device, use_data_paralellization):
-    timestamp = datetime.datetime.now()
+    training_start_time = datetime.utcnow()
 
     # Loop over epochs.
     lr = INITIAL_LEARNING_RATE
@@ -27,7 +26,7 @@ def train(model, corpus, criterion, optimizer, device, use_data_paralellization)
     # At any point you can hit Ctrl + C to break out of training early.
     try:
         for epoch in range(1, EPOCHS + 1):
-            epoch_start_time = time.time()
+            epoch_start_time = datetime.utcnow()
 
             train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_data_paralellization)
 
@@ -35,13 +34,13 @@ def train(model, corpus, criterion, optimizer, device, use_data_paralellization)
 
             logger.info('-' * 89)
             logger.info(
-                f'| end of epoch {epoch:3d} | time: {(time.time() - epoch_start_time):5.2f}s '
+                f'| end of epoch {epoch:3d} | time: {(datetime.utcnow() - epoch_start_time):5.2f}s '
                 f'| valid loss {val_loss:5.2f} '
                 f'| valid ppl {math.exp(val_loss):8.2f}')
             logger.info('-' * 89)
             # Save the model if the validation loss is the best we've seen so far.
             if best_val_loss is None or val_loss < best_val_loss:
-                with open(MODEL_FILE_NAME.format(timestamp), 'wb') as f:
+                with open(MODEL_FILE_NAME.format(training_start_time), 'wb') as f:
                     torch.save(model, f)
                 best_val_loss = val_loss
             else:
@@ -51,16 +50,16 @@ def train(model, corpus, criterion, optimizer, device, use_data_paralellization)
         logger.info('-' * 89)
         logger.info('Exiting from training early')
 
-    test_loss = get_training_results(model, corpus, criterion, device, timestamp,
+    test_loss = get_training_results(model, corpus, criterion, device, training_start_time,
                                      use_data_paralellization=use_data_paralellization)
 
     if best_val_loss is None:
         best_val_loss = 0
-    with open(MODEL_RESULTS_FILE_NAME.format(timestamp), 'w') as f:
+    with open(MODEL_RESULTS_FILE_NAME.format(training_start_time), 'w') as f:
         f.write(
             f'final lr: {lr}\ntest loss: {test_loss:5.2f}\ntest ppl: {math.exp(test_loss):8.2f}\n'
             f'best val loss: {best_val_loss:5.2f}\nepochs: {epoch}\n'
-            f'time to run: {(time.time() - epoch_start_time):5.2f}s'
+            f'time to run: {(datetime.utcnow() - epoch_start_time):5.2f}s'
         )
 
 
@@ -68,7 +67,7 @@ def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_
     # Turn on training mode which enables dropout.
     model.train()
     total_loss = 0.
-    start_time = time.time()
+    start_time = datetime.utcnow()
     batch_size = BATCH_SIZE
 
     if use_data_paralellization:
@@ -114,7 +113,7 @@ def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_
 
         if i % LOG_INTERVAL == 0 and i > 0:
             cur_loss = total_loss / LOG_INTERVAL
-            elapsed = time.time() - start_time
+            elapsed = datetime.utcnow() - start_time
             try:
                 cur_ppl = f'{math.exp(cur_loss):8.2f}'
             except OverflowError:
@@ -126,7 +125,7 @@ def train_one_epoch(model, corpus, criterion, optimizer, lr, epoch, device, use_
                 f'| loss {cur_loss:5.2f} | ppl {cur_ppl}'
             )
             total_loss = 0
-            start_time = time.time()
+            start_time = datetime.utcnow()
 
 
 def evaluate(model, corpus, criterion, device, use_test_data=False, use_train_data=False,
