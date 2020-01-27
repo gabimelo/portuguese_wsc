@@ -50,7 +50,7 @@ DROPOUT_PROB = 0.2
 TIED = True  # tie the word embedding and softmax weights
 SEQUENCE_LENGTH = 35
 INITIAL_LEARNING_RATE = 20
-EPOCHS = 40
+EPOCHS = 80
 GRADIENT_CLIPPING = 0.25
 LOG_INTERVAL = 200
 
