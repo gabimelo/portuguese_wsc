@@ -1,4 +1,4 @@
-portuguese_wsc
+Portuguese Winograd Schema Challenge
 ==============================
 
 **Currently under development**
