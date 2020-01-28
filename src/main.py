@@ -84,8 +84,6 @@ def main(training, generating, model_file_name, quiet):
             model = CustomDataParallel(model, device_ids=device_ids)
             criterion = DataParallelCriterion(criterion, device_ids=device_ids)
 
-        # TODO use global Learning Rate here
-        # TODO check if weight decay will be kept
 #         optimizer = torch.optim.Adam(model.parameters(), lr=INITIAL_LEARNING_RATE, weight_decay=1.2e-6)
 #         optimizer = torch.optim.SGD(model.parameters(), lr=INITIAL_LEARNING_RATE, weight_decay=1.2e-6)
         optimizer = None
