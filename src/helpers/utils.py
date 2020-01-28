@@ -18,8 +18,10 @@ def get_latest_model_file():
 
 
 def load_model(model_file_name, device):
+    # with open(model_file_name, 'rb') as f:
+        # model = torch.load(f).to(device)
     with open(model_file_name, 'rb') as f:
-        model = torch.load(f).to(device)
+        model, criterion, optimizer = torch.load(f)
 
     return model
 
@@ -47,6 +49,8 @@ def log_loaded_model_info(model_file_name, model, device):
     summary(model)
 
     logger.info('Model training results:')
-    with open(model_file_name.replace('model-', 'model-results-').replace('.pt', '.txt'), 'r') as file:
-        model_training_results = file.read()
+    results_file_name = model_file_name.replace('model-', 'model-results-').replace('.pt', '.txt')
+    if os.path.isfile(results_file_name):
+        with open(results_file_name, 'r') as file:
+            model_training_results = file.read()
         logger.info(model_training_results)

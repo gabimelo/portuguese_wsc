@@ -60,7 +60,8 @@ def generate(model_file_name, corpus, device, input_wsc=None, model=None):
             else:
                 output, hidden = model(input_word_id, hidden)
 
-            word_probs = F.softmax(output.squeeze().div(TEMPERATURE), dim=0)
+            logits = model.decoder(output)
+            word_probs = F.softmax(logits.squeeze().div(TEMPERATURE), dim=0)
 
             if input_wsc is None:
                 new_word_id = torch.multinomial(word_probs, 1)[0]

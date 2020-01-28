@@ -1,3 +1,4 @@
+*.pt
 *.bz2
 notebooks/pytorch_example/wiki_pt.txt
 notebooks/pytorch_example/data/NILC_corpus/*
