@@ -5,10 +5,12 @@ import click
 
 import torch
 import torch.nn as nn
+from transformers import BertTokenizer, BertForNextSentencePrediction
 
 from src.helpers.consts import (
     RANDOM_SEED, USE_CUDA, MODEL_TYPE, EMBEDDINGS_SIZE, HIDDEN_UNIT_COUNT,
-    LAYER_COUNT, DROPOUT_PROB, TIED, CORPUS_FILE_NAME, USE_DATA_PARALLELIZATION
+    LAYER_COUNT, DROPOUT_PROB, TIED, CORPUS_FILE_NAME, USE_DATA_PARALLELIZATION,
+    PORTUGUESE, MAIN_GPU_INDEX
 )
 from src.datasets_manipulation.corpus import Corpus
 from src.modeling.model import RNNModel
@@ -20,7 +22,6 @@ from src.helpers.utils import get_latest_model_file, summary, log_loaded_model_i
 from src.modeling.parallel import DataParallelCriterion
 from src.winograd_collection_manipulation.wsc_json_handler import generate_df_from_json
 from src.language_model_usage.winograd_schema_challenge import winograd_test
-from src.helpers.consts import PORTUGUESE, MAIN_GPU_INDEX
 
 logger = Logger()
 
@@ -96,17 +97,26 @@ def main(training, generating, model_file_name, quiet, use_bert):
 
         train(model, corpus, criterion, optimizer, device, USE_DATA_PARALLELIZATION)
     else:
-        if model_file_name is None:
-            model_file_name = get_latest_model_file()
+        if not use_bert:
+            if model_file_name is None:
+                model_file_name = get_latest_model_file()
+            model = load_model(model_file_name, device)
+            if verbose:
+                log_loaded_model_info(model_file_name, model, device)
+            tokenizer = None
+        else:
+            # model_file_name = 'bert-base-multilingual-cased' if PORTUGUESE else 'bert-base-cased'
+            model_file_name = 'bert-base-multilingual-cased' if PORTUGUESE else 'bert-large-cased'
+            tokenizer = BertTokenizer.from_pretrained(model_file_name)
+            model = BertForNextSentencePrediction.from_pretrained(model_file_name)
 
-        model = load_model(model_file_name, device)
-
-        if verbose:
-            log_loaded_model_info(model_file_name, model, device)
         if not generating:
             logger.info('Generating WSC set, using model: {}'.format(model_file_name))
             df = generate_df_from_json()
-            df = winograd_test(df, corpus, model_file_name, device, model, english=not PORTUGUESE, use_bert=use_bert)
+            df = winograd_test(
+                df, corpus, model_file_name, device, model, tokenizer,
+                english=not PORTUGUESE, use_bert=use_bert
+            )
         else:
             logger.info('Generating text, using model: {}'.format(model_file_name))
             words, words_probs = generate(model_file_name, corpus, device, model=model)
