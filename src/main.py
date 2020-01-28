@@ -53,7 +53,8 @@ def sanity_checks(corpus, ntokens):
 @click.option('--generating', is_flag=True)
 @click.option('--model_file_name', default=None)
 @click.option('--quiet', is_flag=True)
-def main(training, generating, model_file_name, quiet):
+@click.option('--use_bert', is_flag=True)
+def main(training, generating, model_file_name, quiet, use_bert):
     verbose = not quiet
 
     setup_torch()
@@ -105,7 +106,7 @@ def main(training, generating, model_file_name, quiet):
         if not generating:
             logger.info('Generating WSC set, using model: {}'.format(model_file_name))
             df = generate_df_from_json()
-            df = winograd_test(df, corpus, model_file_name, device, model, english=not PORTUGUESE)
+            df = winograd_test(df, corpus, model_file_name, device, model, english=not PORTUGUESE, use_bert=use_bert)
         else:
             logger.info('Generating text, using model: {}'.format(model_file_name))
             words, words_probs = generate(model_file_name, corpus, device, model=model)
