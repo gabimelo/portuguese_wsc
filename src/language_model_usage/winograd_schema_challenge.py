@@ -10,12 +10,12 @@ from src.winograd_collection_manipulation.text_manipulation import custom_tokeni
 logger = Logger()
 
 
-def get_most_probable_following_sentence(tokenizer, model, text1, text2):
-    text1_toks = ["[CLS]"] + tokenizer.tokenize(text1) + ["[SEP]"]
-    text2_toks = tokenizer.tokenize(text2) + ["[SEP]"]
-    text = text1_toks + text2_toks
+def get_probability_of_next_sentence(tokenizer, model, text1, text2):
+    text1_tokens = ['[CLS]'] + tokenizer.tokenize(text1) + ['[SEP]']
+    text2_tokens = tokenizer.tokenize(text2) + ['[SEP]']
+    text = text1_tokens + text2_tokens
     indexed_tokens = tokenizer.convert_tokens_to_ids(text)
-    segments_ids = [0] * len(text1_toks) + [1] * len(text2_toks)
+    segments_ids = [0] * len(text1_tokens) + [1] * len(text2_tokens)
 
     tokens_tensor = torch.tensor([indexed_tokens])
     segments_tensors = torch.tensor([segments_ids])
@@ -42,13 +42,13 @@ def analyse_single_wsc_bert(model, tokenizer, correct_sentence, wrong_sentence):
 
     i = get_sentence_breaks(correct_sentence, wrong_sentence)
 
-    text1 = correct_sentence[:i]
-    text2 = correct_sentence[i:]
-    prob_correct_sentence_correct = get_most_probable_following_sentence(tokenizer, model, text1, text2)[0]
+    text1 = ' '.join(correct_sentence.split()[:i])
+    text2 = ' '.join(correct_sentence.split()[i:])
+    prob_correct_sentence_correct = get_probability_of_next_sentence(tokenizer, model, text1, text2)[0]
 
-    text1 = wrong_sentence[:i]
-    text2 = wrong_sentence[i:]
-    prob_wrong_sentence_correct = get_most_probable_following_sentence(tokenizer, model, text1, text2)[0]
+    text1 = ' '.join(wrong_sentence.split()[:i])
+    text2 = ' '.join(wrong_sentence.split()[i:])
+    prob_wrong_sentence_correct = get_probability_of_next_sentence(tokenizer, model, text1, text2)[0]
 
     result = prob_correct_sentence_correct.item() > prob_wrong_sentence_correct.item()
 
@@ -108,7 +108,7 @@ def prepare_text_cols(df, corpus, english):
     return df
 
 
-def run_test_for_col(df, model, model_file_name, corpus, device, result_col):
+def run_test_for_col(df, partial_func, result_col):
     if result_col == 'original':
         correct_column = 'correct_sentence'
         incorrect_column = 'incorrect_sentence'
@@ -119,31 +119,9 @@ def run_test_for_col(df, model, model_file_name, corpus, device, result_col):
         correct_column = 'manually_fixed_correct_sentence'
         incorrect_column = 'manually_fixed_incorrect_sentence'
 
-    partial_analyse_single_wsc = partial(analyse_single_wsc, model, model_file_name, corpus, device)
-
     for i, row in df.iterrows():
         df.loc[i, f'{result_col}_result_full'], df.loc[i, f'{result_col}_result_partial'] = \
-            partial_analyse_single_wsc(row[correct_column], row[incorrect_column])
-
-    return df
-
-
-def run_bert_test_for_col(df, model, tokenizer, result_col):
-    if result_col == 'original':
-        correct_column = 'correct_sentence'
-        incorrect_column = 'incorrect_sentence'
-    elif result_col == 'switched':
-        correct_column = 'correct_switched'
-        incorrect_column = 'incorrect_switched'
-    else:
-        correct_column = 'manually_fixed_correct_sentence'
-        incorrect_column = 'manually_fixed_incorrect_sentence'
-
-    partial_analyse_single_wsc_bert = partial(analyse_single_wsc_bert, model, tokenizer)
-
-    for i, row in df.iterrows():
-        df.loc[i, f'{result_col}_result_full'], df.loc[i, f'{result_col}_result_partial'] = \
-            partial_analyse_single_wsc_bert(row[correct_column], row[incorrect_column])
+            partial_func(row[correct_column], row[incorrect_column])
 
     return df
 
@@ -238,9 +216,11 @@ def winograd_test(df, corpus, model_file_name, device, model, tokenizer, english
     df = add_results_columns(df)
 
     if use_bert:
-        partial_run_test_for_col = partial(run_bert_test_for_col, df, model, tokenizer)
+        partial_func = partial(analyse_single_wsc_bert, model, tokenizer)
     else:
-        partial_run_test_for_col = partial(run_test_for_col, df, model, model_file_name, corpus, device)
+        partial_func = partial(analyse_single_wsc, model, model_file_name, corpus, device)
+
+    partial_run_test_for_col = partial(run_test_for_col, df, partial_func)
 
     df = partial_run_test_for_col(result_col='original')
     df = partial_run_test_for_col(result_col='switched')
