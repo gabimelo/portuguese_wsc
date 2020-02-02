@@ -106,7 +106,9 @@ def main(training, generating, model_file_name, quiet, use_bert):
             tokenizer = None
         else:
             # model_file_name = 'bert-base-multilingual-cased' if PORTUGUESE else 'bert-base-cased'
-            model_file_name = 'bert-base-multilingual-cased' if PORTUGUESE else 'bert-large-cased'
+            # model_file_name = 'bert-base-multilingual-cased' if PORTUGUESE else 'bert-large-cased'
+            # model_file_name = 'models/neuralmind/bert-base-portuguese-cased' if PORTUGUESE else 'bert-large-cased'
+            model_file_name = 'models/neuralmind/bert-large-portuguese-cased' if PORTUGUESE else 'bert-large-cased'
             tokenizer = BertTokenizer.from_pretrained(model_file_name)
             model = BertForNextSentencePrediction.from_pretrained(model_file_name)
 
