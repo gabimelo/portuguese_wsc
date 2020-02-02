@@ -26,7 +26,7 @@ def get_probability_of_next_sentence(tokenizer, model, text1, text2):
     softmax = torch.nn.Softmax(dim=1)
     prediction_sm = softmax(prediction)
 
-    return prediction_sm[0]
+    return prediction_sm[0][0].item()
 
 
 def get_sentence_breaks(first_sentence, second_sentence):
@@ -54,15 +54,15 @@ def analyse_single_wsc_bert(model, tokenizer, correct_sentence, wrong_sentence):
     prob_correct_sentence_correct = (
         get_probability_of_next_sentence(
             tokenizer, model, correct_sentence_first_part, correct_sentence_second_part
-        )[0]
+        )
     )
     prob_wrong_sentence_correct = (
         get_probability_of_next_sentence(
             tokenizer, model, wrong_sentence_first_part, wrong_sentence_second_part
-        )[0]
+        )
     )
 
-    result = prob_correct_sentence_correct.item() > prob_wrong_sentence_correct.item()
+    result = prob_correct_sentence_correct > prob_wrong_sentence_correct
 
     return result, 0  # let's always return 0 for partial result
 
