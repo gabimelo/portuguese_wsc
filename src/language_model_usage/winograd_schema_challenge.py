@@ -26,31 +26,43 @@ def get_probability_of_next_sentence(tokenizer, model, text1, text2):
     softmax = torch.nn.Softmax(dim=1)
     prediction_sm = softmax(prediction)
 
-    return prediction_sm[0]
+    return prediction_sm[0][0].item()
 
 
 def get_sentence_breaks(first_sentence, second_sentence):
     for i in range(len(first_sentence.split())):
         if first_sentence.split()[i] != second_sentence.split()[i]:  # noqaE226
             break
-    return i
+
+    first_sentence_first_part = ' '.join(first_sentence.split()[:i])
+    first_sentence_second_part = ' '.join(first_sentence.split()[i:])
+    second_sentence_first_part = ' '.join(second_sentence.split()[:i])
+    second_sentence_second_part = ' '.join(second_sentence.split()[i:])
+
+    return (
+        first_sentence_first_part, first_sentence_second_part, second_sentence_first_part, second_sentence_second_part
+    )
 
 
 def analyse_single_wsc_bert(model, tokenizer, correct_sentence, wrong_sentence):
     if correct_sentence == '' or wrong_sentence == '':
         return False, False
 
-    i = get_sentence_breaks(correct_sentence, wrong_sentence)
+    correct_sentence_first_part, correct_sentence_second_part, wrong_sentence_first_part, wrong_sentence_second_part = \
+        get_sentence_breaks(correct_sentence, wrong_sentence)
 
-    text1 = ' '.join(correct_sentence.split()[:i])
-    text2 = ' '.join(correct_sentence.split()[i:])
-    prob_correct_sentence_correct = get_probability_of_next_sentence(tokenizer, model, text1, text2)[0]
+    prob_correct_sentence_correct = (
+        get_probability_of_next_sentence(
+            tokenizer, model, correct_sentence_first_part, correct_sentence_second_part
+        )
+    )
+    prob_wrong_sentence_correct = (
+        get_probability_of_next_sentence(
+            tokenizer, model, wrong_sentence_first_part, wrong_sentence_second_part
+        )
+    )
 
-    text1 = ' '.join(wrong_sentence.split()[:i])
-    text2 = ' '.join(wrong_sentence.split()[i:])
-    prob_wrong_sentence_correct = get_probability_of_next_sentence(tokenizer, model, text1, text2)[0]
-
-    result = prob_correct_sentence_correct.item() > prob_wrong_sentence_correct.item()
+    result = prob_correct_sentence_correct > prob_wrong_sentence_correct
 
     return result, 0  # let's always return 0 for partial result
 
