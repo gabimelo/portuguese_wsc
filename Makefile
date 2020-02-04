@@ -23,7 +23,7 @@ docker-run = docker run -it wsc_port
 ## Code Testing
 
 tests: docker-build
-	$(docker-run) pytest --cov=src tests/
+	$(docker-run) pytest --runslow --cov=src tests/
 
 docker-tests: docker-build
 	$(docker-run) pytest --cov=src tests/

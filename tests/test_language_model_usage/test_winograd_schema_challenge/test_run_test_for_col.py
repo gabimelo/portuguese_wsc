@@ -1,3 +1,4 @@
+from functools import partial
 from unittest import mock
 
 import pandas as pd
@@ -48,7 +49,8 @@ def mock_analyse_single_wsc(model_file_name, corpus, device, correct_sentence, w
 )
 class TestRunTestForCol:
     def test_run_test_for_original(self, mocked_analyse_single_wsc, df):
-        df_result = run_test_for_col(df, 'model', 'model_file_name', 'corpus', 'device', 'original')
+        partial_func = partial(mocked_analyse_single_wsc, 'model', 'model_file_name', 'corpus', 'device')
+        df_result = run_test_for_col(df, partial_func, 'original')
 
         assert_array_equal(df_result['original_result_full'], [True, False])
         assert_array_equal(df_result['original_result_partial'], [False, True])
@@ -58,7 +60,8 @@ class TestRunTestForCol:
         assert_array_equal(df_result['manually_fixed_result_partial'], [False, False])
 
     def test_run_test_for_switched(self, mocked_analyse_single_wsc, df):
-        df_result = run_test_for_col(df, 'model', 'model_file_name', 'corpus', 'device', 'switched')
+        partial_func = partial(mocked_analyse_single_wsc, 'model', 'model_file_name', 'corpus', 'device')
+        df_result = run_test_for_col(df, partial_func, 'switched')
 
         assert_array_equal(df_result['original_result_full'], [False, False])
         assert_array_equal(df_result['original_result_partial'], [False, False])
@@ -68,7 +71,8 @@ class TestRunTestForCol:
         assert_array_equal(df_result['manually_fixed_result_partial'], [False, False])
 
     def test_run_test_for_manually_fixed(self, mocked_analyse_single_wsc, df):
-        df_result = run_test_for_col(df, 'model', 'model_file_name', 'corpus', 'device', 'manually_fixed')
+        partial_func = partial(mocked_analyse_single_wsc, 'model', 'model_file_name', 'corpus', 'device')
+        df_result = run_test_for_col(df, partial_func, 'manually_fixed')
 
         assert_array_equal(df_result['original_result_full'], [False, False])
         assert_array_equal(df_result['original_result_partial'], [False, False])
