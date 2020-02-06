@@ -248,7 +248,8 @@ try:
             tmp = {}
             for prm in model.parameters():
                 tmp[prm] = prm.data.clone()
-                prm.data = optimizer.state[prm]['ax'].clone()
+                if 'ax' in optimizer.state[prm]:
+                    prm.data = optimizer.state[prm]['ax'].clone()
 
             val_loss2 = evaluate(val_data)
             print('-' * 89)
@@ -263,7 +264,10 @@ try:
                 stored_loss = val_loss2
 
             for prm in model.parameters():
-                prm.data = tmp[prm].clone()
+                try:
+                    prm.data = tmp[prm].clone()
+                except:
+                    print("prm key not in tmp")
 
         else:
             val_loss = evaluate(val_data, eval_batch_size)
