@@ -93,9 +93,9 @@ def model_load(fn):
 import os
 import hashlib
 # fn = 'corpus.{}.data'.format(hashlib.md5(args.data.encode()).hexdigest())
-fn = '/home/gabrielamelo/Home_Projects/portuguese_wsc/models/corpus.pkl'
+fn = '/home/gabimelo10/portuguese_wsc/models/corpus.pkl'
 import sys
-sys.path.append('/home/gabrielamelo/Home_Projects/portuguese_wsc/src')
+sys.path.append('/home/gabimelo10/portuguese_wsc/src')
 if os.path.exists(fn):
     print('Loading cached dataset...')
     # corpus = torch.load(fn)
