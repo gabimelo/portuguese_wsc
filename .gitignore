@@ -2,7 +2,10 @@
 *.bz2
 notebooks/pytorch_example/wiki_pt.txt
 notebooks/pytorch_example/data/NILC_corpus/*
-models/*
+models/bkp/*
+models/english-wikitext-2/*
+models/neuralmind/*
+models/trained_models/*
 data/external/*
 data/interim/english-wikitext-2/*
 **/wiki_pt_splits/*
