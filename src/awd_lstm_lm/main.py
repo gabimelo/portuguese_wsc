@@ -4,6 +4,7 @@ import math
 import numpy as np
 import torch
 import torch.nn as nn
+import torch_xla_py.xla_model as xm
 
 import src.awd_lstm_lm.data
 import src.awd_lstm_lm.model as model
@@ -147,8 +148,10 @@ if not criterion:
     criterion = SplitCrossEntropyLoss(args.emsize, splits=splits, verbose=False)
 ###
 if args.cuda:
-    model = model.cuda()
-    criterion = criterion.cuda()
+    device = xm.xla_device()
+
+    model = model.to(device)
+    criterion = criterion.to(device)
 ###
 params = list(model.parameters()) + list(criterion.parameters())
 total_params = sum(x.size()[0] * x.size()[1] if len(x.size()) > 1 else x.size()[0] for x in params if x.size())
@@ -211,7 +214,9 @@ def train():
 
         # `clip_grad_norm` helps prevent the exploding gradient problem in RNNs / LSTMs.
         if args.clip: torch.nn.utils.clip_grad_norm_(params, args.clip)
-        optimizer.step()
+        # optimizer.step()
+        xm.optimizer_step(optimizer)
+        xm.mark_step()
 
         total_loss += raw_loss.data
         optimizer.param_groups[0]['lr'] = lr2
