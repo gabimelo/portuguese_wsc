@@ -1,4 +1,5 @@
 import torch
+import torch_xla_py.xla_model as xm
 from torch.nn import Parameter
 from functools import wraps
 
@@ -36,6 +37,8 @@ class WeightDrop(torch.nn.Module):
             if self.variational:
                 mask = torch.autograd.Variable(torch.ones(raw_w.size(0), 1))
                 if raw_w.is_cuda: mask = mask.cuda()
+                device = xm.xla_device()
+                mask = mask.to(device)
                 mask = torch.nn.functional.dropout(mask, p=self.dropout, training=True)
                 w = torch.nn.Parameter(mask.expand_as(raw_w) * raw_w)
             else:

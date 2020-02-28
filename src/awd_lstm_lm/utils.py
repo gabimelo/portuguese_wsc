@@ -1,4 +1,5 @@
 import torch
+import torch_xla_py.xla_model as xm
 
 
 def repackage_hidden(h):
@@ -18,7 +19,8 @@ def batchify(data, bsz, args):
     # Evenly divide the data across the bsz batches.
     data = data.view(bsz, -1).t().contiguous()
     if args.cuda:
-        data = data.cuda()
+        device = xm.xla_device()
+        data = data.to(device)
     return data
 
 
