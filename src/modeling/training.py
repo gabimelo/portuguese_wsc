@@ -59,7 +59,7 @@ def train(model, corpus, criterion, optimizer, device, use_data_paralellization)
         f.write(
             f'final lr: {lr}\ntest loss: {test_loss:5.2f}\ntest ppl: {math.exp(test_loss):8.2f}\n'
             f'best val loss: {best_val_loss:5.2f}\nepochs: {epoch}\n'
-            f'time to run: {str(datetime.utcnow() - epoch_start_time)}s'
+            f'time to run: {str(datetime.utcnow() - training_start_time)}s'
         )
 
 
