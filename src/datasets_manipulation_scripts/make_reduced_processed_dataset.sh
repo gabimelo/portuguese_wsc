@@ -2,7 +2,7 @@
 
 mkdir data/processed/splits
 
-split -C 11m --numeric-suffixes data/processed/train.txt data/processed/splits/train_
+split -C 7500k --numeric-suffixes data/processed/train.txt data/processed/splits/train_
 cp data/processed/train.txt data/processed/train_full.txt
 cp data/processed/splits/train_00 data/processed/train.txt
 
