@@ -44,7 +44,7 @@ Preliminary results were presented on a conference paper: [Melo, Gabriela Souza 
 
 ### Winograd Collection Generation
 
-There is also code in this repository for generation the Winograd Schema Collection JSON, from the original HTML file, to be ready to be used by the solver. This generation happens by executing `python -m src.winograd_collection_manipulation.wsc_subsets_generation`. To generate the version with translated names, after that first command, simply run `python -m src.winograd_collection_manipulation.name_replacer`. These commands don't need to be called to be able to run the solver, given that the JSON file is already present in this repository. However, this code is being made available, in case it can help with translations for the Challenge to other languages.
+There is also code in this repository for generating the Winograd Schema Collection JSON, from the original HTML file, to be ready to be used by the solver. This generation happens by executing `python -m src.winograd_collection_manipulation.wsc_subsets_generation`. To generate the version with translated names, after that first command, simply run `python -m src.winograd_collection_manipulation.name_replacer`. These commands don't need to be called to be able to run the solver, given that the JSON file is already present in this repository. However, this code is being made available, in case it can help with translations for the Challenge to other languages.
 
 ----
 
