@@ -29,7 +29,7 @@ Preliminary results were presented on a conference paper: [Melo, Gabriela Souza 
         - The data corresponding to the Corpus being used is organized as follows:
             - Raw data: files used to generate the final Winograd Schema Challenge schema collection JSONs
             - External data: the compressed XML file, as downloaded from Wikipedia's dump archive
-            - Interim data: TXT files extracted from the above. May or may not be split between different, smalle files
+            - Interim data: TXT files extracted from the above. May or may not be split between different, smaller files
             - Processed data: TXT files, containing text split between train, test and validation splits. It also contains the generated Winograd Schema Challenge schema collection JSONs.
                 - Additionally, `make reduced-processed-data` reduces size of each of these splits
     - running `make corpus` will speed up first run of code (but is not necessary)
